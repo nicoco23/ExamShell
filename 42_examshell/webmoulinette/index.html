@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moulinette web — Exam Rank 02</title>
+<style>
+  :root {
+    --bg: #12141b; --surface: #1a1e28; --surface-2: #20242f;
+    --ink: #e7eaf1; --muted: #9aa3b6; --faint: #6b7488;
+    --border: #282d3a; --border-strong: #363c4c;
+    --accent: #8098f5; --accent-soft: #232a44;
+    --pass: #35d39a; --pass-soft: #16271f; --pass-ink: #7ff0c4;
+    --fail: #f2777a; --fail-soft: #2a1a1c;
+    --warn: #e0a95c; --warn-soft: #2b2416;
+    --code-bg: #0e111a;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink); font-family: var(--sans);
+    display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+  }
+
+  /* Top nav */
+  .topnav { display: flex; align-items: center; gap: 18px; padding: 0 18px; height: 50px; background: var(--surface); border-bottom: 1px solid var(--border); flex: 0 0 auto; }
+  .topnav .tnbrand { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .tabs { display: flex; gap: 4px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 3px; }
+  .tabs button { font-family: var(--mono); font-size: 13px; border: none; background: none; color: var(--muted); padding: 7px 16px; border-radius: 7px; cursor: pointer; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  /* Stage: swaps between course and app */
+  .stage { flex: 1 1 auto; position: relative; min-height: 0; }
+  .courseview { position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: var(--bg); display: none; }
+  .courseview.show { display: block; }
+  .appview { position: absolute; inset: 0; display: grid; grid-template-columns: 270px 1fr; overflow: hidden; }
+  .appview.hidden { display: none; }
+
+  /* Sidebar */
+  aside { background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; min-height: 0; }
+  .brand { padding: 14px 16px 12px; border-bottom: 1px solid var(--border); }
+  .brand .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .brand h1 { font-size: 16px; margin: 5px 0 10px; letter-spacing: -0.01em; }
+  .modeswitch { display: flex; gap: 4px; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 3px; }
+  .modeswitch button { flex: 1; font-family: var(--mono); font-size: 12px; border: none; background: none; color: var(--muted); padding: 6px; border-radius: 6px; cursor: pointer; }
+  .modeswitch button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .exolist { overflow-y: auto; padding: 8px 10px 24px; flex: 1; min-height: 0; }
+  .exolist.locked { opacity: 0.5; pointer-events: none; }
+  .lvl-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); padding: 14px 8px 5px; }
+  .exo-btn {
+    display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+    background: none; border: none; color: var(--muted); font-family: var(--mono);
+    font-size: 13px; padding: 6px 9px; border-radius: 7px; cursor: pointer;
+  }
+  .exo-btn:hover { background: var(--surface-2); color: var(--ink); }
+  .exo-btn.active { background: var(--accent-soft); color: var(--accent); }
+  .exo-btn .st { margin-left: auto; font-size: 12px; }
+  .exo-btn .st.passed { color: var(--pass); }
+  .exo-btn .st.fail, .exo-btn .st.compile_error, .exo-btn .st.timeout { color: var(--fail); }
+
+  /* Main */
+  main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  main > .exambar, main > .topbar, main > .subject, main > .result { flex: 0 0 auto; }
+
+  /* Exam bar */
+  .exambar { display: none; align-items: center; gap: 16px; padding: 10px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+  .exambar.show { display: flex; }
+  .timer { font-family: var(--mono); font-size: 24px; font-weight: 700; letter-spacing: 0.02em; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .timer.warn { color: var(--warn); }
+  .timer.crit { color: var(--fail); animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.45; } }
+  @media (prefers-reduced-motion: reduce) { .timer.crit { animation: none; } }
+  .timer small { font-size: 12px; color: var(--faint); font-weight: 400; margin-left: 4px; }
+  .dots { display: flex; gap: 7px; }
+  .dot { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; font-family: var(--mono); font-size: 12px; border: 1px solid var(--border-strong); color: var(--faint); background: var(--bg); }
+  .dot.current { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .dot.done { background: var(--pass-soft); border-color: var(--pass); color: var(--pass-ink); }
+  .exambar .spacer { flex: 1; }
+  .exambar .lvltxt { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+  .topbar { display: flex; align-items: center; gap: 14px; padding: 12px 18px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .topbar .name { font-family: var(--mono); font-size: 15px; font-weight: 600; }
+  .topbar .name span { color: var(--faint); font-weight: 400; }
+  .topbar .allowed { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+  .topbar .allowed b { color: var(--warn); font-weight: 600; }
+  .topbar .spacer { flex: 1; }
+  .toggle { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--muted); cursor: pointer; user-select: none; }
+  .toggle input { accent-color: var(--accent); width: 15px; height: 15px; }
+  button.act { font-family: var(--mono); font-size: 13px; font-weight: 600; border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--ink); padding: 7px 14px; border-radius: 8px; cursor: pointer; }
+  button.act:hover { border-color: var(--accent); }
+  button.run { background: var(--accent); border-color: var(--accent); color: #0d1020; }
+  button.run:hover { filter: brightness(1.08); }
+  button.danger:hover { border-color: var(--fail); color: var(--fail); }
+  button.act:disabled { opacity: 0.5; cursor: default; }
+
+  .subject { max-height: 148px; overflow-y: auto; padding: 12px 18px; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .subject pre { margin: 0; font-family: var(--mono); font-size: 12px; line-height: 1.55; color: var(--muted); white-space: pre-wrap; }
+  .subject.collapsed { display: none; }
+
+  .editor { position: relative; display: flex; flex: 1 1 auto; min-height: 220px; background: var(--code-bg); overflow: hidden; }
+  .gutter { flex: 0 0 auto; padding: 14px 8px 14px 14px; text-align: right; font-family: var(--mono); font-size: 13.5px; line-height: 1.6; color: var(--faint); background: var(--code-bg); user-select: none; overflow: hidden; white-space: pre; border-right: 1px solid var(--border); }
+  textarea#code { flex: 1; resize: none; border: none; outline: none; background: var(--code-bg); color: var(--ink); font-family: var(--mono); font-size: 13.5px; line-height: 1.6; padding: 14px 16px; tab-size: 4; -moz-tab-size: 4; white-space: pre; overflow-wrap: normal; overflow: auto; }
+
+  .result { border-top: 1px solid var(--border); background: var(--surface); max-height: 34vh; overflow-y: auto; }
+  .result-head { display: flex; align-items: center; gap: 12px; padding: 10px 18px; }
+  .pill { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; padding: 4px 11px; border-radius: 20px; }
+  .pill.idle { background: var(--surface-2); color: var(--muted); }
+  .pill.running { background: var(--accent-soft); color: var(--accent); }
+  .pill.passed { background: var(--pass-soft); color: var(--pass-ink); }
+  .pill.fail, .pill.compile_error, .pill.unknown { background: var(--fail-soft); color: var(--fail); }
+  .pill.timeout { background: var(--warn-soft); color: var(--warn); }
+  .result-head .hint { font-size: 12px; color: var(--faint); }
+  .result-body { padding: 0 18px 16px; }
+  .diff { display: grid; gap: 8px; }
+  .diff .row { display: grid; grid-template-columns: 92px 1fr; gap: 10px; align-items: start; }
+  .diff .lab { font-family: var(--mono); font-size: 11.5px; padding-top: 2px; }
+  .diff .lab.exp { color: var(--pass); }
+  .diff .lab.got { color: var(--fail); }
+  .diff .val { font-family: var(--mono); font-size: 12.5px; background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+  .rawlog { font-family: var(--mono); font-size: 12px; line-height: 1.5; color: var(--muted); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px; white-space: pre-wrap; overflow-x: auto; margin: 0; }
+
+  .spinner { width: 13px; height: 13px; border: 2px solid var(--accent-soft); border-top-color: var(--accent); border-radius: 50%; display: inline-block; animation: spin 0.7s linear infinite; vertical-align: -2px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+
+  /* Toast */
+  .toast { position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-16px); background: var(--pass-soft); color: var(--pass-ink); border: 1px solid var(--pass); font-family: var(--mono); font-size: 14px; font-weight: 600; padding: 11px 20px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 40; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Overlay */
+  .overlay { position: fixed; inset: 0; background: rgba(6, 8, 13, 0.82); display: none; align-items: center; justify-content: center; z-index: 50; padding: 20px; }
+  .overlay.show { display: flex; }
+  .card { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 16px; padding: 28px 30px; max-width: 460px; width: 100%; }
+  .card h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: -0.01em; }
+  .card p { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+  .card .durs { display: flex; gap: 8px; margin-bottom: 22px; }
+  .card .durs button { flex: 1; font-family: var(--mono); font-size: 14px; padding: 12px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--ink); cursor: pointer; }
+  .card .durs button.sel { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .card .big { width: 100%; font-family: var(--mono); font-size: 15px; font-weight: 700; padding: 13px; border-radius: 11px; border: none; background: var(--accent); color: #0d1020; cursor: pointer; }
+  .card .big.ghost { background: var(--surface-2); color: var(--ink); border: 1px solid var(--border-strong); margin-top: 10px; }
+  .card .summary { display: grid; gap: 9px; margin-bottom: 22px; }
+  .card .sline { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13.5px; padding: 9px 12px; border-radius: 9px; background: var(--bg); border: 1px solid var(--border); }
+  .card .sline .ic { font-size: 15px; }
+  .card .sline.ok { border-color: var(--pass); color: var(--pass-ink); }
+  .card .sline .lv { color: var(--muted); }
+  .card .verdict { font-family: var(--mono); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+  <header class="topnav">
+    <div class="tnbrand">42 · Exam Rank 02</div>
+    <nav class="tabs">
+      <button id="navCours">📖 Cours</button>
+      <button id="navPractice" class="on">⌨️ Entraînement</button>
+      <button id="navExam">⏱ Examen</button>
+    </nav>
+  </header>
+
+  <div class="stage">
+    <iframe id="courseFrame" class="courseview" title="Cours Exam Rank 02"></iframe>
+    <div class="appview" id="appview">
+      <aside>
+        <div class="brand">
+          <div class="k">42 · Moulinette locale</div>
+          <h1>Exam Rank 02</h1>
+        </div>
+        <div class="exolist" id="exolist"></div>
+      </aside>
+
+  <main>
+    <div class="exambar" id="exambar">
+      <div class="timer" id="timer">--:--</div>
+      <div class="dots" id="dots"></div>
+      <span class="lvltxt" id="lvltxt"></span>
+      <div class="spacer"></div>
+      <button class="act" id="skipBtn" title="Tirer un autre sujet du même niveau">↻ Passer</button>
+      <button class="act danger" id="giveupBtn">Abandonner</button>
+    </div>
+
+    <div class="topbar" id="topbar">
+      <div class="name" id="exoName"><span>Choisis un exercice →</span></div>
+      <div class="allowed" id="allowed"></div>
+      <div class="spacer"></div>
+      <label class="toggle" title="Relance la moulinette peu après chaque arrêt de frappe">
+        <input type="checkbox" id="autoToggle" checked> correction auto
+      </label>
+      <button class="act" id="resetBtn" title="Remettre le squelette de départ">reset</button>
+      <button class="act run" id="runBtn" title="Ctrl+Entrée">▶ Tester</button>
+    </div>
+
+    <div class="subject" id="subject"><pre>Sélectionne un exercice dans la colonne de gauche pour commencer.</pre></div>
+
+    <div class="editor">
+      <div class="gutter" id="gutter">1</div>
+      <textarea id="code" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="// ton code ici"></textarea>
+    </div>
+
+    <div class="result">
+      <div class="result-head">
+        <span class="pill idle" id="pill">EN ATTENTE</span>
+        <span class="hint" id="hint">Écris ton code, puis « Tester » (ou Ctrl+Entrée).</span>
+      </div>
+      <div class="result-body" id="resultBody"></div>
+    </div>
+  </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div class="overlay" id="overlay"></div>
+
+<script>
+(function () {
+  var LEVELS = ["level0", "level1", "level2", "level3"];
+  var LS_CODE = function (n) { return "exam02_code_" + n; };
+  var LS_STATUS = "exam02_status";
+  var LS_EXAM = "exam02_session";
+  var state = { name: null, exo: null, exos: {}, pools: {}, statuses: {}, debounce: null };
+  var exam = null; // {endTime, level, current, passed:[], duration}
+  var examTick = null;
+
+  try { state.statuses = JSON.parse(localStorage.getItem(LS_STATUS) || "{}"); } catch (e) { state.statuses = {}; }
+
+  var el = function (id) { return document.getElementById(id); };
+  var code = el("code"), gutter = el("gutter"), pill = el("pill"), hint = el("hint");
+  var resultBody = el("resultBody"), runBtn = el("runBtn");
+
+  function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+  // ---------- Editor ----------
+  function syncGutter() {
+    var n = code.value.split("\n").length, out = "";
+    for (var i = 1; i <= n; i++) out += i + (i < n ? "\n" : "");
+    gutter.textContent = out;
+    gutter.scrollTop = code.scrollTop;
+  }
+  code.addEventListener("scroll", function () { gutter.scrollTop = code.scrollTop; });
+  code.addEventListener("input", function () {
+    syncGutter();
+    if (state.name) {
+      if (exam) {
+        exam.code = exam.code || {};
+        exam.code[state.name] = code.value;
+        saveExam();
+      } else {
+        try { localStorage.setItem(LS_CODE(state.name), code.value); } catch (e) {}
+      }
+    }
+    scheduleAuto();
+  });
+  code.addEventListener("keydown", function (e) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      var s = code.selectionStart, en = code.selectionEnd;
+      code.value = code.value.slice(0, s) + "\t" + code.value.slice(en);
+      code.selectionStart = code.selectionEnd = s + 1;
+      syncGutter();
+    } else if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+      e.preventDefault(); runTest();
+    }
+  });
+
+  // ---------- Load exercises ----------
+  fetch("/api/exercises").then(function (r) { return r.json(); }).then(function (data) {
+    var list = el("exolist");
+    list.innerHTML = "";
+    LEVELS.forEach(function (lv) { state.pools[lv] = []; });
+    data.forEach(function (group) {
+      var t = document.createElement("div");
+      t.className = "lvl-title";
+      t.textContent = group.level.replace("level", "Niveau ");
+      list.appendChild(t);
+      group.exercises.forEach(function (exo) {
+        state.exos[exo.name] = exo;
+        (state.pools[group.level] || (state.pools[group.level] = [])).push(exo.name);
+        var b = document.createElement("button");
+        b.className = "exo-btn"; b.dataset.name = exo.name;
+        b.innerHTML = '<span class="nm">' + esc(exo.name) + '</span><span class="st"></span>';
+        b.addEventListener("click", function () { if (!exam) selectExo(exo.name); });
+        list.appendChild(b);
+      });
+    });
+    refreshBadges();
+    resumeExam();
+    if (!exam) {
+      var first = document.querySelector(".exo-btn");
+      if (first) selectExo(first.dataset.name);
+    }
+  });
+
+  function refreshBadges() {
+    document.querySelectorAll(".exo-btn").forEach(function (b) {
+      var st = state.statuses[b.dataset.name], span = b.querySelector(".st");
+      span.className = "st " + (st || "");
+      span.textContent = st === "passed" ? "✓" : (st ? "✗" : "");
+    });
+  }
+
+  function selectExo(name) {
+    state.name = name; state.exo = state.exos[name];
+    document.querySelectorAll(".exo-btn").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.name === name);
+    });
+    el("exoName").innerHTML = esc(name) + " <span>· " + state.exo.expected_file + "</span>";
+    el("allowed").innerHTML = state.exo.allowed ? 'autorisé : <b>' + esc(state.exo.allowed) + '</b>' : '';
+    el("subject").querySelector("pre").textContent = state.exo.subject;
+    var saved = null;
+    if (exam) {
+      saved = (exam.code && exam.code[name] !== undefined) ? exam.code[name] : null;
+    } else {
+      try { saved = localStorage.getItem(LS_CODE(name)); } catch (e) {}
+    }
+    code.value = (saved !== null && saved !== undefined) ? saved : state.exo.starter;
+    syncGutter();
+    setPill("idle", "EN ATTENTE", "Écris ton code, puis « Tester » (ou Ctrl+Entrée).");
+    resultBody.innerHTML = "";
+    code.focus();
+  }
+
+  function setPill(cls, txt, hintTxt) {
+    pill.className = "pill " + cls; pill.textContent = txt;
+    if (hintTxt !== undefined) hint.textContent = hintTxt;
+  }
+
+  function scheduleAuto() {
+    if (!el("autoToggle").checked || !state.name) return;
+    clearTimeout(state.debounce);
+    state.debounce = setTimeout(runTest, 1100);
+  }
+
+  // ---------- Test ----------
+  var pending = false;
+  function runTest() {
+    if (!state.name || pending) return;
+    pending = true; runBtn.disabled = true;
+    setPill("running", "COMPILATION…", "");
+    hint.innerHTML = '<span class="spinner"></span> la moulinette compile et teste…';
+    fetch("/api/test", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: state.name, code: code.value })
+    }).then(function (r) { return r.json(); }).then(render)
+      .catch(function () { setPill("unknown", "ERREUR", "Le serveur local ne répond pas."); })
+      .finally(function () { pending = false; runBtn.disabled = false; });
+  }
+
+  function render(res) {
+    if (res.status !== "error") {
+      state.statuses[state.name] = res.status;
+      try { localStorage.setItem(LS_STATUS, JSON.stringify(state.statuses)); } catch (e) {}
+      refreshBadges();
+    }
+    var map = {
+      passed: ["passed", "PASSED 🎉", "Tous les tests passent. Bravo !"],
+      fail: ["fail", "FAIL", "Une sortie diffère de la solution de référence."],
+      compile_error: ["compile_error", "NE COMPILE PAS", "Corrige les erreurs (rappel : -Wall -Wextra -Werror)."],
+      timeout: ["timeout", "TIMEOUT", "Trop long — probable boucle infinie."],
+      unknown: ["unknown", "?", "Résultat inattendu, voir le détail ci-dessous."],
+      error: ["unknown", "ERREUR", res.message || "Erreur."]
+    };
+    var m = map[res.status] || map.unknown;
+    setPill(m[0], m[1], m[2]);
+
+    if (res.status === "passed") {
+      resultBody.innerHTML = '<pre class="rawlog">' + esc(res.raw || "PASSED") + "</pre>";
+    } else if (res.status === "fail" && (res.expected !== undefined || res.your !== undefined)) {
+      resultBody.innerHTML = '<div class="diff">' +
+        '<div class="row"><div class="lab exp">Attendu</div><div class="val">' + esc(res.expected || "") + "</div></div>" +
+        '<div class="row"><div class="lab got">Ton code</div><div class="val">' + esc(res.your || "") + "</div></div>" +
+        "</div>";
+    } else {
+      resultBody.innerHTML = '<pre class="rawlog">' + esc(res.raw || "(aucune sortie)") + "</pre>";
+    }
+    if (exam && res.status === "passed") examOnPass();
+  }
+
+  runBtn.addEventListener("click", runTest);
+  el("resetBtn").addEventListener("click", function () {
+    if (!state.exo) return;
+    code.value = state.exo.starter;
+    if (exam) {
+      if (exam.code) delete exam.code[state.name];
+      saveExam();
+    } else {
+      try { localStorage.removeItem(LS_CODE(state.name)); } catch (e) {}
+    }
+    syncGutter(); code.focus();
+  });
+  el("subject").addEventListener("dblclick", function () { this.classList.toggle("collapsed"); });
+
+  // ================= EXAM MODE =================
+  function drawExo(levelIdx, exclude) {
+    var pool = state.pools[LEVELS[levelIdx]] || [];
+    if (!pool.length) return null;
+    var choices = pool.filter(function (n) { return n !== exclude; });
+    if (!choices.length) choices = pool.slice();
+    return choices[Math.floor(Math.random() * choices.length)];
+  }
+
+  function saveExam() {
+    try { localStorage.setItem(LS_EXAM, JSON.stringify(exam)); } catch (e) {}
+  }
+
+  function startExam(durationMin) {
+    exam = {
+      endTime: Date.now() + durationMin * 60000,
+      duration: durationMin, level: 0,
+      passed: [false, false, false, false], current: null, code: {}
+    };
+    exam.current = drawExo(0, null);
+    saveExam();
+    enterExamUI();
+    loadExamExo();
+    startTimer();
+    closeOverlay();
+  }
+
+  function resumeExam() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem(LS_EXAM) || "null"); } catch (e) { s = null; }
+    if (!s || !s.endTime) return;
+    if (Date.now() >= s.endTime) { localStorage.removeItem(LS_EXAM); return; }
+    exam = s;
+    exam.code = exam.code || {};
+    if (!exam.current) exam.current = drawExo(exam.level, null);
+    enterExamUI();
+    loadExamExo();
+    startTimer();
+    toast("Examen repris ⏱");
+  }
+
+  function enterExamUI() {
+    showView("app");
+    setActiveTab("navExam");
+    el("exambar").classList.add("show");
+    el("topbar").style.display = "none";
+    el("exolist").classList.add("locked");
+    renderDots();
+  }
+  function exitExamUI() {
+    setActiveTab("navPractice");
+    el("exambar").classList.remove("show");
+    el("topbar").style.display = "flex";
+    el("exolist").classList.remove("locked");
+  }
+
+  function renderDots() {
+    var dots = el("dots"); dots.innerHTML = "";
+    for (var i = 0; i < 4; i++) {
+      var d = document.createElement("div");
+      d.className = "dot" + (exam.passed[i] ? " done" : (i === exam.level ? " current" : ""));
+      d.textContent = exam.passed[i] ? "✓" : i;
+      dots.appendChild(d);
+    }
+    el("lvltxt").textContent = "Niveau " + exam.level + " / 3";
+  }
+
+  function loadExamExo() {
+    selectExo(exam.current);
+    renderDots();
+  }
+
+  function examOnPass() {
+    if (!exam) return;
+    exam.passed[exam.level] = true;
+    saveExam();
+    if (exam.level >= 3) { renderDots(); setTimeout(function () { endExam("win"); }, 900); return; }
+    var doneLevel = exam.level;
+    setTimeout(function () {
+      if (!exam) return;
+      toast("Niveau " + doneLevel + " validé ✓");
+      exam.level += 1;
+      exam.current = drawExo(exam.level, null);
+      saveExam();
+      loadExamExo();
+    }, 900);
+  }
+
+  function startTimer() {
+    clearInterval(examTick);
+    updateTimer();
+    examTick = setInterval(updateTimer, 1000);
+  }
+  function updateTimer() {
+    if (!exam) return;
+    var rem = Math.max(0, Math.round((exam.endTime - Date.now()) / 1000));
+    var t = el("timer");
+    var h = Math.floor(rem / 3600), m = Math.floor((rem % 3600) / 60), s = rem % 60;
+    t.textContent = (h > 0 ? h + ":" + pad(m) + ":" + pad(s) : pad(m) + ":" + pad(s));
+    t.className = "timer" + (rem <= 60 ? " crit" : (rem <= 300 ? " warn" : ""));
+    if (rem <= 0) endExam("timeout");
+  }
+
+  function endExam(reason) {
+    clearInterval(examTick); examTick = null;
+    var snap = exam; exam = null;
+    try { localStorage.removeItem(LS_EXAM); } catch (e) {}
+    exitExamUI();
+    showResults(reason, snap);
+  }
+
+  el("skipBtn").addEventListener("click", function () {
+    if (!exam) return;
+    exam.current = drawExo(exam.level, exam.current);
+    saveExam(); loadExamExo();
+    toast("Nouveau sujet tiré");
+  });
+  el("giveupBtn").addEventListener("click", function () {
+    if (!exam) return;
+    confirmOverlay("Abandonner l'examen ?", "Ta progression sera perdue.", function () { endExam("give_up"); });
+  });
+
+  // ---------- View / tab switching ----------
+  var courseLoaded = false;
+  function setActiveTab(id) {
+    ["navCours", "navPractice", "navExam"].forEach(function (t) {
+      el(t).classList.toggle("on", t === id);
+    });
+  }
+  function showView(which) {
+    if (which === "course") {
+      if (!courseLoaded) { el("courseFrame").src = "/cours"; courseLoaded = true; }
+      el("courseFrame").classList.add("show");
+      el("appview").classList.add("hidden");
+      setActiveTab("navCours");
+    } else {
+      el("courseFrame").classList.remove("show");
+      el("appview").classList.remove("hidden");
+      setActiveTab(exam ? "navExam" : "navPractice");
+    }
+  }
+  el("navCours").addEventListener("click", function () { showView("course"); });
+  el("navPractice").addEventListener("click", function () {
+    if (exam) {
+      confirmOverlay("Quitter l'examen en cours ?", "Ta progression sera perdue.",
+        function () { endExam("give_up"); showView("app"); });
+      return;
+    }
+    showView("app"); closeOverlay();
+  });
+  el("navExam").addEventListener("click", function () {
+    showView("app");
+    if (!exam) openSetup();
+  });
+
+  // ---------- Overlay helpers ----------
+  var overlay = el("overlay");
+  function closeOverlay() { overlay.classList.remove("show"); overlay.innerHTML = ""; }
+  function openOverlay(html) { overlay.innerHTML = html; overlay.classList.add("show"); }
+
+  function openSetup() {
+    openOverlay(
+      '<div class="card">' +
+        '<h2>Mode examen</h2>' +
+        '<p>Un sujet tiré au hasard par niveau (0 → 3). Réussis pour passer au suivant. Le chrono tourne pour tout le monde.</p>' +
+        '<div class="durs" id="durs">' +
+          '<button data-min="60">1 h 00</button>' +
+          '<button data-min="120" class="sel">2 h 00</button>' +
+          '<button data-min="180">3 h 00</button>' +
+        '</div>' +
+        '<button class="big" id="startBtn">Commencer l\'examen</button>' +
+        '<button class="big ghost" id="cancelBtn">Annuler</button>' +
+      '</div>'
+    );
+    var chosen = 120;
+    var durs = el("durs");
+    durs.querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        durs.querySelectorAll("button").forEach(function (x) { x.classList.remove("sel"); });
+        b.classList.add("sel"); chosen = parseInt(b.dataset.min, 10);
+      });
+    });
+    el("startBtn").addEventListener("click", function () { startExam(chosen); });
+    el("cancelBtn").addEventListener("click", closeOverlay);
+  }
+
+  function showResults(reason, snap) {
+    var passedCount = snap.passed.filter(Boolean).length;
+    var used = snap.duration * 60 - Math.max(0, Math.round((snap.endTime - Date.now()) / 1000));
+    if (used < 0) used = snap.duration * 60;
+    var um = Math.floor(used / 60), us = used % 60;
+    var verdicts = {
+      win: ['🏆 Examen réussi !', 'Les 4 niveaux validés. Solide.'],
+      timeout: ['⏰ Temps écoulé', 'Le chrono a parlé.'],
+      give_up: ['Examen abandonné', 'On y retourne quand tu veux.']
+    };
+    var v = verdicts[reason] || verdicts.give_up;
+    var lines = "";
+    for (var i = 0; i < 4; i++) {
+      var ok = snap.passed[i];
+      lines += '<div class="sline' + (ok ? ' ok' : '') + '"><span class="ic">' + (ok ? "✓" : "·") +
+        '</span><span class="lv">Niveau ' + i + '</span><span class="spacer" style="flex:1"></span><span>' +
+        (ok ? "validé" : "non validé") + "</span></div>";
+    }
+    openOverlay(
+      '<div class="card">' +
+        '<div class="verdict">' + v[0] + '</div>' +
+        '<p>' + v[1] + '</p>' +
+        '<div class="summary">' + lines + '</div>' +
+        '<p style="margin-bottom:18px">Niveaux validés : <b style="color:var(--ink)">' + passedCount + ' / 4</b> · Temps utilisé : <b style="color:var(--ink)">' + um + ' min ' + pad(us) + ' s</b></p>' +
+        '<button class="big" id="backBtn">Retour à l\'entraînement</button>' +
+      '</div>'
+    );
+    el("backBtn").addEventListener("click", closeOverlay);
+  }
+
+  function confirmOverlay(title, msg, onYes) {
+    openOverlay(
+      '<div class="card">' +
+        '<h2>' + esc(title) + '</h2>' +
+        '<p>' + esc(msg) + '</p>' +
+        '<button class="big" id="yesBtn">Confirmer</button>' +
+        '<button class="big ghost" id="noBtn">Annuler</button>' +
+      '</div>'
+    );
+    el("yesBtn").addEventListener("click", function () { closeOverlay(); onYes(); });
+    el("noBtn").addEventListener("click", closeOverlay);
+  }
+
+  // ---------- Toast ----------
+  var toastEl = el("toast"), toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 2200);
+  }
+})();
+</script>
+</body>
+</html>
