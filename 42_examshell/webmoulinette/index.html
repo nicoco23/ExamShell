@@ -147,11 +147,16 @@
   .card .sline.ok { border-color: var(--pass); color: var(--pass-ink); }
   .card .sline .lv { color: var(--muted); }
   .card .verdict { font-family: var(--mono); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .ranksel { font-family: var(--mono); font-size: 12px; background: var(--bg); color: var(--ink); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+  .ranksel:disabled { opacity: 0.5; cursor: default; }
+  .tabs button:disabled { opacity: 0.35; cursor: default; }
+  .tabs button:disabled:hover { color: var(--muted); }
 </style>
 </head>
 <body>
   <header class="topnav">
-    <div class="tnbrand">42 · Exam Rank 02</div>
+    <div class="tnbrand" id="tnbrand">42 · Exam Rank 02</div>
+    <select class="ranksel" id="rankSel"></select>
     <nav class="tabs">
       <button id="navCours">📖 Cours</button>
       <button id="navPractice" class="on">⌨️ Entraînement</button>
@@ -165,7 +170,7 @@
       <aside>
         <div class="brand">
           <div class="k">42 · Moulinette locale</div>
-          <h1>Exam Rank 02</h1>
+          <h1 id="brandTitle">Exam Rank 02</h1>
         </div>
         <div class="exolist" id="exolist"></div>
       </aside>
@@ -176,6 +181,7 @@
       <div class="dots" id="dots"></div>
       <span class="lvltxt" id="lvltxt"></span>
       <div class="spacer"></div>
+      <button class="act run" id="examRunBtn" title="Ctrl+Entrée">▶ Tester</button>
       <button class="act" id="skipBtn" title="Tirer un autre sujet du même niveau">↻ Passer</button>
       <button class="act danger" id="giveupBtn">Abandonner</button>
     </div>
@@ -214,19 +220,22 @@
 
 <script>
 (function () {
-  var LEVELS = ["level0", "level1", "level2", "level3"];
-  var LS_CODE = function (n) { return "exam02_code_" + n; };
-  var LS_STATUS = "exam02_status";
-  var LS_EXAM = "exam02_session";
+  var LS_RANK = "webmoulinette_rank";
+  var CURRENT_RANK = null;
+  var RANK_INFO = {}; // rank -> {title, levels}
+  var LEVELS = [];
+  var LS_CODE = function (n) { return CURRENT_RANK + "_code_" + n; };
+  var LS_STATUS = function () { return CURRENT_RANK + "_status"; };
+  var LS_EXAM = function () { return CURRENT_RANK + "_session"; };
   var state = { name: null, exo: null, exos: {}, pools: {}, statuses: {}, debounce: null };
   var exam = null; // {endTime, level, current, passed:[], duration}
   var examTick = null;
-
-  try { state.statuses = JSON.parse(localStorage.getItem(LS_STATUS) || "{}"); } catch (e) { state.statuses = {}; }
+  var courseRank = null; // rank dont le cours est charge dans l'iframe
 
   var el = function (id) { return document.getElementById(id); };
   var code = el("code"), gutter = el("gutter"), pill = el("pill"), hint = el("hint");
-  var resultBody = el("resultBody"), runBtn = el("runBtn");
+  var resultBody = el("resultBody"), runBtn = el("runBtn"), examRunBtn = el("examRunBtn");
+  function setRunDisabled(v) { runBtn.disabled = v; examRunBtn.disabled = v; }
 
   function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function pad(n) { return (n < 10 ? "0" : "") + n; }
@@ -264,32 +273,89 @@
     }
   });
 
-  // ---------- Load exercises ----------
-  fetch("/api/exercises").then(function (r) { return r.json(); }).then(function (data) {
-    var list = el("exolist");
-    list.innerHTML = "";
-    LEVELS.forEach(function (lv) { state.pools[lv] = []; });
-    data.forEach(function (group) {
-      var t = document.createElement("div");
-      t.className = "lvl-title";
-      t.textContent = group.level.replace("level", "Niveau ");
-      list.appendChild(t);
-      group.exercises.forEach(function (exo) {
-        state.exos[exo.name] = exo;
-        (state.pools[group.level] || (state.pools[group.level] = [])).push(exo.name);
-        var b = document.createElement("button");
-        b.className = "exo-btn"; b.dataset.name = exo.name;
-        b.innerHTML = '<span class="nm">' + esc(exo.name) + '</span><span class="st"></span>';
-        b.addEventListener("click", function () { if (!exam) selectExo(exo.name); });
-        list.appendChild(b);
-      });
-    });
-    refreshBadges();
-    resumeExam();
-    if (!exam) {
-      var first = document.querySelector(".exo-btn");
-      if (first) selectExo(first.dataset.name);
+  // ---------- Ranks + exercises ----------
+  var rankSel = el("rankSel");
+
+  function applyRankChrome(rank) {
+    var info = RANK_INFO[rank] || {};
+    var title = info.title || rank;
+    document.title = "Moulinette web — " + title;
+    el("tnbrand").textContent = "42 · " + title;
+    el("brandTitle").textContent = title;
+    var hasCourse = !!info.has_course;
+    el("navCours").disabled = !hasCourse;
+    el("navCours").title = hasCourse ? "" : "Pas encore de cours pour ce rank.";
+    var frame = el("courseFrame");
+    frame.title = "Cours " + title;
+    if (courseRank !== rank) {
+      // le cours est propre a chaque rank : on recharge l'iframe au changement
+      frame.removeAttribute("src");
+      courseRank = null;
     }
+    if (!hasCourse && frame.classList.contains("show")) showView("app");
+  }
+
+  function loadRank(rank) {
+    CURRENT_RANK = rank;
+    LEVELS = (RANK_INFO[rank] || {}).levels || [];
+    try { localStorage.setItem(LS_RANK, rank); } catch (e) {}
+    rankSel.value = rank;
+    applyRankChrome(rank);
+
+    state.name = null; state.exo = null; state.exos = {}; state.pools = {};
+    try { state.statuses = JSON.parse(localStorage.getItem(LS_STATUS()) || "{}"); } catch (e) { state.statuses = {}; }
+    el("exoName").innerHTML = "<span>Choisis un exercice →</span>";
+    el("allowed").textContent = "";
+    el("subject").querySelector("pre").textContent = "Sélectionne un exercice dans la colonne de gauche pour commencer.";
+    code.value = ""; syncGutter();
+    resultBody.innerHTML = "";
+    setPill("idle", "EN ATTENTE", "Écris ton code, puis « Tester » (ou Ctrl+Entrée).");
+
+    fetch("/api/exercises?rank=" + encodeURIComponent(rank)).then(function (r) { return r.json(); }).then(function (data) {
+      var list = el("exolist");
+      list.innerHTML = "";
+      LEVELS.forEach(function (lv) { state.pools[lv] = []; });
+      data.forEach(function (group) {
+        var t = document.createElement("div");
+        t.className = "lvl-title";
+        t.textContent = group.level.replace("level", "Niveau ");
+        list.appendChild(t);
+        group.exercises.forEach(function (exo) {
+          state.exos[exo.name] = exo;
+          (state.pools[group.level] || (state.pools[group.level] = [])).push(exo.name);
+          var b = document.createElement("button");
+          b.className = "exo-btn"; b.dataset.name = exo.name;
+          b.innerHTML = '<span class="nm">' + esc(exo.name) + '</span><span class="st"></span>';
+          b.addEventListener("click", function () { if (!exam) selectExo(exo.name); });
+          list.appendChild(b);
+        });
+      });
+      refreshBadges();
+      resumeExam();
+      if (!exam) {
+        var first = document.querySelector(".exo-btn");
+        if (first) selectExo(first.dataset.name);
+      }
+    });
+  }
+
+  fetch("/api/ranks").then(function (r) { return r.json(); }).then(function (ranks) {
+    rankSel.innerHTML = "";
+    ranks.forEach(function (r) {
+      RANK_INFO[r.rank] = { title: r.title, levels: r.levels, has_course: r.has_course };
+      var opt = document.createElement("option");
+      opt.value = r.rank; opt.textContent = r.title;
+      rankSel.appendChild(opt);
+    });
+    var saved = null;
+    try { saved = localStorage.getItem(LS_RANK); } catch (e) {}
+    var initial = (saved && RANK_INFO[saved]) ? saved : (ranks[0] && ranks[0].rank) || "rank02";
+    loadRank(initial);
+  });
+
+  rankSel.addEventListener("change", function () {
+    if (exam) { rankSel.value = CURRENT_RANK; return; }
+    loadRank(rankSel.value);
   });
 
   function refreshBadges() {
@@ -336,21 +402,21 @@
   var pending = false;
   function runTest() {
     if (!state.name || pending) return;
-    pending = true; runBtn.disabled = true;
+    pending = true; setRunDisabled(true);
     setPill("running", "COMPILATION…", "");
     hint.innerHTML = '<span class="spinner"></span> la moulinette compile et teste…';
     fetch("/api/test", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: state.name, code: code.value })
+      body: JSON.stringify({ rank: CURRENT_RANK, name: state.name, code: code.value })
     }).then(function (r) { return r.json(); }).then(render)
       .catch(function () { setPill("unknown", "ERREUR", "Le serveur local ne répond pas."); })
-      .finally(function () { pending = false; runBtn.disabled = false; });
+      .finally(function () { pending = false; setRunDisabled(false); });
   }
 
   function render(res) {
     if (res.status !== "error") {
       state.statuses[state.name] = res.status;
-      try { localStorage.setItem(LS_STATUS, JSON.stringify(state.statuses)); } catch (e) {}
+      try { localStorage.setItem(LS_STATUS(), JSON.stringify(state.statuses)); } catch (e) {}
       refreshBadges();
     }
     var map = {
@@ -378,6 +444,7 @@
   }
 
   runBtn.addEventListener("click", runTest);
+  examRunBtn.addEventListener("click", runTest);
   el("resetBtn").addEventListener("click", function () {
     if (!state.exo) return;
     code.value = state.exo.starter;
@@ -392,6 +459,20 @@
   el("subject").addEventListener("dblclick", function () { this.classList.toggle("collapsed"); });
 
   // ================= EXAM MODE =================
+  // Les ranks n'ont pas tous les memes niveaux (rank02 : level0->3,
+  // rank03 : level1->2). Les libelles viennent donc des vrais noms de dossiers.
+  function levelNum(idx) {
+    var name = LEVELS[idx] || "";
+    var m = name.match(/(\d+)/);
+    return m ? m[1] : String(idx);
+  }
+  function levelLabel(idx) { return "Niveau " + levelNum(idx); }
+  function levelRange() {
+    if (!LEVELS.length) return "";
+    if (LEVELS.length === 1) return levelLabel(0);
+    return levelNum(0) + " → " + levelNum(LEVELS.length - 1);
+  }
+
   function drawExo(levelIdx, exclude) {
     var pool = state.pools[LEVELS[levelIdx]] || [];
     if (!pool.length) return null;
@@ -401,14 +482,14 @@
   }
 
   function saveExam() {
-    try { localStorage.setItem(LS_EXAM, JSON.stringify(exam)); } catch (e) {}
+    try { localStorage.setItem(LS_EXAM(), JSON.stringify(exam)); } catch (e) {}
   }
 
   function startExam(durationMin) {
     exam = {
       endTime: Date.now() + durationMin * 60000,
       duration: durationMin, level: 0,
-      passed: [false, false, false, false], current: null, code: {}
+      passed: LEVELS.map(function () { return false; }), current: null, code: {}
     };
     exam.current = drawExo(0, null);
     saveExam();
@@ -420,9 +501,9 @@
 
   function resumeExam() {
     var s = null;
-    try { s = JSON.parse(localStorage.getItem(LS_EXAM) || "null"); } catch (e) { s = null; }
+    try { s = JSON.parse(localStorage.getItem(LS_EXAM()) || "null"); } catch (e) { s = null; }
     if (!s || !s.endTime) return;
-    if (Date.now() >= s.endTime) { localStorage.removeItem(LS_EXAM); return; }
+    if (Date.now() >= s.endTime) { localStorage.removeItem(LS_EXAM()); return; }
     exam = s;
     exam.code = exam.code || {};
     if (!exam.current) exam.current = drawExo(exam.level, null);
@@ -438,6 +519,7 @@
     el("exambar").classList.add("show");
     el("topbar").style.display = "none";
     el("exolist").classList.add("locked");
+    rankSel.disabled = true;
     renderDots();
   }
   function exitExamUI() {
@@ -445,17 +527,19 @@
     el("exambar").classList.remove("show");
     el("topbar").style.display = "flex";
     el("exolist").classList.remove("locked");
+    rankSel.disabled = false;
   }
 
   function renderDots() {
     var dots = el("dots"); dots.innerHTML = "";
-    for (var i = 0; i < 4; i++) {
+    var n = exam.passed.length;
+    for (var i = 0; i < n; i++) {
       var d = document.createElement("div");
       d.className = "dot" + (exam.passed[i] ? " done" : (i === exam.level ? " current" : ""));
-      d.textContent = exam.passed[i] ? "✓" : i;
+      d.textContent = exam.passed[i] ? "✓" : levelNum(i);
       dots.appendChild(d);
     }
-    el("lvltxt").textContent = "Niveau " + exam.level + " / 3";
+    el("lvltxt").textContent = levelLabel(exam.level) + " · " + (exam.level + 1) + " / " + n;
   }
 
   function loadExamExo() {
@@ -467,11 +551,11 @@
     if (!exam) return;
     exam.passed[exam.level] = true;
     saveExam();
-    if (exam.level >= 3) { renderDots(); setTimeout(function () { endExam("win"); }, 900); return; }
+    if (exam.level >= exam.passed.length - 1) { renderDots(); setTimeout(function () { endExam("win"); }, 900); return; }
     var doneLevel = exam.level;
     setTimeout(function () {
       if (!exam) return;
-      toast("Niveau " + doneLevel + " validé ✓");
+      toast(levelLabel(doneLevel) + " validé ✓");
       exam.level += 1;
       exam.current = drawExo(exam.level, null);
       saveExam();
@@ -497,7 +581,7 @@
   function endExam(reason) {
     clearInterval(examTick); examTick = null;
     var snap = exam; exam = null;
-    try { localStorage.removeItem(LS_EXAM); } catch (e) {}
+    try { localStorage.removeItem(LS_EXAM()); } catch (e) {}
     exitExamUI();
     showResults(reason, snap);
   }
@@ -514,7 +598,6 @@
   });
 
   // ---------- View / tab switching ----------
-  var courseLoaded = false;
   function setActiveTab(id) {
     ["navCours", "navPractice", "navExam"].forEach(function (t) {
       el(t).classList.toggle("on", t === id);
@@ -522,7 +605,10 @@
   }
   function showView(which) {
     if (which === "course") {
-      if (!courseLoaded) { el("courseFrame").src = "/cours"; courseLoaded = true; }
+      if (courseRank !== CURRENT_RANK) {
+        el("courseFrame").src = "/cours?rank=" + encodeURIComponent(CURRENT_RANK);
+        courseRank = CURRENT_RANK;
+      }
       el("courseFrame").classList.add("show");
       el("appview").classList.add("hidden");
       setActiveTab("navCours");
@@ -532,7 +618,10 @@
       setActiveTab(exam ? "navExam" : "navPractice");
     }
   }
-  el("navCours").addEventListener("click", function () { showView("course"); });
+  el("navCours").addEventListener("click", function () {
+    if (el("navCours").disabled) return;
+    showView("course");
+  });
   el("navPractice").addEventListener("click", function () {
     if (exam) {
       confirmOverlay("Quitter l'examen en cours ?", "Ta progression sera perdue.",
@@ -551,21 +640,36 @@
   function closeOverlay() { overlay.classList.remove("show"); overlay.innerHTML = ""; }
   function openOverlay(html) { overlay.innerHTML = html; overlay.classList.add("show"); }
 
+  // Durees proposees selon le rank (l'exam Rank 03 est nettement plus long).
+  var DURATIONS = {
+    rank02: { choices: [60, 120, 180], def: 120 },
+    rank03: { choices: [120, 180, 240], def: 180 }
+  };
+  function durationsFor(rank) {
+    return DURATIONS[rank] || { choices: [60, 120, 180], def: 120 };
+  }
+  function fmtDur(min) {
+    return Math.floor(min / 60) + " h " + pad(min % 60);
+  }
+
   function openSetup() {
+    var conf = durationsFor(CURRENT_RANK);
+    var chosen = conf.def;
+    var btns = conf.choices.map(function (m) {
+      return '<button data-min="' + m + '"' + (m === conf.def ? ' class="sel"' : '') +
+        '>' + fmtDur(m) + '</button>';
+    }).join("");
     openOverlay(
       '<div class="card">' +
         '<h2>Mode examen</h2>' +
-        '<p>Un sujet tiré au hasard par niveau (0 → 3). Réussis pour passer au suivant. Le chrono tourne pour tout le monde.</p>' +
-        '<div class="durs" id="durs">' +
-          '<button data-min="60">1 h 00</button>' +
-          '<button data-min="120" class="sel">2 h 00</button>' +
-          '<button data-min="180">3 h 00</button>' +
-        '</div>' +
+        '<p>Un sujet tiré au hasard par niveau (' + esc(levelRange()) + '), soit ' +
+          LEVELS.length + ' niveau' + (LEVELS.length > 1 ? 'x' : '') +
+          ' à enchaîner. Réussis pour passer au suivant. Le chrono tourne pour tout le monde.</p>' +
+        '<div class="durs" id="durs">' + btns + '</div>' +
         '<button class="big" id="startBtn">Commencer l\'examen</button>' +
         '<button class="big ghost" id="cancelBtn">Annuler</button>' +
       '</div>'
     );
-    var chosen = 120;
     var durs = el("durs");
     durs.querySelectorAll("button").forEach(function (b) {
       b.addEventListener("click", function () {
@@ -578,21 +682,22 @@
   }
 
   function showResults(reason, snap) {
+    var total = snap.passed.length;
     var passedCount = snap.passed.filter(Boolean).length;
     var used = snap.duration * 60 - Math.max(0, Math.round((snap.endTime - Date.now()) / 1000));
     if (used < 0) used = snap.duration * 60;
     var um = Math.floor(used / 60), us = used % 60;
     var verdicts = {
-      win: ['🏆 Examen réussi !', 'Les 4 niveaux validés. Solide.'],
+      win: ['🏆 Examen réussi !', 'Les ' + total + ' niveaux validés. Solide.'],
       timeout: ['⏰ Temps écoulé', 'Le chrono a parlé.'],
       give_up: ['Examen abandonné', 'On y retourne quand tu veux.']
     };
     var v = verdicts[reason] || verdicts.give_up;
     var lines = "";
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < total; i++) {
       var ok = snap.passed[i];
       lines += '<div class="sline' + (ok ? ' ok' : '') + '"><span class="ic">' + (ok ? "✓" : "·") +
-        '</span><span class="lv">Niveau ' + i + '</span><span class="spacer" style="flex:1"></span><span>' +
+        '</span><span class="lv">' + levelLabel(i) + '</span><span class="spacer" style="flex:1"></span><span>' +
         (ok ? "validé" : "non validé") + "</span></div>";
     }
     openOverlay(
@@ -600,7 +705,7 @@
         '<div class="verdict">' + v[0] + '</div>' +
         '<p>' + v[1] + '</p>' +
         '<div class="summary">' + lines + '</div>' +
-        '<p style="margin-bottom:18px">Niveaux validés : <b style="color:var(--ink)">' + passedCount + ' / 4</b> · Temps utilisé : <b style="color:var(--ink)">' + um + ' min ' + pad(us) + ' s</b></p>' +
+        '<p style="margin-bottom:18px">Niveaux validés : <b style="color:var(--ink)">' + passedCount + ' / ' + total + '</b> · Temps utilisé : <b style="color:var(--ink)">' + um + ' min ' + pad(us) + ' s</b></p>' +
         '<button class="big" id="backBtn">Retour à l\'entraînement</button>' +
       '</div>'
     );

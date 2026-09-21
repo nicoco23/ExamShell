@@ -375,6 +375,8 @@
   .rex { display: grid; grid-template-columns: 178px 1fr; gap: 14px; padding: 9px 2px; border-top: 1px solid var(--border); align-items: baseline; }
   .rex:first-of-type { border-top: none; }
   .rex .rn { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 600; }
+  .rex .rn a { color: inherit; text-decoration: none; }
+  .rex .rn a:hover { color: var(--accent); text-decoration: underline; }
   .rex .rd { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
   .rex .rd b { color: var(--ink); font-weight: 600; }
   .rex .rd code { font-size: 0.84em; white-space: normal; }
@@ -389,6 +391,23 @@
   .bench > summary .cnt { margin-left: auto; font-size: 11px; color: var(--faint); font-weight: 400; }
   .bench-body { padding: 2px 14px 12px; }
   .bench-body .live { margin: 12px 0; }
+
+  /* ---------- Badge de statut réel (par exercice) ---------- */
+  .live-status { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+  .live-status.ok { color: var(--pass); }
+  .live-status.bad { color: var(--warn); }
+
+  /* ---------- Vrai progrès (hero) ---------- */
+  .realprogress { display: flex; align-items: center; gap: 14px; margin: 20px 0 0; max-width: 62ch; }
+  .realprogress .progress-bar { flex: 1; }
+  .realprogress .progress-count { font-size: 13px; }
+
+  /* ---------- Bouton clair/sombre ---------- */
+  .themebtn {
+    font-size: 15px; line-height: 1; border: 1px solid var(--border-strong); background: var(--surface-2);
+    color: var(--ink); border-radius: 8px; padding: 5px 9px; cursor: pointer; float: right; margin-top: -2px;
+  }
+  .themebtn:hover { border-color: var(--accent); }
 </style>
 </head>
 <body>
@@ -396,7 +415,7 @@
 
 <div class="layout">
   <aside id="sidebar">
-    <div class="brand">42 · Exam Rank 02<b>Cours &amp; entraînement C</b></div>
+    <div class="brand">42 · Exam Rank 02<button id="themeToggle" class="themebtn" aria-label="Changer de thème clair/sombre" title="Thème clair/sombre">🌓</button><b>Cours &amp; entraînement C</b></div>
     <nav class="toc" id="toc">
       <a href="#intro" class="top">00 — L'exam en vrai</a>
       <a href="#regles" class="sub">Règles de la moulinette</a>
@@ -432,6 +451,7 @@
       <a href="#bilan-quiz" class="sub">Quiz éclair</a>
 
       <a href="#recap" class="top">06 — Les 55 exercices</a>
+    </nav>
   </aside>
 
   <main>
@@ -442,6 +462,10 @@
       <div class="kicker">Piscine · C · Examen certification</div>
       <h1>Tout ce qu'il faut pour valider l'Exam Rank 02</h1>
       <p>Un seul cours : la boîte à outils réutilisable, les 9 notions qui reviennent tout le temps, les pièges qui font échouer la moulinette, et — nouveau — des <strong>éditeurs intégrés</strong> pour coder de vrais exercices et te faire corriger par la moulinette <strong>sans quitter la page</strong>.</p>
+      <div class="realprogress" id="realProgress">
+        <div class="progress-bar"><div class="progress-fill" id="realFill"></div></div>
+        <span class="progress-count"><b id="realCount">0</b> / 55 exercices réussis <span style="color:var(--faint)">— vrai progrès (moulinette)</span></span>
+      </div>
     </div>
 
     <!-- =================== 00 =================== -->
@@ -660,7 +684,7 @@
         </details>
       </div>
       <p class="lead">🖥️ <strong>À toi de coder — <code>ft_strlen</code>.</strong> Écris la fonction ci-dessous ; la vraie moulinette la compile et la teste (<code>Ctrl+Entrée</code>).</p>
-      <div class="live" data-exo="ft_strlen">
+      <div class="live" data-exo="ft_strlen" id="live-ft_strlen">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_strlen</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -672,7 +696,7 @@
         <summary>Banc d'exercices<span class="cnt">4 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_putstr</code></strong> — Affiche une chaîne caractère par caractère avec <code>write</code>.</p>
-        <div class="live" data-exo="ft_putstr">
+        <div class="live" data-exo="ft_putstr" id="live-ft_putstr">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_putstr</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -681,7 +705,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_atoi</code></strong> — Espaces → signe(s) → accumulation <code>res*10 + (c-'0')</code>.</p>
-        <div class="live" data-exo="ft_atoi">
+        <div class="live" data-exo="ft_atoi" id="live-ft_atoi">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_atoi</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -690,7 +714,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>rev_print</code></strong> — Affiche <code>argv[1]</code> à l'envers : parcours de la fin vers le début.</p>
-        <div class="live" data-exo="rev_print">
+        <div class="live" data-exo="rev_print" id="live-rev_print">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">rev_print</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -699,7 +723,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>paramsum</code></strong> — Affiche le nombre d'arguments reçus, soit <code>argc - 1</code> (affichage récursif d'un nombre).</p>
-        <div class="live" data-exo="paramsum">
+        <div class="live" data-exo="paramsum" id="live-paramsum">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">paramsum</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -763,7 +787,7 @@
       </div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>rotone</code>.</strong> Le programme qui décale chaque lettre de 1. La moulinette te corrige.</p>
-      <div class="live" data-exo="rotone">
+      <div class="live" data-exo="rotone" id="live-rotone">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">rotone</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -775,7 +799,7 @@
         <summary>Banc d'exercices<span class="cnt">4 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>rot_13</code></strong> — Idem <code>rotone</code> mais décalage de 13.</p>
-        <div class="live" data-exo="rot_13">
+        <div class="live" data-exo="rot_13" id="live-rot_13">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">rot_13</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -784,7 +808,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ulstr</code></strong> — Inverse la casse de chaque lettre (<code>c ^ 32</code>).</p>
-        <div class="live" data-exo="ulstr">
+        <div class="live" data-exo="ulstr" id="live-ulstr">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ulstr</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -793,7 +817,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>alpha_mirror</code></strong> — <b>Transformer argv[1]</b> : miroir alphabétique <code>'z'-(c-'a')</code> (<code>a↔z</code>), casse préservée.</p>
-        <div class="live" data-exo="alpha_mirror">
+        <div class="live" data-exo="alpha_mirror" id="live-alpha_mirror">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">alpha_mirror</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -802,7 +826,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>repeat_alpha</code></strong> — Répète chaque lettre selon son index alphabétique (<code>'a'</code>=1) via une boucle interne.</p>
-        <div class="live" data-exo="repeat_alpha">
+        <div class="live" data-exo="repeat_alpha" id="live-repeat_alpha">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">repeat_alpha</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -853,7 +877,7 @@
       </div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>first_word</code>.</strong> Affiche le premier mot de la chaîne. Découpage en mots + cas limites.</p>
-      <div class="live" data-exo="first_word">
+      <div class="live" data-exo="first_word" id="live-first_word">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">first_word</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -865,7 +889,7 @@
         <summary>Banc d'exercices<span class="cnt">7 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>last_word</code></strong> — <b>Mots</b> : mémorise la position de début du dernier mot rencontré, puis l'affiche.</p>
-        <div class="live" data-exo="last_word">
+        <div class="live" data-exo="last_word" id="live-last_word">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">last_word</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -874,7 +898,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>epur_str</code></strong> — <b>Mots</b> : exactement un espace entre les mots, aucun aux bords (espace avant chaque mot sauf le premier).</p>
-        <div class="live" data-exo="epur_str">
+        <div class="live" data-exo="epur_str" id="live-epur_str">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">epur_str</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -883,7 +907,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>expand_str</code></strong> — Idem <code>epur_str</code> mais trois espaces entre les mots.</p>
-        <div class="live" data-exo="expand_str">
+        <div class="live" data-exo="expand_str" id="live-expand_str">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">expand_str</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -892,7 +916,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>rev_wstr</code></strong> — <b>Mots</b> : affiche les mots de <code>argv[1]</code> dans l'ordre inverse.</p>
-        <div class="live" data-exo="rev_wstr">
+        <div class="live" data-exo="rev_wstr" id="live-rev_wstr">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">rev_wstr</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -901,7 +925,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>rostring</code></strong> — Rotation d'un mot vers la gauche : le premier mot devient le dernier, un seul espace entre les mots.</p>
-        <div class="live" data-exo="rostring">
+        <div class="live" data-exo="rostring" id="live-rostring">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">rostring</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -910,7 +934,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>str_capitalizer</code></strong> — Première lettre de chaque mot en majuscule, le reste en minuscule.</p>
-        <div class="live" data-exo="str_capitalizer">
+        <div class="live" data-exo="str_capitalizer" id="live-str_capitalizer">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">str_capitalizer</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -919,7 +943,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>rstr_capitalizer</code></strong> — Dernière lettre de chaque mot en majuscule, le reste en minuscule.</p>
-        <div class="live" data-exo="rstr_capitalizer">
+        <div class="live" data-exo="rstr_capitalizer" id="live-rstr_capitalizer">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">rstr_capitalizer</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -978,7 +1002,7 @@
       </div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>inter</code>.</strong> Les caractères communs aux deux chaînes, sans doublons. Pense au <code>seen[256]</code>.</p>
-      <div class="live" data-exo="inter">
+      <div class="live" data-exo="inter" id="live-inter">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">inter</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -990,7 +1014,7 @@
         <summary>Banc d'exercices<span class="cnt">4 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>union</code></strong> — Caractères de <code>s1</code> puis <code>s2</code>, sans doublons (<code>seen[256]</code>).</p>
-        <div class="live" data-exo="union">
+        <div class="live" data-exo="union" id="live-union">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">union</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -999,7 +1023,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>wdmatch</code></strong> — <code>s1</code> « caché » dans <code>s2</code> dans l'ordre : deux indices, on avance <code>i</code> quand <code>s1[i]==s2[j]</code>, réussi si on atteint la fin de <code>s1</code>.</p>
-        <div class="live" data-exo="wdmatch">
+        <div class="live" data-exo="wdmatch" id="live-wdmatch">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">wdmatch</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1008,7 +1032,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>hidenp</code></strong> — <b>Ensembles</b> : <code>s1</code> caché dans <code>s2</code> (comme <code>wdmatch</code>) → affiche <code>1</code> ou <code>0</code>.</p>
-        <div class="live" data-exo="hidenp">
+        <div class="live" data-exo="hidenp" id="live-hidenp">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">hidenp</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1017,7 +1041,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>search_and_replace</code></strong> — Remplace dans <code>arg1</code> la lettre <code>arg2</code> par <code>arg3</code> ; seulement si <code>arg2</code>/<code>arg3</code> sont des caractères uniques.</p>
-        <div class="live" data-exo="search_and_replace">
+        <div class="live" data-exo="search_and_replace" id="live-search_and_replace">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">search_and_replace</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1087,7 +1111,7 @@
       </div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>print_hex</code>.</strong> Convertit un nombre base 10 en base 16. Récursion + table de chiffres.</p>
-      <div class="live" data-exo="print_hex">
+      <div class="live" data-exo="print_hex" id="live-print_hex">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">print_hex</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1099,7 +1123,7 @@
         <summary>Banc d'exercices<span class="cnt">9 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>fizzbuzz</code></strong> — <b>Maths</b> : boucle 1→100 ; <code>%3==0</code>→fizz, <code>%5==0</code>→buzz, les deux→fizzbuzz, sinon le nombre.</p>
-        <div class="live" data-exo="fizzbuzz">
+        <div class="live" data-exo="fizzbuzz" id="live-fizzbuzz">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">fizzbuzz</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1108,7 +1132,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>tab_mult</code></strong> — <b>Maths</b> : table de multiplication de <code>n</code> de 1 à 9, via <code>printf</code>.</p>
-        <div class="live" data-exo="tab_mult">
+        <div class="live" data-exo="tab_mult" id="live-tab_mult">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">tab_mult</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1117,7 +1141,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>do_op</code></strong> — <b>Maths</b> : <code>atoi(argv[1])</code> <em>op</em> <code>atoi(argv[3])</code> selon <code>argv[2][0]</code>, puis <code>printf("%d\n", …)</code>.</p>
-        <div class="live" data-exo="do_op">
+        <div class="live" data-exo="do_op" id="live-do_op">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">do_op</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1126,7 +1150,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>add_prime_sum</code></strong> — Somme des premiers <code>≤ n</code> : <code>is_prime</code> (<code>i &lt;= n/i</code>) + boucle. Argument invalide → <code>0</code>.</p>
-        <div class="live" data-exo="add_prime_sum">
+        <div class="live" data-exo="add_prime_sum" id="live-add_prime_sum">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">add_prime_sum</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1135,7 +1159,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>fprime</code></strong> — <b>Maths</b> : facteurs premiers en ordre croissant, séparés par <code>'*'</code> (divise par <code>i</code> tant que <code>n%i==0</code>).</p>
-        <div class="live" data-exo="fprime">
+        <div class="live" data-exo="fprime" id="live-fprime">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">fprime</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1144,7 +1168,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>pgcd</code></strong> — PGCD de deux entiers par Euclide (<code>a%b</code>), <code>atoi</code> + <code>printf</code>.</p>
-        <div class="live" data-exo="pgcd">
+        <div class="live" data-exo="pgcd" id="live-pgcd">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">pgcd</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1153,7 +1177,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>lcm</code></strong> — PPCM = <code>a / gcd(a,b) * b</code> ; 0 si l'un des deux est nul.</p>
-        <div class="live" data-exo="lcm">
+        <div class="live" data-exo="lcm" id="live-lcm">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">lcm</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1162,7 +1186,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_atoi_base</code></strong> — Chaîne en base <code>N≤16</code> → <code>int</code> : valeur de chaque chiffre (0-9 puis a-f, insensible à la casse), <code>res*base+val</code>, <code>-</code> en tête seulement.</p>
-        <div class="live" data-exo="ft_atoi_base">
+        <div class="live" data-exo="ft_atoi_base" id="live-ft_atoi_base">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_atoi_base</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1171,7 +1195,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>is_power_of_2</code></strong> — <b>Bits</b> : <code>n != 0 &amp;&amp; (n &amp; (n-1)) == 0</code>.</p>
-        <div class="live" data-exo="is_power_of_2">
+        <div class="live" data-exo="is_power_of_2" id="live-is_power_of_2">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">is_power_of_2</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1246,7 +1270,7 @@
       </div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>print_bits</code>.</strong> Affiche les 8 bits d'un octet, sans <code>\n</code> final.</p>
-      <div class="live" data-exo="print_bits">
+      <div class="live" data-exo="print_bits" id="live-print_bits">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">print_bits</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1258,7 +1282,7 @@
         <summary>Banc d'exercices<span class="cnt">2 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>reverse_bits</code></strong> — Inverse l'ordre des 8 bits : <code>res = (res&lt;&lt;1) | ((o&gt;&gt;i)&amp;1)</code>.</p>
-        <div class="live" data-exo="reverse_bits">
+        <div class="live" data-exo="reverse_bits" id="live-reverse_bits">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">reverse_bits</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1267,7 +1291,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>swap_bits</code></strong> — Échange les deux quartets : <code>(o&gt;&gt;4) | (o&lt;&lt;4)</code>.</p>
-        <div class="live" data-exo="swap_bits">
+        <div class="live" data-exo="swap_bits" id="live-swap_bits">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">swap_bits</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1317,7 +1341,7 @@
       </div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>ft_range</code>.</strong> Alloue et remplis un tableau d'entiers de <code>start</code> à <code>end</code>.</p>
-      <div class="live" data-exo="ft_range">
+      <div class="live" data-exo="ft_range" id="live-ft_range">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_range</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1329,7 +1353,7 @@
         <summary>Banc d'exercices<span class="cnt">4 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_rrange</code></strong> — Idem <code>ft_range</code> mais valeurs de <code>end</code> vers <code>start</code>.</p>
-        <div class="live" data-exo="ft_rrange">
+        <div class="live" data-exo="ft_rrange" id="live-ft_rrange">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_rrange</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1338,7 +1362,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_split</code></strong> — <b>Allocation</b> : découpe en mots → <code>char**</code> terminé par <code>NULL</code> (compter les mots, allouer, copier chaque mot).</p>
-        <div class="live" data-exo="ft_split">
+        <div class="live" data-exo="ft_split" id="live-ft_split">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_split</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1347,7 +1371,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_itoa</code></strong> — <code>int</code> → chaîne allouée : compte chiffres (+ signe), remplis de la fin vers le début, <code>long</code> pour <code>INT_MIN</code>.</p>
-        <div class="live" data-exo="ft_itoa">
+        <div class="live" data-exo="ft_itoa" id="live-ft_itoa">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_itoa</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1356,7 +1380,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_strdup</code></strong> — <b>Allocation</b> : <code>malloc(len+1)</code> + copie + <code>'\0'</code>, avec vérif du retour.</p>
-        <div class="live" data-exo="ft_strdup">
+        <div class="live" data-exo="ft_strdup" id="live-ft_strdup">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_strdup</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1418,7 +1442,7 @@
       </div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>ft_list_size</code>.</strong> Compte les éléments d'une liste chaînée. (Recopie la structure <code>t_list</code>.)</p>
-      <div class="live" data-exo="ft_list_size">
+      <div class="live" data-exo="ft_list_size" id="live-ft_list_size">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_list_size</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1430,7 +1454,7 @@
         <summary>Banc d'exercices<span class="cnt">3 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_list_foreach</code></strong> — <b>Listes</b> : applique <code>(*f)(node-&gt;data)</code> à chaque élément.</p>
-        <div class="live" data-exo="ft_list_foreach">
+        <div class="live" data-exo="ft_list_foreach" id="live-ft_list_foreach">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_list_foreach</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1439,7 +1463,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_list_remove_if</code></strong> — Supprime les éléments dont <code>data</code> vaut <code>data_ref</code> (via <code>cmp</code>) ; <code>t_list **</code> pour modifier la tête, <code>free</code> après avoir sauvé <code>next</code>.</p>
-        <div class="live" data-exo="ft_list_remove_if">
+        <div class="live" data-exo="ft_list_remove_if" id="live-ft_list_remove_if">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_list_remove_if</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1448,7 +1472,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>sort_list</code></strong> — Trie une liste chaînée selon <code>cmp</code>, renvoie la tête (bulle sur les valeurs ou les nœuds).</p>
-        <div class="live" data-exo="sort_list">
+        <div class="live" data-exo="sort_list" id="live-sort_list">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">sort_list</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1522,7 +1546,7 @@
         </details>
       </div>
       <p class="lead">🖥️ <strong>À toi de coder — <code>sort_int_tab</code>.</strong> Trie un tableau d'entiers en place (tri à bulles).</p>
-      <div class="live" data-exo="sort_int_tab">
+      <div class="live" data-exo="sort_int_tab" id="live-sort_int_tab">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">sort_int_tab</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1534,7 +1558,7 @@
         <summary>Banc d'exercices<span class="cnt">1 exercice de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>flood_fill</code></strong> — <b>Récursion</b> : remplit une zone en 4 directions ; s'arrête hors grille ou si la couleur ≠ cible ; marque <code>'F'</code> avant de récurser.</p>
-        <div class="live" data-exo="flood_fill">
+        <div class="live" data-exo="flood_fill" id="live-flood_fill">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">flood_fill</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1598,7 +1622,7 @@
       <div class="box tip"><span class="tag">strcspn &amp; camel/snake</span><p><strong>ft_strcspn</strong> renvoie la longueur du préfixe de <code>s</code> qui ne contient <em>aucun</em> caractère de <code>reject</code> : pour chaque <code>s[i]</code>, on balaie entièrement <code>reject</code> à la recherche d'une correspondance — dès qu'on en trouve une, <code>i</code> est la réponse. C'est une double boucle, mais chacune reste courte. <strong>camel_to_snake</strong> et <strong>snake_to_camel</strong> sont l'image miroir l'un de l'autre : le premier parcourt la chaîne et, devant chaque majuscule, insère un <code>'_'</code> avant de l'écrire en minuscule (ce qui veut dire allouer la longueur d'origine <em>plus</em> le nombre de majuscules, plus un pour le <code>'\0'</code>) ; le second fait le trajet inverse — il saute chaque <code>'_'</code> rencontré et met la lettre qui suit en majuscule.</p></div>
 
       <p class="lead">🖥️ <strong>À toi de coder — <code>ft_strcpy</code>.</strong> Copie s2 dans s1 (boucle + '\0'), renvoie s1.</p>
-      <div class="live" data-exo="ft_strcpy">
+      <div class="live" data-exo="ft_strcpy" id="live-ft_strcpy">
         <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_strcpy</span><span class="file"></span><span class="allow"></span></div>
         <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
         <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1610,7 +1634,7 @@
         <summary>Banc d'exercices<span class="cnt">7 exercices de plus</span></summary>
         <div class="bench-body">
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_strcmp</code></strong> — Compare caractère par caractère ; renvoie la différence <code>s1[i]-s2[i]</code> au premier écart, 0 si égales.</p>
-        <div class="live" data-exo="ft_strcmp">
+        <div class="live" data-exo="ft_strcmp" id="live-ft_strcmp">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_strcmp</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1619,7 +1643,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_strrev</code></strong> — Inverse une chaîne <b>en place</b> avec deux indices qui se croisent (début/fin) ; renvoie <code>str</code>.</p>
-        <div class="live" data-exo="ft_strrev">
+        <div class="live" data-exo="ft_strrev" id="live-ft_strrev">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_strrev</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1628,7 +1652,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_strcspn</code></strong> — Longueur du préfixe de <code>s</code> ne contenant <em>aucun</em> caractère de <code>reject</code> (double boucle).</p>
-        <div class="live" data-exo="ft_strcspn">
+        <div class="live" data-exo="ft_strcspn" id="live-ft_strcspn">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_strcspn</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1637,7 +1661,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_swap</code></strong> — Échange deux <code>int</code> via leurs pointeurs, avec une variable temporaire : <code>tmp = *a; *a = *b; *b = tmp;</code>.</p>
-        <div class="live" data-exo="ft_swap">
+        <div class="live" data-exo="ft_swap" id="live-ft_swap">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">ft_swap</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1646,7 +1670,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>max</code></strong> — Parcourt le tableau d'<code>int</code>, garde le plus grand ; renvoie 0 si <code>len</code> vaut 0.</p>
-        <div class="live" data-exo="max">
+        <div class="live" data-exo="max" id="live-max">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">max</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1655,7 +1679,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>camel_to_snake</code></strong> — <b>Casse + malloc</b> : avant chaque majuscule écris <code>'_'</code>, puis la lettre en minuscule (alloue/agrandis le résultat).</p>
-        <div class="live" data-exo="camel_to_snake">
+        <div class="live" data-exo="camel_to_snake" id="live-camel_to_snake">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">camel_to_snake</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -1664,7 +1688,7 @@
           <div class="live-out"></div>
         </div>
         <p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>snake_to_camel</code></strong> — L'inverse : supprime chaque <code>'_'</code> et met la lettre suivante en majuscule.</p>
-        <div class="live" data-exo="snake_to_camel">
+        <div class="live" data-exo="snake_to_camel" id="live-snake_to_camel">
           <div class="live-head"><span class="badge">à coder</span><span class="ttl">snake_to_camel</span><span class="file"></span><span class="allow"></span></div>
           <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
           <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
@@ -2583,6 +2607,21 @@
 
         <details class="qz"><summary><span class="qn">Q10</span>Quel type intermédiaire utilises-tu dans <code>ft_putnbr</code> / <code>ft_itoa</code> pour survivre à <code>INT_MIN</code>&nbsp;?</summary>
           <div class="qa">Un <code>long</code>. Il permet de faire <code>-n</code> sur <code>-2147483648</code> sans déborder.</div></details>
+
+        <details class="qz"><summary><span class="qn">Q11</span>Pourquoi <code>ft_list_remove_if</code> prend un <code>t_list **</code> et pas un simple <code>t_list *</code>&nbsp;?</summary>
+          <div class="qa">Pour pouvoir modifier la <strong>tête</strong> de la liste depuis l'intérieur de la fonction : si le premier élément doit être supprimé, seule une écriture à travers un double pointeur peut faire pointer la variable de l'appelant vers le nouveau premier nœud.</div></details>
+
+        <details class="qz"><summary><span class="qn">Q12</span>Comment <code>union</code> et <code>inter</code> évitent-ils les doublons dans leur résultat&nbsp;?</summary>
+          <div class="qa">Avec un tableau <code>seen[256]</code> (ou <code>int seen[256]</code>) indexé par la valeur du caractère castée en <code>unsigned char</code> : on ne réaffiche/rajoute un caractère que si sa case n'a pas déjà été marquée.</div></details>
+
+        <details class="qz"><summary><span class="qn">Q13</span>Combien d'espaces <code>epur_str</code> laisse-t-il entre deux mots, et en bord de chaîne&nbsp;?</summary>
+          <div class="qa">Exactement <strong>un</strong> espace entre deux mots, et <strong>aucun</strong> en début ou en fin de chaîne — l'espace se place avant chaque mot sauf le tout premier.</div></details>
+
+        <details class="qz"><summary><span class="qn">Q14</span>Quel est le principe du tri utilisé par <code>sort_int_tab</code>&nbsp;?</summary>
+          <div class="qa">Le tri à bulles : comparer chaque paire d'éléments adjacents, les échanger s'ils sont mal ordonnés, et répéter les passages sur le tableau jusqu'à ce qu'une passe entière ne fasse plus aucun échange.</div></details>
+
+        <details class="qz"><summary><span class="qn">Q15</span>Quelles sont les deux conditions d'arrêt de la récursion dans <code>flood_fill</code>&nbsp;?</summary>
+          <div class="qa">Sortir de la grille (coordonnées hors limites), ou tomber sur une case dont la couleur n'est <strong>pas</strong> celle de la cible (déjà remplie, ou différente à l'origine) — dans les deux cas, la récursion s'arrête sans rien faire.</div></details>
       </div>
 
       <p class="foot">Quand ces 27 cases sont cochées et que le quiz ne te surprend plus, tu es prêt·e.</p>
@@ -2595,79 +2634,101 @@
 
       <div class="rgroup">
         <div class="rhead">Niveau 0 <span class="rc">— bases : afficher, copier, transformer argv</span></div>
-        <div class="rex"><div class="rn">ft_strlen</div><div class="rd">Compte les caractères jusqu'au <code>'\0'</code> et renvoie la longueur.</div></div>
-        <div class="rex"><div class="rn">ft_putstr</div><div class="rd">Affiche une chaîne caractère par caractère avec <code>write</code>.</div></div>
-        <div class="rex"><div class="rn">ft_strcpy</div><div class="rd">Copie <code>s2</code> dans <code>s1</code> (boucle + <code>'\0'</code>), renvoie <code>s1</code>.</div></div>
-        <div class="rex"><div class="rn">ft_swap</div><div class="rd">Échange deux <code>int</code> via leurs pointeurs, avec une variable temporaire : <code>tmp = *a; *a = *b; *b = tmp;</code>.</div></div>
-        <div class="rex"><div class="rn">rotone</div><div class="rd"><b>Transformer argv[1]</b> : décale chaque lettre de 1 (<code>(c-'a'+1)%26+'a'</code>), casse préservée, <code>\n</code> final.</div></div>
-        <div class="rex"><div class="rn">rot_13</div><div class="rd">Idem <code>rotone</code> mais décalage de 13.</div></div>
-        <div class="rex"><div class="rn">ulstr</div><div class="rd">Inverse la casse de chaque lettre (<code>c ^ 32</code>).</div></div>
-        <div class="rex"><div class="rn">rev_print</div><div class="rd">Affiche <code>argv[1]</code> à l'envers : parcours de la fin vers le début.</div></div>
-        <div class="rex"><div class="rn">repeat_alpha</div><div class="rd">Répète chaque lettre selon son index alphabétique (<code>'a'</code>=1) via une boucle interne.</div></div>
-        <div class="rex"><div class="rn">first_word</div><div class="rd"><b>Mots</b> : saute les espaces, affiche le 1er mot puis stop. <code>argc≠2</code> ou vide → <code>\n</code>.</div></div>
-        <div class="rex"><div class="rn">search_and_replace</div><div class="rd">Remplace dans <code>arg1</code> la lettre <code>arg2</code> par <code>arg3</code> ; seulement si <code>arg2</code>/<code>arg3</code> sont des caractères uniques.</div></div>
-        <div class="rex"><div class="rn">fizzbuzz</div><div class="rd"><b>Maths</b> : boucle 1→100 ; <code>%3==0</code>→fizz, <code>%5==0</code>→buzz, les deux→fizzbuzz, sinon le nombre.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_strlen">ft_strlen</a></div><div class="rd">Compte les caractères jusqu'au <code>'\0'</code> et renvoie la longueur.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_putstr">ft_putstr</a></div><div class="rd">Affiche une chaîne caractère par caractère avec <code>write</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_strcpy">ft_strcpy</a></div><div class="rd">Copie <code>s2</code> dans <code>s1</code> (boucle + <code>'\0'</code>), renvoie <code>s1</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_swap">ft_swap</a></div><div class="rd">Échange deux <code>int</code> via leurs pointeurs, avec une variable temporaire : <code>tmp = *a; *a = *b; *b = tmp;</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-rotone">rotone</a></div><div class="rd"><b>Transformer argv[1]</b> : décale chaque lettre de 1 (<code>(c-'a'+1)%26+'a'</code>), casse préservée, <code>\n</code> final.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-rot_13">rot_13</a></div><div class="rd">Idem <code>rotone</code> mais décalage de 13.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ulstr">ulstr</a></div><div class="rd">Inverse la casse de chaque lettre (<code>c ^ 32</code>).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-rev_print">rev_print</a></div><div class="rd">Affiche <code>argv[1]</code> à l'envers : parcours de la fin vers le début.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-repeat_alpha">repeat_alpha</a></div><div class="rd">Répète chaque lettre selon son index alphabétique (<code>'a'</code>=1) via une boucle interne.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-first_word">first_word</a></div><div class="rd"><b>Mots</b> : saute les espaces, affiche le 1er mot puis stop. <code>argc≠2</code> ou vide → <code>\n</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-search_and_replace">search_and_replace</a></div><div class="rd">Remplace dans <code>arg1</code> la lettre <code>arg2</code> par <code>arg3</code> ; seulement si <code>arg2</code>/<code>arg3</code> sont des caractères uniques.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-fizzbuzz">fizzbuzz</a></div><div class="rd"><b>Maths</b> : boucle 1→100 ; <code>%3==0</code>→fizz, <code>%5==0</code>→buzz, les deux→fizzbuzz, sinon le nombre.</div></div>
       </div>
 
       <div class="rgroup">
         <div class="rhead">Niveau 1 <span class="rc">— transformations, ensembles, bits, atoi, casse</span></div>
-        <div class="rex"><div class="rn">alpha_mirror</div><div class="rd"><b>Transformer argv[1]</b> : miroir alphabétique <code>'z'-(c-'a')</code> (<code>a↔z</code>), casse préservée.</div></div>
-        <div class="rex"><div class="rn">ft_atoi</div><div class="rd">Espaces → signe(s) → accumulation <code>res*10 + (c-'0')</code>.</div></div>
-        <div class="rex"><div class="rn">ft_strcmp</div><div class="rd">Compare caractère par caractère ; renvoie la différence <code>s1[i]-s2[i]</code> au premier écart, 0 si égales.</div></div>
-        <div class="rex"><div class="rn">ft_strrev</div><div class="rd">Inverse une chaîne <b>en place</b> avec deux indices qui se croisent (début/fin) ; renvoie <code>str</code>.</div></div>
-        <div class="rex"><div class="rn">ft_strcspn</div><div class="rd">Longueur du préfixe de <code>s</code> ne contenant <em>aucun</em> caractère de <code>reject</code> (double boucle).</div></div>
-        <div class="rex"><div class="rn">ft_strdup</div><div class="rd"><b>Allocation</b> : <code>malloc(len+1)</code> + copie + <code>'\0'</code>, avec vérif du retour.</div></div>
-        <div class="rex"><div class="rn">inter</div><div class="rd"><b>Ensembles</b> : caractères communs à <code>s1</code> et <code>s2</code>, sans doublons (<code>seen[256]</code>).</div></div>
-        <div class="rex"><div class="rn">union</div><div class="rd">Caractères de <code>s1</code> puis <code>s2</code>, sans doublons (<code>seen[256]</code>).</div></div>
-        <div class="rex"><div class="rn">wdmatch</div><div class="rd"><code>s1</code> « caché » dans <code>s2</code> dans l'ordre : deux indices, on avance <code>i</code> quand <code>s1[i]==s2[j]</code>, réussi si on atteint la fin de <code>s1</code>.</div></div>
-        <div class="rex"><div class="rn">last_word</div><div class="rd"><b>Mots</b> : mémorise la position de début du dernier mot rencontré, puis l'affiche.</div></div>
-        <div class="rex"><div class="rn">max</div><div class="rd">Parcourt le tableau d'<code>int</code>, garde le plus grand ; renvoie 0 si <code>len</code> vaut 0.</div></div>
-        <div class="rex"><div class="rn">is_power_of_2</div><div class="rd"><b>Bits</b> : <code>n != 0 &amp;&amp; (n &amp; (n-1)) == 0</code>.</div></div>
-        <div class="rex"><div class="rn">print_bits</div><div class="rd">Affiche les 8 bits d'un octet, du poids fort (7) au faible (0), <code>(o&gt;&gt;i)&amp;1</code>, sans <code>\n</code>.</div></div>
-        <div class="rex"><div class="rn">reverse_bits</div><div class="rd">Inverse l'ordre des 8 bits : <code>res = (res&lt;&lt;1) | ((o&gt;&gt;i)&amp;1)</code>.</div></div>
-        <div class="rex"><div class="rn">swap_bits</div><div class="rd">Échange les deux quartets : <code>(o&gt;&gt;4) | (o&lt;&lt;4)</code>.</div></div>
-        <div class="rex"><div class="rn">camel_to_snake</div><div class="rd"><b>Casse + malloc</b> : avant chaque majuscule écris <code>'_'</code>, puis la lettre en minuscule (alloue/agrandis le résultat).</div></div>
-        <div class="rex"><div class="rn">snake_to_camel</div><div class="rd">L'inverse : supprime chaque <code>'_'</code> et met la lettre suivante en majuscule.</div></div>
-        <div class="rex"><div class="rn">do_op</div><div class="rd"><b>Maths</b> : <code>atoi(argv[1])</code> <em>op</em> <code>atoi(argv[3])</code> selon <code>argv[2][0]</code>, puis <code>printf("%d\n", …)</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-alpha_mirror">alpha_mirror</a></div><div class="rd"><b>Transformer argv[1]</b> : miroir alphabétique <code>'z'-(c-'a')</code> (<code>a↔z</code>), casse préservée.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_atoi">ft_atoi</a></div><div class="rd">Espaces → signe(s) → accumulation <code>res*10 + (c-'0')</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_strcmp">ft_strcmp</a></div><div class="rd">Compare caractère par caractère ; renvoie la différence <code>s1[i]-s2[i]</code> au premier écart, 0 si égales.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_strrev">ft_strrev</a></div><div class="rd">Inverse une chaîne <b>en place</b> avec deux indices qui se croisent (début/fin) ; renvoie <code>str</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_strcspn">ft_strcspn</a></div><div class="rd">Longueur du préfixe de <code>s</code> ne contenant <em>aucun</em> caractère de <code>reject</code> (double boucle).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_strdup">ft_strdup</a></div><div class="rd"><b>Allocation</b> : <code>malloc(len+1)</code> + copie + <code>'\0'</code>, avec vérif du retour.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-inter">inter</a></div><div class="rd"><b>Ensembles</b> : caractères communs à <code>s1</code> et <code>s2</code>, sans doublons (<code>seen[256]</code>).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-union">union</a></div><div class="rd">Caractères de <code>s1</code> puis <code>s2</code>, sans doublons (<code>seen[256]</code>).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-wdmatch">wdmatch</a></div><div class="rd"><code>s1</code> « caché » dans <code>s2</code> dans l'ordre : deux indices, on avance <code>i</code> quand <code>s1[i]==s2[j]</code>, réussi si on atteint la fin de <code>s1</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-last_word">last_word</a></div><div class="rd"><b>Mots</b> : mémorise la position de début du dernier mot rencontré, puis l'affiche.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-max">max</a></div><div class="rd">Parcourt le tableau d'<code>int</code>, garde le plus grand ; renvoie 0 si <code>len</code> vaut 0.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-is_power_of_2">is_power_of_2</a></div><div class="rd"><b>Bits</b> : <code>n != 0 &amp;&amp; (n &amp; (n-1)) == 0</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-print_bits">print_bits</a></div><div class="rd">Affiche les 8 bits d'un octet, du poids fort (7) au faible (0), <code>(o&gt;&gt;i)&amp;1</code>, sans <code>\n</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-reverse_bits">reverse_bits</a></div><div class="rd">Inverse l'ordre des 8 bits : <code>res = (res&lt;&lt;1) | ((o&gt;&gt;i)&amp;1)</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-swap_bits">swap_bits</a></div><div class="rd">Échange les deux quartets : <code>(o&gt;&gt;4) | (o&lt;&lt;4)</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-camel_to_snake">camel_to_snake</a></div><div class="rd"><b>Casse + malloc</b> : avant chaque majuscule écris <code>'_'</code>, puis la lettre en minuscule (alloue/agrandis le résultat).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-snake_to_camel">snake_to_camel</a></div><div class="rd">L'inverse : supprime chaque <code>'_'</code> et met la lettre suivante en majuscule.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-do_op">do_op</a></div><div class="rd"><b>Maths</b> : <code>atoi(argv[1])</code> <em>op</em> <code>atoi(argv[3])</code> selon <code>argv[2][0]</code>, puis <code>printf("%d\n", …)</code>.</div></div>
       </div>
 
       <div class="rgroup">
         <div class="rhead">Niveau 2 <span class="rc">— maths, bases, espaces entre mots, ranges, listes</span></div>
-        <div class="rex"><div class="rn">epur_str</div><div class="rd"><b>Mots</b> : exactement un espace entre les mots, aucun aux bords (espace avant chaque mot sauf le premier).</div></div>
-        <div class="rex"><div class="rn">expand_str</div><div class="rd">Idem <code>epur_str</code> mais trois espaces entre les mots.</div></div>
-        <div class="rex"><div class="rn">str_capitalizer</div><div class="rd">Première lettre de chaque mot en majuscule, le reste en minuscule.</div></div>
-        <div class="rex"><div class="rn">rstr_capitalizer</div><div class="rd">Dernière lettre de chaque mot en majuscule, le reste en minuscule.</div></div>
-        <div class="rex"><div class="rn">paramsum</div><div class="rd">Affiche le nombre d'arguments reçus, soit <code>argc - 1</code> (affichage récursif d'un nombre).</div></div>
-        <div class="rex"><div class="rn">tab_mult</div><div class="rd"><b>Maths</b> : table de multiplication de <code>n</code> de 1 à 9, via <code>printf</code>.</div></div>
-        <div class="rex"><div class="rn">add_prime_sum</div><div class="rd">Somme des premiers <code>≤ n</code> : <code>is_prime</code> (<code>i &lt;= n/i</code>) + boucle. Argument invalide → <code>0</code>.</div></div>
-        <div class="rex"><div class="rn">pgcd</div><div class="rd">PGCD de deux entiers par Euclide (<code>a%b</code>), <code>atoi</code> + <code>printf</code>.</div></div>
-        <div class="rex"><div class="rn">lcm</div><div class="rd">PPCM = <code>a / gcd(a,b) * b</code> ; 0 si l'un des deux est nul.</div></div>
-        <div class="rex"><div class="rn">print_hex</div><div class="rd"><b>Base</b> : nombre base 10 → base 16 (récursif, table <code>"0123456789abcdef"</code>, division par 16).</div></div>
-        <div class="rex"><div class="rn">ft_atoi_base</div><div class="rd">Chaîne en base <code>N≤16</code> → <code>int</code> : valeur de chaque chiffre (0-9 puis a-f, insensible à la casse), <code>res*base+val</code>, <code>-</code> en tête seulement.</div></div>
-        <div class="rex"><div class="rn">ft_range</div><div class="rd"><b>Allocation</b> : <code>malloc</code> + remplit <code>start..end</code> inclus (longueur = |end-start|+1).</div></div>
-        <div class="rex"><div class="rn">ft_rrange</div><div class="rd">Idem <code>ft_range</code> mais valeurs de <code>end</code> vers <code>start</code>.</div></div>
-        <div class="rex"><div class="rn">hidenp</div><div class="rd"><b>Ensembles</b> : <code>s1</code> caché dans <code>s2</code> (comme <code>wdmatch</code>) → affiche <code>1</code> ou <code>0</code>.</div></div>
-        <div class="rex"><div class="rn">ft_list_size</div><div class="rd"><b>Listes</b> : parcourt <code>next</code> en comptant les éléments.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-epur_str">epur_str</a></div><div class="rd"><b>Mots</b> : exactement un espace entre les mots, aucun aux bords (espace avant chaque mot sauf le premier).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-expand_str">expand_str</a></div><div class="rd">Idem <code>epur_str</code> mais trois espaces entre les mots.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-str_capitalizer">str_capitalizer</a></div><div class="rd">Première lettre de chaque mot en majuscule, le reste en minuscule.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-rstr_capitalizer">rstr_capitalizer</a></div><div class="rd">Dernière lettre de chaque mot en majuscule, le reste en minuscule.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-paramsum">paramsum</a></div><div class="rd">Affiche le nombre d'arguments reçus, soit <code>argc - 1</code> (affichage récursif d'un nombre).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-tab_mult">tab_mult</a></div><div class="rd"><b>Maths</b> : table de multiplication de <code>n</code> de 1 à 9, via <code>printf</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-add_prime_sum">add_prime_sum</a></div><div class="rd">Somme des premiers <code>≤ n</code> : <code>is_prime</code> (<code>i &lt;= n/i</code>) + boucle. Argument invalide → <code>0</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-pgcd">pgcd</a></div><div class="rd">PGCD de deux entiers par Euclide (<code>a%b</code>), <code>atoi</code> + <code>printf</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-lcm">lcm</a></div><div class="rd">PPCM = <code>a / gcd(a,b) * b</code> ; 0 si l'un des deux est nul.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-print_hex">print_hex</a></div><div class="rd"><b>Base</b> : nombre base 10 → base 16 (récursif, table <code>"0123456789abcdef"</code>, division par 16).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_atoi_base">ft_atoi_base</a></div><div class="rd">Chaîne en base <code>N≤16</code> → <code>int</code> : valeur de chaque chiffre (0-9 puis a-f, insensible à la casse), <code>res*base+val</code>, <code>-</code> en tête seulement.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_range">ft_range</a></div><div class="rd"><b>Allocation</b> : <code>malloc</code> + remplit <code>start..end</code> inclus (longueur = |end-start|+1).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_rrange">ft_rrange</a></div><div class="rd">Idem <code>ft_range</code> mais valeurs de <code>end</code> vers <code>start</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-hidenp">hidenp</a></div><div class="rd"><b>Ensembles</b> : <code>s1</code> caché dans <code>s2</code> (comme <code>wdmatch</code>) → affiche <code>1</code> ou <code>0</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_list_size">ft_list_size</a></div><div class="rd"><b>Listes</b> : parcourt <code>next</code> en comptant les éléments.</div></div>
       </div>
 
       <div class="rgroup">
         <div class="rhead">Niveau 3 <span class="rc">— allocation lourde, listes chaînées, tri, récursion</span></div>
-        <div class="rex"><div class="rn">ft_split</div><div class="rd"><b>Allocation</b> : découpe en mots → <code>char**</code> terminé par <code>NULL</code> (compter les mots, allouer, copier chaque mot).</div></div>
-        <div class="rex"><div class="rn">ft_itoa</div><div class="rd"><code>int</code> → chaîne allouée : compte chiffres (+ signe), remplis de la fin vers le début, <code>long</code> pour <code>INT_MIN</code>.</div></div>
-        <div class="rex"><div class="rn">fprime</div><div class="rd"><b>Maths</b> : facteurs premiers en ordre croissant, séparés par <code>'*'</code> (divise par <code>i</code> tant que <code>n%i==0</code>).</div></div>
-        <div class="rex"><div class="rn">rev_wstr</div><div class="rd"><b>Mots</b> : affiche les mots de <code>argv[1]</code> dans l'ordre inverse.</div></div>
-        <div class="rex"><div class="rn">rostring</div><div class="rd">Rotation d'un mot vers la gauche : le premier mot devient le dernier, un seul espace entre les mots.</div></div>
-        <div class="rex"><div class="rn">sort_int_tab</div><div class="rd"><b>Tri</b> : tableau d'<code>int</code> trié en place (tri à bulles), doublons conservés.</div></div>
-        <div class="rex"><div class="rn">sort_list</div><div class="rd">Trie une liste chaînée selon <code>cmp</code>, renvoie la tête (bulle sur les valeurs ou les nœuds).</div></div>
-        <div class="rex"><div class="rn">ft_list_foreach</div><div class="rd"><b>Listes</b> : applique <code>(*f)(node-&gt;data)</code> à chaque élément.</div></div>
-        <div class="rex"><div class="rn">ft_list_remove_if</div><div class="rd">Supprime les éléments dont <code>data</code> vaut <code>data_ref</code> (via <code>cmp</code>) ; <code>t_list **</code> pour modifier la tête, <code>free</code> après avoir sauvé <code>next</code>.</div></div>
-        <div class="rex"><div class="rn">flood_fill</div><div class="rd"><b>Récursion</b> : remplit une zone en 4 directions ; s'arrête hors grille ou si la couleur ≠ cible ; marque <code>'F'</code> avant de récurser.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_split">ft_split</a></div><div class="rd"><b>Allocation</b> : découpe en mots → <code>char**</code> terminé par <code>NULL</code> (compter les mots, allouer, copier chaque mot).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_itoa">ft_itoa</a></div><div class="rd"><code>int</code> → chaîne allouée : compte chiffres (+ signe), remplis de la fin vers le début, <code>long</code> pour <code>INT_MIN</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-fprime">fprime</a></div><div class="rd"><b>Maths</b> : facteurs premiers en ordre croissant, séparés par <code>'*'</code> (divise par <code>i</code> tant que <code>n%i==0</code>).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-rev_wstr">rev_wstr</a></div><div class="rd"><b>Mots</b> : affiche les mots de <code>argv[1]</code> dans l'ordre inverse.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-rostring">rostring</a></div><div class="rd">Rotation d'un mot vers la gauche : le premier mot devient le dernier, un seul espace entre les mots.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-sort_int_tab">sort_int_tab</a></div><div class="rd"><b>Tri</b> : tableau d'<code>int</code> trié en place (tri à bulles), doublons conservés.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-sort_list">sort_list</a></div><div class="rd">Trie une liste chaînée selon <code>cmp</code>, renvoie la tête (bulle sur les valeurs ou les nœuds).</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_list_foreach">ft_list_foreach</a></div><div class="rd"><b>Listes</b> : applique <code>(*f)(node-&gt;data)</code> à chaque élément.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-ft_list_remove_if">ft_list_remove_if</a></div><div class="rd">Supprime les éléments dont <code>data</code> vaut <code>data_ref</code> (via <code>cmp</code>) ; <code>t_list **</code> pour modifier la tête, <code>free</code> après avoir sauvé <code>next</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#live-flood_fill">flood_fill</a></div><div class="rd"><b>Récursion</b> : remplit une zone en 4 directions ; s'arrête hors grille ou si la couleur ≠ cible ; marque <code>'F'</code> avant de récurser.</div></div>
       </div>
 
       <p class="foot">55 exercices, 9 notions. Reconnais la notion, pose le squelette, adapte le cœur, teste avec <code>cat -e</code>.</p>
     </section>
   </main>
 </div>
+
+<script>
+  (function () {
+    var KEY = 'exam02_theme';
+    var root = document.documentElement;
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+
+    var toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+    function effective() {
+      if (root.dataset.theme === 'light' || root.dataset.theme === 'dark') return root.dataset.theme;
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    toggle.addEventListener('click', function () {
+      var next = effective() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+  })();
+</script>
 
 <script>
   (function () {
@@ -2742,20 +2803,56 @@
 <script>
 /* ---- Éditeurs intégrés : corrigés par la vraie moulinette via /api/test ---- */
 (function () {
-  var LS_CODE = function (n) { return "exam02_code_" + n; };
+  var RANK = "rank02";
+  var LS_CODE = function (n) { return RANK + "_code_" + n; };
+  // Ancien schema de cles (avant le multi-rank) : on recupere le code deja
+  // tape dans le cours pour ne pas le perdre.
+  var LEGACY_CODE = function (n) { return "exam02_code_" + n; };
   var META = {};
   var esc = function (s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); };
 
   var widgets = Array.prototype.slice.call(document.querySelectorAll(".live[data-exo]"));
   if (!widgets.length) return;
 
-  fetch("/api/exercises")
+  /* ---- Progrès réel : basé sur les vrais résultats de la moulinette ---- */
+  var LS_STATUS = RANK + "_status";
+  var statuses = {};
+  try { statuses = JSON.parse(localStorage.getItem(LS_STATUS) || "{}"); } catch (e) { statuses = {}; }
+  if (!Object.keys(statuses).length) {
+    try { statuses = JSON.parse(localStorage.getItem("exam02_status") || "{}"); } catch (e) { statuses = {}; }
+  }
+  var realFill = document.getElementById("realFill");
+  var realCount = document.getElementById("realCount");
+  var badgeEls = {};
+
+  function refreshRealProgress() {
+    var n = 0;
+    Object.keys(statuses).forEach(function (k) { if (statuses[k] === "passed") n++; });
+    if (realCount) realCount.textContent = n;
+    if (realFill) realFill.style.width = (widgets.length ? (n / widgets.length * 100) : 0) + "%";
+  }
+  function refreshBadge(name) {
+    var el = badgeEls[name];
+    if (!el) return;
+    var st = statuses[name];
+    el.className = "live-status" + (st === "passed" ? " ok" : (st ? " bad" : ""));
+    el.textContent = st === "passed" ? "✓" : (st ? "✗" : "");
+  }
+  window.addEventListener("storage", function (e) {
+    if (e.key && e.key !== LS_STATUS) return;
+    try { statuses = JSON.parse(localStorage.getItem(LS_STATUS) || "{}"); } catch (err) { statuses = {}; }
+    Object.keys(badgeEls).forEach(refreshBadge);
+    refreshRealProgress();
+  });
+
+  fetch("/api/exercises?rank=" + encodeURIComponent(RANK))
     .then(function (r) { return r.json(); })
     .then(function (data) {
       data.forEach(function (g) {
         g.exercises.forEach(function (e) { META[e.name] = e; });
       });
       widgets.forEach(function (w) { setup(w); });
+      refreshRealProgress();
     })
     .catch(function () {
       // Serveur indisponible (page ouverte hors app locale) : éditeurs en lecture seule
@@ -2763,6 +2860,7 @@
         setup(w, true);
         w.querySelector(".live-offline").classList.add("show");
       });
+      refreshRealProgress();
     });
 
   function setup(w, offline) {
@@ -2776,13 +2874,23 @@
     var subjPre = w.querySelector(".live-subj pre");
     var allow = w.querySelector(".allow");
     var file = w.querySelector(".file");
+    var ttl = w.querySelector(".ttl");
+
+    var statusEl = document.createElement("span");
+    statusEl.className = "live-status";
+    if (ttl && ttl.parentNode) ttl.parentNode.insertBefore(statusEl, file);
+    badgeEls[name] = statusEl;
+    refreshBadge(name);
 
     if (meta.expected_file && file) file.textContent = meta.expected_file;
     if (meta.allowed && allow) allow.innerHTML = "autorisé : <b>" + esc(meta.allowed) + "</b>";
     if (meta.subject && subjPre) subjPre.textContent = meta.subject;
 
     var saved = null;
-    try { saved = localStorage.getItem(LS_CODE(name)); } catch (e) {}
+    try {
+      saved = localStorage.getItem(LS_CODE(name));
+      if (saved === null) saved = localStorage.getItem(LEGACY_CODE(name));
+    } catch (e) {}
     ta.value = (saved !== null && saved !== undefined && saved !== "") ? saved
              : (meta.starter || "/* " + name + " */\n\n");
     syncGutter();
@@ -2828,7 +2936,7 @@
       out.classList.remove("show");
       fetch("/api/test", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name, code: ta.value })
+        body: JSON.stringify({ rank: RANK, name: name, code: ta.value })
       }).then(function (r) { return r.json(); }).then(function (res) {
         var labels = {
           passed: ["passed", "PASSED 🎉"], fail: ["fail", "FAIL"],
@@ -2838,6 +2946,12 @@
         };
         var m = labels[res.status] || labels.unknown;
         setPill(m[0], m[1]);
+        if (res.status !== "error") {
+          statuses[name] = res.status;
+          try { localStorage.setItem(LS_STATUS, JSON.stringify(statuses)); } catch (e) {}
+          refreshBadge(name);
+          refreshRealProgress();
+        }
         if (res.status === "passed") {
           out.innerHTML = '<pre class="log">' + esc(res.raw || "PASSED") + "</pre>";
         } else if (res.status === "fail" && (res.expected !== undefined || res.your !== undefined)) {

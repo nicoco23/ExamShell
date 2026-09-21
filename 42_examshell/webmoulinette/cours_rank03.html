@@ -1,0 +1,2783 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Rank 03 — Cours complet & entraînement</title>
+<style>
+  :root {
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --surface-2: #eef1f5;
+    --ink: #1b2130;
+    --muted: #59627a;
+    --faint: #8a93a7;
+    --border: #e0e4ec;
+    --border-strong: #cfd5e1;
+    --accent: #3b5bdb;
+    --accent-soft: #e7ecfd;
+    --pass: #0c8f68;
+    --pass-soft: #e2f5ee;
+    --warn: #b4690e;
+    --warn-soft: #fbeedd;
+    --code-bg: #191d29;
+    --code-ink: #dce1ec;
+    --code-cm: #7f8aa3;
+    --code-key: #8fb2ff;
+    --code-str: #7fd6a8;
+    --code-num: #e6b673;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12141b;
+      --surface: #1a1e28;
+      --surface-2: #20242f;
+      --ink: #e7eaf1;
+      --muted: #9aa3b6;
+      --faint: #6b7488;
+      --border: #282d3a;
+      --border-strong: #363c4c;
+      --accent: #8098f5;
+      --accent-soft: #232a44;
+      --pass: #35d39a;
+      --pass-soft: #172b26;
+      --warn: #e0a95c;
+      --warn-soft: #2b2416;
+      --code-bg: #10131c;
+      --code-ink: #dce1ec;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12141b;
+    --surface: #1a1e28;
+    --surface-2: #20242f;
+    --ink: #e7eaf1;
+    --muted: #9aa3b6;
+    --faint: #6b7488;
+    --border: #282d3a;
+    --border-strong: #363c4c;
+    --accent: #8098f5;
+    --accent-soft: #232a44;
+    --pass: #35d39a;
+    --pass-soft: #172b26;
+    --warn: #e0a95c;
+    --warn-soft: #2b2416;
+    --code-bg: #10131c;
+    --code-ink: #dce1ec;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --surface-2: #eef1f5;
+    --ink: #1b2130;
+    --muted: #59627a;
+    --faint: #8a93a7;
+    --border: #e0e4ec;
+    --border-strong: #cfd5e1;
+    --accent: #3b5bdb;
+    --accent-soft: #e7ecfd;
+    --pass: #0c8f68;
+    --pass-soft: #e2f5ee;
+    --warn: #b4690e;
+    --warn-soft: #fbeedd;
+    --code-bg: #191d29;
+    --code-ink: #dce1ec;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 0;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  aside {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 32px 20px 48px 24px;
+    border-right: 1px solid var(--border);
+  }
+  .brand {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .brand b { display: block; color: var(--ink); font-size: 19px; letter-spacing: -0.01em; text-transform: none; margin-top: 6px; }
+  nav.toc { margin-top: 28px; }
+  nav.toc a {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13.5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    margin-left: -2px;
+  }
+  nav.toc a.top { color: var(--ink); font-weight: 600; margin-top: 16px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+  nav.toc a.top:first-child { margin-top: 0; }
+  nav.toc a.sub { padding-left: 20px; }
+  nav.toc a:hover { color: var(--ink); background: var(--surface-2); }
+  nav.toc a.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); }
+
+  /* ---------- Main ---------- */
+  main { padding: 40px 44px 120px; min-width: 0; }
+  .hero { padding: 24px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+  .hero .kicker { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: 40px; line-height: 1.08; letter-spacing: -0.02em; margin: 14px 0 10px; text-wrap: balance; }
+  .hero p { color: var(--muted); font-size: 18px; max-width: 62ch; margin: 0; }
+
+  section { margin-bottom: 56px; scroll-margin-top: 24px; }
+  h2 {
+    font-size: 27px; letter-spacing: -0.015em; margin: 0 0 4px; padding-top: 8px; text-wrap: balance;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  h2 .num { font-family: var(--mono); font-size: 14px; color: var(--accent); font-weight: 600; letter-spacing: 0; }
+  h3 { font-size: 20px; letter-spacing: -0.01em; margin: 34px 0 8px; }
+  h4 { font-size: 16px; margin: 22px 0 6px; color: var(--ink); }
+  .lead { color: var(--muted); max-width: 66ch; margin: 6px 0 0; }
+  p { max-width: 66ch; }
+  ul, ol { max-width: 64ch; padding-left: 22px; }
+  li { margin: 5px 0; }
+  a { color: var(--accent); }
+  strong { color: var(--ink); }
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  /* ---------- Code blocks ---------- */
+  .code {
+    background: var(--code-bg);
+    border-radius: 10px;
+    margin: 16px 0;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .code .bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em;
+    color: var(--code-cm);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .code .bar .dot { width: 9px; height: 9px; border-radius: 50%; background: #3a4258; }
+  .code .bar .fname { color: #b9c2d8; }
+  .code pre {
+    margin: 0; padding: 15px 16px; overflow-x: auto;
+    font-family: var(--mono); font-size: 13.5px; line-height: 1.6; color: var(--code-ink);
+    -webkit-font-smoothing: auto;
+  }
+  .code pre .cm { color: var(--code-cm); font-style: italic; }
+  .code pre .kw { color: var(--code-key); }
+  .code pre .st { color: var(--code-str); }
+  .code pre .nm { color: var(--code-num); }
+  .shell .bar .fname::before { content: "$ "; color: var(--pass); }
+
+  /* ---------- Callouts ---------- */
+  .box { border-radius: 10px; padding: 14px 18px; margin: 18px 0; border: 1px solid var(--border); background: var(--surface); }
+  .box p:last-child { margin-bottom: 0; }
+  .box p:first-child { margin-top: 0; }
+  .box .tag { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 6px; }
+  .box.tip { background: var(--accent-soft); border-color: transparent; }
+  .box.tip .tag { color: var(--accent); }
+  .box.warn { background: var(--warn-soft); border-color: transparent; }
+  .box.warn .tag { color: var(--warn); }
+  .box.pass { background: var(--pass-soft); border-color: transparent; }
+  .box.pass .tag { color: var(--pass); }
+
+  /* ---------- Checkpoint (mini-exo intégré) ---------- */
+  .check {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--pass);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 13px 16px 14px;
+    margin: 20px 0;
+  }
+  .check .qlabel {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--pass); font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px;
+  }
+  .check .qlabel::before { content: "✓"; font-size: 12px; }
+  .check p { margin: 0; max-width: 64ch; }
+  .check details { margin-top: 11px; }
+  .check details > summary {
+    cursor: pointer; font-family: var(--mono); font-size: 12.5px;
+    color: var(--pass); font-weight: 600; list-style: none;
+  }
+  .check details > summary::-webkit-details-marker { display: none; }
+  .check details > summary::before { content: "▸ "; }
+  .check details[open] > summary::before { content: "▾ "; }
+  .check details[open] > summary { margin-bottom: 8px; }
+  .check .ans > *:first-child { margin-top: 0; }
+  .check .ans .code { margin: 8px 0; }
+
+  /* ---------- Auto-évaluation finale ---------- */
+  .progress-wrap { display: flex; align-items: center; gap: 14px; margin: 22px 0 26px; }
+  .progress-bar { flex: 1; height: 12px; border-radius: 20px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; width: 0; background: var(--pass); border-radius: 20px; transition: width 0.25s ease; }
+  @media (prefers-reduced-motion: reduce) { .progress-fill { transition: none; } }
+  .progress-count { font-family: var(--mono); font-size: 14px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .progress-count b { color: var(--pass); }
+
+  .eval-group { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: 6px 18px 10px; margin: 16px 0; }
+  .eval-group > h4 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); margin: 14px 0 4px; }
+  .chk { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--border); cursor: pointer; }
+  .chk:nth-of-type(1) { border-top: none; }
+  .chk input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .chk .mark { flex: 0 0 auto; width: 21px; height: 21px; border-radius: 6px; border: 1.5px solid var(--border-strong); margin-top: 1px; display: grid; place-items: center; color: #fff; font-size: 12px; line-height: 1; transition: background 0.12s, border-color 0.12s; }
+  .chk input:checked + .mark { background: var(--pass); border-color: var(--pass); }
+  .chk input:checked + .mark::after { content: "✓"; }
+  .chk input:focus-visible + .mark { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chk .lbl { font-size: 15.5px; color: var(--ink); line-height: 1.5; }
+  .chk input:checked ~ .lbl { color: var(--faint); text-decoration: line-through; text-decoration-color: var(--border-strong); }
+  .chk .lbl code { font-size: 0.82em; }
+
+  .eval-done { border-radius: 10px; padding: 16px 18px; margin: 20px 0; background: var(--pass-soft); border: 1px solid transparent; color: var(--pass); font-weight: 600; display: none; }
+  .eval-done.show { display: block; }
+
+  .quiz { display: grid; gap: 10px; margin: 18px 0; }
+  details.qz { border: 1px solid var(--border); border-radius: 9px; background: var(--surface); }
+  details.qz > summary { cursor: pointer; padding: 12px 16px; font-weight: 600; list-style: none; display: flex; gap: 11px; align-items: baseline; }
+  details.qz > summary::-webkit-details-marker { display: none; }
+  details.qz > summary .qn { font-family: var(--mono); font-size: 12px; color: var(--accent); flex: 0 0 auto; }
+  details.qz > summary::after { content: "réponse ▸"; margin-left: auto; font-family: var(--mono); font-size: 11.5px; color: var(--faint); font-weight: 400; }
+  details.qz[open] > summary::after { content: "réponse ▾"; color: var(--pass); }
+  details.qz .qa { padding: 0 16px 14px 43px; color: var(--muted); }
+  details.qz .qa code { font-size: 0.85em; }
+
+  /* ---------- Category grid ---------- */
+  .cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 20px 0; }
+  .cat { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: var(--surface); }
+  .cat h4 { margin: 0 0 4px; font-size: 15px; }
+  .cat p { margin: 0; font-size: 13px; color: var(--muted); }
+  .cat .ex { font-family: var(--mono); font-size: 12px; color: var(--faint); display: block; margin-top: 8px; }
+
+  /* ---------- Exercise ---------- */
+  details.exo {
+    border: 1px solid var(--border-strong); border-radius: 10px; margin: 16px 0; background: var(--surface); overflow: hidden;
+  }
+  details.exo > summary {
+    cursor: pointer; padding: 14px 18px; font-weight: 600; list-style: none;
+    display: flex; align-items: center; gap: 12px;
+  }
+  details.exo > summary::-webkit-details-marker { display: none; }
+  details.exo > summary::before { content: "▸"; color: var(--accent); font-size: 13px; }
+  details.exo[open] > summary::before { content: "▾"; }
+  details.exo > summary .lvl { font-family: var(--mono); font-size: 11px; padding: 2px 7px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); letter-spacing: 0.03em; }
+  details.exo .body { padding: 0 18px 16px; border-top: 1px solid var(--border); }
+  details.exo .body > *:first-child { margin-top: 14px; }
+  details.sol { margin: 12px 0 0; border-radius: 8px; background: var(--surface-2); }
+  details.sol > summary { cursor: pointer; padding: 9px 14px; font-family: var(--mono); font-size: 12.5px; color: var(--accent); font-weight: 600; }
+  details.sol[open] > summary { border-bottom: 1px solid var(--border); }
+  details.sol .code { margin: 0; border-radius: 0 0 8px 8px; }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+  .foot { color: var(--faint); font-size: 13px; font-family: var(--mono); }
+
+  /* ---------- Mobile ---------- */
+  .menubtn { display: none; }
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; }
+    aside {
+      position: fixed; z-index: 50; top: 0; left: 0; width: 82%; max-width: 320px; height: 100vh;
+      background: var(--surface); transform: translateX(-102%); transition: transform 0.22s ease;
+      box-shadow: 0 0 40px rgba(0,0,0,0.25);
+    }
+    aside.open { transform: translateX(0); }
+    main { padding: 20px 22px 100px; }
+    h1 { font-size: 31px; }
+    body { font-size: 16px; }
+    .menubtn {
+      display: inline-flex; align-items: center; gap: 8px; position: sticky; top: 12px; z-index: 40;
+      margin-bottom: 8px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-strong);
+      background: var(--surface); color: var(--ink); font-family: var(--mono); font-size: 13px; cursor: pointer;
+    }
+    .scrim { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 45; }
+    .scrim.open { display: block; }
+  }
+  @media (prefers-reduced-motion: reduce) { aside { transition: none; } }
+
+  /* ---------- Live editor (à coder sur la page) ---------- */
+  .live { border: 1px solid var(--border-strong); border-radius: 12px; margin: 20px 0; background: var(--surface); overflow: hidden; }
+  .live-head { display: flex; align-items: center; gap: 10px; padding: 11px 15px; border-bottom: 1px solid var(--border); background: var(--surface-2); flex-wrap: wrap; }
+  .live-head .badge { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; background: var(--accent); padding: 3px 8px; border-radius: 20px; }
+  .live-head .ttl { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--ink); }
+  .live-head .file { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+  .live-head .allow { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: auto; }
+  .live-head .allow b { color: var(--warn); }
+  .live-subj { border-bottom: 1px solid var(--border); }
+  .live-subj > summary { cursor: pointer; padding: 8px 15px; font-family: var(--mono); font-size: 12px; color: var(--accent); list-style: none; }
+  .live-subj > summary::-webkit-details-marker { display: none; }
+  .live-subj > summary::before { content: "▸ "; }
+  .live-subj[open] > summary::before { content: "▾ "; }
+  .live-subj pre { margin: 0; padding: 0 15px 12px; font-family: var(--mono); font-size: 11.5px; line-height: 1.5; color: var(--muted); white-space: pre-wrap; }
+  .live-ed { display: flex; background: var(--code-bg); }
+  .live-gutter { flex: 0 0 auto; padding: 12px 8px 12px 12px; text-align: right; font-family: var(--mono); font-size: 13px; line-height: 1.6; color: var(--faint); user-select: none; white-space: pre; border-right: 1px solid rgba(255,255,255,0.06); overflow: hidden; }
+  .live textarea { flex: 1; resize: vertical; min-height: 190px; border: none; outline: none; background: var(--code-bg); color: var(--code-ink); font-family: var(--mono); font-size: 13px; line-height: 1.6; padding: 12px 14px; tab-size: 4; -moz-tab-size: 4; white-space: pre; overflow: auto; }
+  .live-bar { display: flex; align-items: center; gap: 12px; padding: 10px 15px; border-top: 1px solid var(--border); }
+  .live-run { font-family: var(--mono); font-size: 13px; font-weight: 700; border: none; background: var(--accent); color: #fff; padding: 8px 18px; border-radius: 8px; cursor: pointer; }
+  .live-run:hover { filter: brightness(1.07); }
+  .live-run:disabled { opacity: 0.55; cursor: default; }
+  .live-reset { font-family: var(--mono); font-size: 12px; border: 1px solid var(--border-strong); background: none; color: var(--muted); padding: 7px 12px; border-radius: 8px; cursor: pointer; }
+  .live-reset:hover { color: var(--ink); border-color: var(--accent); }
+  .live-pill { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; padding: 4px 11px; border-radius: 20px; }
+  .live-pill.idle { background: var(--surface-2); color: var(--muted); }
+  .live-pill.running { background: var(--accent-soft); color: var(--accent); }
+  .live-pill.passed { background: var(--pass-soft); color: var(--pass); }
+  .live-pill.fail, .live-pill.compile_error, .live-pill.unknown { background: var(--warn-soft); color: var(--warn); }
+  .live-out { padding: 0 15px 14px; display: none; }
+  .live-out.show { display: block; }
+  .live-out .diffrow { display: grid; grid-template-columns: 78px 1fr; gap: 8px; margin: 6px 0; }
+  .live-out .diffrow .l { font-family: var(--mono); font-size: 11px; padding-top: 3px; }
+  .live-out .diffrow .l.e { color: var(--pass); }
+  .live-out .diffrow .l.g { color: var(--warn); }
+  .live-out .diffrow .v { font-family: var(--mono); font-size: 12px; background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--border); border-radius: 6px; padding: 6px 9px; white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  .live-out pre.log { margin: 6px 0 0; font-family: var(--mono); font-size: 11.5px; line-height: 1.5; color: var(--muted); background: var(--code-bg); border: 1px solid var(--border); border-radius: 7px; padding: 10px 12px; white-space: pre-wrap; overflow-x: auto; }
+  .live-offline { font-family: var(--mono); font-size: 11.5px; color: var(--warn); padding: 0 15px 12px; display: none; }
+  .live-offline.show { display: block; }
+
+  /* ---------- Récapitulatif des 55 exercices ---------- */
+  .rgroup { margin: 6px 0 22px; }
+  .rhead { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin: 24px 0 6px; display: flex; align-items: baseline; gap: 10px; }
+  .rhead .rc { color: var(--faint); font-size: 11px; letter-spacing: 0; text-transform: none; }
+  .rex { display: grid; grid-template-columns: 178px 1fr; gap: 14px; padding: 9px 2px; border-top: 1px solid var(--border); align-items: baseline; }
+  .rex:first-of-type { border-top: none; }
+  .rex .rn { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 600; }
+  .rex .rn a { color: inherit; text-decoration: none; }
+  .rex .rn a:hover { color: var(--accent); text-decoration: underline; }
+  .rex .rd { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+  .rex .rd b { color: var(--ink); font-weight: 600; }
+  .rex .rd code { font-size: 0.84em; white-space: normal; }
+  @media (max-width: 620px) { .rex { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* ---------- Banc d'exercices (tous les exos d'une notion) ---------- */
+  .bench { border: 1px solid var(--border-strong); border-radius: 12px; margin: 18px 0; background: var(--bg); }
+  .bench > summary { cursor: pointer; padding: 12px 16px; font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
+  .bench > summary::-webkit-details-marker { display: none; }
+  .bench > summary::before { content: "▸"; }
+  .bench[open] > summary::before { content: "▾"; }
+  .bench > summary .cnt { margin-left: auto; font-size: 11px; color: var(--faint); font-weight: 400; }
+  .bench-body { padding: 2px 14px 12px; }
+  .bench-body .live { margin: 12px 0; }
+
+  /* ---------- Badge de statut réel (par exercice) ---------- */
+  .live-status { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+  .live-status.ok { color: var(--pass); }
+  .live-status.bad { color: var(--warn); }
+
+  /* ---------- Vrai progrès (hero) ---------- */
+  .realprogress { display: flex; align-items: center; gap: 14px; margin: 20px 0 0; max-width: 62ch; }
+  .realprogress .progress-bar { flex: 1; }
+  .realprogress .progress-count { font-size: 13px; }
+
+  /* ---------- Bouton clair/sombre ---------- */
+  .themebtn {
+    font-size: 15px; line-height: 1; border: 1px solid var(--border-strong); background: var(--surface-2);
+    color: var(--ink); border-radius: 8px; padding: 5px 9px; cursor: pointer; float: right; margin-top: -2px;
+  }
+  .themebtn:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="brand">42 · Exam Rank 03<button id="themeToggle" class="themebtn" aria-label="Changer de thème clair/sombre" title="Thème clair/sombre">🌓</button><b>Cours &amp; entraînement C</b></div>
+    <nav class="toc" id="toc">
+      <a href="#intro" class="top">00 — L'exam en vrai</a>
+      <a href="#diff" class="sub">Ce qui change vs Rank 02</a>
+      <a href="#regles" class="sub">Règles de la moulinette</a>
+
+      <a href="#toolbox" class="top">01 — La boîte à outils</a>
+      <a href="#bt" class="sub">Le squelette backtracking</a>
+      <a href="#noprintf" class="sub">Afficher sans printf</a>
+      <a href="#stdin" class="sub">Lire stdin par blocs</a>
+      <a href="#varargs" class="sub">Variadiques (va_list)</a>
+      <a href="#mem" class="sub">Mémoire propre</a>
+
+      <a href="#lvl1" class="top">02 — Niveau 1</a>
+      <a href="#e-broken_gnl" class="sub">broken_gnl</a>
+      <a href="#e-filter" class="sub">filter</a>
+      <a href="#e-scanf" class="sub">ft_scanf</a>
+
+      <a href="#lvl2" class="top">03 — Niveau 2</a>
+      <a href="#e-permutations" class="sub">permutations</a>
+      <a href="#e-n_queens" class="sub">n_queens</a>
+      <a href="#e-powerset" class="sub">powerset</a>
+      <a href="#e-rip" class="sub">rip</a>
+      <a href="#e-tsp" class="sub">tsp</a>
+
+      <a href="#pieges" class="top">04 — Pièges &amp; checklist</a>
+
+      <a href="#entrainement" class="top">05 — Entraînement</a>
+      <a href="#tr-socle" class="sub">Socle : afficher, parser</a>
+      <a href="#tr-flux" class="sub">Flux : lire stdin</a>
+      <a href="#tr-varargs" class="sub">Variadiques</a>
+      <a href="#tr-bt" class="sub">Backtracking ×5</a>
+      <a href="#tr-mem" class="sub">Mémoire propre</a>
+
+      <a href="#bilan" class="top">06 — Auto-évaluation</a>
+      <a href="#bilan-checklist" class="sub">Es-tu prêt&nbsp;?</a>
+      <a href="#bilan-quiz" class="sub">Quiz éclair</a>
+
+      <a href="#recap" class="top">07 — Les 8 exercices</a>
+    </nav>
+  </aside>
+
+  <main>
+    <button class="menubtn" id="menubtn" aria-label="Ouvrir le sommaire">☰ Sommaire</button>
+    <div class="scrim" id="scrim"></div>
+
+    <div class="hero" id="top">
+      <div class="kicker">Piscine · C · Examen certification</div>
+      <h1>Tout ce qu'il faut pour valider l'Exam Rank 03</h1>
+      <p>Huit sujets, deux niveaux, et une seule vraie question à chaque fois&nbsp;: <em>quel squelette je pose&nbsp;?</em> Ce cours démonte les trois sujets du niveau&nbsp;1, puis la famille «&nbsp;backtracking&nbsp;» qui couvre à elle seule tout le niveau&nbsp;2 — avec des <strong>éditeurs intégrés</strong> pour coder et te faire corriger par la vraie moulinette sans quitter la page. S'y ajoutent <strong>19 exercices inédits</strong> avec corrigé (section&nbsp;05) pour muscler chaque réflexe séparément.</p>
+      <div class="realprogress" id="realProgress">
+        <div class="progress-bar"><div class="progress-fill" id="realFill"></div></div>
+        <span class="progress-count"><b id="realCount">0</b> / 8 exercices réussis <span style="color:var(--faint)">— vrai progrès (moulinette)</span></span>
+      </div>
+    </div>
+    <!-- =================== 00 =================== -->
+    <section id="intro">
+      <h2><span class="num">00</span> L'exam Rank 03 en vrai</h2>
+      <p class="lead">Deux niveaux, huit sujets au total, et un seul sujet tiré au hasard par niveau. Tu passes le niveau&nbsp;1 (3 sujets possibles), puis le niveau&nbsp;2 (5 sujets possibles) — et l'examen est plié. C'est court sur le papier&nbsp;: c'est aussi bien plus dense que le Rank&nbsp;02, parce qu'aucun des huit sujets ne se règle par un simple parcours de chaîne.</p>
+
+      <div class="cats">
+        <div class="cat"><h4>Niveau 1 — 3 sujets</h4><p>Réparer du code cassé, filtrer un flux, écrire un parseur variadique.</p><span class="ex">broken_gnl · filter · ft_scanf</span></div>
+        <div class="cat"><h4>Niveau 2 — 5 sujets</h4><p>Exploration exhaustive&nbsp;: une seule et même récursion, cinq habillages.</p><span class="ex">permutations · n_queens · powerset · rip · tsp</span></div>
+      </div>
+
+      <h3 id="diff">Ce qui change par rapport au Rank 02</h3>
+      <p>Au Rank&nbsp;02, tu reconnaissais un motif de parcours de chaîne et tu le déroulais. Ici, trois choses changent d'un coup, et c'est ce trio qui surprend&nbsp;:</p>
+      <ul>
+        <li><strong>Tu rends plusieurs fichiers.</strong> La plupart des sujets du niveau&nbsp;2 disent <code>Expected files : *.c *.h</code> — la moulinette compile <em>tous</em> les <code>.c</code> de ton dossier de rendu. Un fichier oublié, ou un vieux fichier resté là, et la compilation casse.</li>
+        <li><strong>Le sujet te fournit du code.</strong> <code>broken_gnl</code> te donne une implémentation cassée à réparer, <code>ft_scanf</code> un squelette à compléter, <code>tsp</code> un <code>main</code> tout fait. Ta première tâche n'est plus d'écrire, c'est de <em>lire</em>.</li>
+        <li><strong>L'algorithmique compte vraiment.</strong> Cinq sujets sur huit sont de la recherche exhaustive avec retour arrière. Si tu ne sais pas poser un backtracking de tête, aucune astuce de syntaxe ne te sauvera.</li>
+      </ul>
+
+      <div class="box tip">
+        <span class="tag">Stratégie</span>
+        <p>Le niveau&nbsp;2 est un pari à cinq faces, mais les cinq faces sont la même pièce&nbsp;: <strong>apprends le squelette backtracking une fois</strong> (section&nbsp;01), et tu couvres <code>permutations</code>, <code>n_queens</code>, <code>powerset</code>, <code>rip</code> et <code>tsp</code> d'un coup. Le reste n'est que de l'habillage&nbsp;: quoi énumérer, quand afficher, quoi mémoriser.</p>
+      </div>
+
+      <h3 id="regles">Les règles de la moulinette</h3>
+      <p>Elles sont les mêmes qu'au Rank&nbsp;02, avec trois ajouts propres à ce rank&nbsp;:</p>
+      <ul>
+        <li><strong>Compilation stricte&nbsp;:</strong> <code>-Wall -Wextra -Werror</code>. Le moindre warning = zéro. Attention aux variables inutilisées dans les squelettes fournis&nbsp;: c'est le premier échec de la journée.</li>
+        <li><strong>Uniquement les fonctions autorisées.</strong> Elles varient énormément d'un sujet à l'autre&nbsp;: <code>rip</code> n'a droit qu'à <code>puts</code> et <code>write</code> (pas de <code>malloc</code>&nbsp;!), <code>n_queens</code> a <code>fprintf</code> mais pas <code>printf</code>, <code>powerset</code> a <code>printf</code>. Lis cette ligne <em>avant</em> de coder.</li>
+        <li><strong>Codes de retour.</strong> Plusieurs testeurs vérifient que ton programme <em>échoue</em> (retour ≠ 0) sur un mauvais nombre d'arguments. Un <code>return (1)</code> oublié suffit à faire tomber un sujet entier.</li>
+        <li><strong>Zéro fuite mémoire</strong> sur <code>broken_gnl</code>&nbsp;: le testeur passe ta solution à <code>valgrind --leak-check=full</code> et refuse la moindre fuite.</li>
+        <li><strong>Sortie exacte au caractère près</strong>, vérifiée via <code>cat -e</code>. Un espace en fin de ligne, un <code>\n</code> en trop&nbsp;: échec silencieux.</li>
+      </ul>
+    </section>
+    <!-- =================== 01 =================== -->
+    <section id="toolbox">
+      <h2><span class="num">01</span> La boîte à outils</h2>
+      <p class="lead">Cinq briques couvrent les huit sujets. Apprends-les jusqu'à pouvoir les réécrire sans réfléchir&nbsp;: le temps que tu gagnes à ne pas les redécouvrir sous chrono, tu le passes sur le vrai problème.</p>
+
+      <h3 id="bt">Le squelette backtracking (la brique qui vaut 5 sujets)</h3>
+      <p>Le backtracking, c'est une seule idée&nbsp;: <strong>tu construis une solution position par position, et quand tu es coincé, tu défais le dernier choix et tu essaies le suivant</strong>. En C, ça donne toujours la même fonction récursive à trois temps&nbsp;: <em>choisir</em>, <em>explorer</em>, <em>défaire</em>.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">le patron universel — à recopier de tête</span></div>
+<pre><span class="kw">void</span>	solve(<span class="kw">int</span> pos, <span class="kw">int</span> n)
+{
+	<span class="kw">int</span>	i;
+
+	<span class="kw">if</span> (pos == n)          <span class="cm">// 1. condition d&#x27;arret : solution complete</span>
+	{
+		print_solution();  <span class="cm">//    -&gt; on l&#x27;affiche (ou on la compare au meilleur)</span>
+		<span class="kw">return</span> ;
+	}
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; n)
+	{
+		<span class="kw">if</span> (is_ok(i, pos))   <span class="cm">// 2. ce choix est-il legal ici ?</span>
+		{
+			choose(i, pos);  <span class="cm">//    CHOISIR</span>
+			solve(pos + <span class="nm">1</span>, n); <span class="cm">//  EXPLORER</span>
+			unchoose(i, pos);  <span class="cm">//  DEFAIRE (backtrack)</span>
+		}
+		i++;
+	}
+}</pre>
+</div>
+
+      <p>Tout le niveau&nbsp;2 tient dans ce moule. Ce qui change d'un sujet à l'autre, ce sont seulement trois cases à remplir&nbsp;:</p>
+      <ul>
+        <li><strong>Que vaut « une position »&nbsp;?</strong> Une colonne de l'échiquier (<code>n_queens</code>), un caractère de la chaîne (<code>permutations</code>, <code>rip</code>), un élément de l'ensemble (<code>powerset</code>), une ville (<code>tsp</code>).</li>
+        <li><strong>Quels choix pour cette position&nbsp;?</strong> Une ligne parmi <code>n</code>, une lettre non encore utilisée, prendre / ne pas prendre, garder / remplacer par un espace.</li>
+        <li><strong>Que fait-on au bout&nbsp;?</strong> Afficher (<code>permutations</code>, <code>n_queens</code>, <code>rip</code>, <code>powerset</code>) ou mettre à jour un minimum (<code>tsp</code>).</li>
+      </ul>
+      <div class="box tip">
+        <span class="tag">Réflexe</span>
+        <p>Le cas «&nbsp;prendre / ne pas prendre&nbsp;» (<code>powerset</code>, <code>rip</code>) n'a même pas besoin de boucle&nbsp;: <strong>deux appels récursifs</strong> suffisent, un pour chaque branche. C'est le backtracking le plus court à écrire — et le plus rapide à poser sous stress.</p>
+      </div>
+<div class="check">
+  <span class="qlabel">Vérifie ta compréhension</span>
+  <p>Pourquoi le <code>unchoose()</code> est-il indispensable&nbsp;? Que se passe-t-il si tu l'oublies&nbsp;?</p>
+  <details><summary>Voir la réponse</summary><div class="ans"><p>Parce que l'état (le tableau <code>used[]</code>, le buffer de sortie, le compteur) est <strong>partagé</strong> entre toutes les branches de la récursion. Si tu marques une lettre comme «&nbsp;utilisée&nbsp;» et que tu ne la démarques pas en remontant, toutes les branches sœurs la croiront prise&nbsp;: tu n'obtiendras qu'une seule solution au lieu de toutes. Le <code>unchoose</code> remet l'état exactement comme il était avant le <code>choose</code> — c'est ce qui rend les branches indépendantes.</p></div></details>
+</div>
+
+
+      <h3 id="noprintf">Afficher sans printf</h3>
+      <p>Trois sujets du niveau&nbsp;2 n'ont pas <code>printf</code> dans leurs fonctions autorisées&nbsp;: <code>n_queens</code> (mais il a <code>fprintf</code>), <code>permutations</code> et <code>rip</code> (qui ont <code>puts</code> et <code>write</code>). Garde donc ces deux micro-fonctions en mémoire.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">afficher un entier avec write seulement</span></div>
+<pre><span class="kw">void</span>	ft_putnbr(<span class="kw">int</span> n)
+{
+	<span class="kw">char</span>	c;
+
+	<span class="kw">if</span> (n &lt; <span class="nm">0</span>)             <span class="cm">// les sujets ne testent pas les negatifs, mais</span>
+	{                      <span class="cm">// powerset, si : garde le cas</span>
+		write(<span class="nm">1</span>, <span class="st">&quot;-&quot;</span>, <span class="nm">1</span>);
+		n = -n;
+	}
+	<span class="kw">if</span> (n &gt;= <span class="nm">10</span>)
+		ft_putnbr(n / <span class="nm">10</span>); <span class="cm">// affiche d&#x27;abord les chiffres de poids fort</span>
+	c = (n % <span class="nm">10</span>) + <span class="st">&#x27;0&#x27;</span>;
+	write(<span class="nm">1</span>, &amp;c, <span class="nm">1</span>);
+}
+
+<span class="kw">void</span>	ft_putstr(<span class="kw">char</span> *s)
+{
+	<span class="kw">int</span>	i = <span class="nm">0</span>;
+
+	<span class="kw">while</span> (s[i])
+		i++;
+	write(<span class="nm">1</span>, s, i);
+}</pre>
+</div>
+
+      <div class="box warn">
+        <span class="tag">Piège</span>
+        <p><code>puts</code> ajoute <strong>tout seul</strong> un <code>\n</code> à la fin. Avec <code>puts</code>, n'écris donc pas de retour à la ligne supplémentaire&nbsp;; avec <code>write</code>, n'oublie pas de l'écrire toi-même. Le mélange des deux dans le même programme est la meilleure façon de produire des lignes vides fantômes que <code>cat -e</code> révélera.</p>
+      </div>
+
+      <h3 id="stdin">Lire stdin par blocs (et pourquoi c'est piégeux)</h3>
+      <p><code>read</code> ne te rend <strong>pas</strong> une ligne, ni un message&nbsp;: il te rend «&nbsp;ce qui était disponible&nbsp;», entre 1 et <code>size</code> octets, et le découpage change à chaque appel. <code>filter</code> le dit explicitement (buffer de taille aléatoire), <code>broken_gnl</code> aussi (<code>-D BUFFER_SIZE=xx</code>). La conséquence est toujours la même&nbsp;: <strong>le motif que tu cherches peut être coupé en deux entre deux lectures</strong>.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">le patron « accumuler puis décider »</span></div>
+<pre><span class="kw">char</span>	*buf = <span class="kw">NULL</span>;     <span class="cm">// tampon qui grandit</span>
+<span class="kw">size_t</span>	len = <span class="nm">0</span>;         <span class="cm">// ce qu&#x27;il contient</span>
+<span class="kw">char</span>	tmp[<span class="nm">4096</span>];
+<span class="kw">ssize_t</span>	r;
+
+<span class="kw">while</span> ((r = read(<span class="nm">0</span>, tmp, <span class="kw">sizeof</span>(tmp))) &gt; <span class="nm">0</span>)
+{
+	buf = grow(buf, len, r, tmp);  <span class="cm">// concatene tmp dans buf</span>
+	len += r;
+	<span class="cm">// on ne traite que ce dont on est SUR : on garde en reserve les</span>
+	<span class="cm">// (taille_motif - 1) derniers octets, qui pourraient etre un debut</span>
+	<span class="cm">// de motif coupe par la fin de la lecture.</span>
+	flush_ready(&amp;buf, &amp;len, motif_len - <span class="nm">1</span>);
+}
+flush_all(buf, len);   <span class="cm">// EOF : plus rien ne peut arriver, on vide tout</span>
+<span class="kw">if</span> (r &lt; <span class="nm">0</span>)
+	<span class="kw">return</span> (perror(<span class="st">&quot;Error&quot;</span>), <span class="nm">1</span>);</pre>
+</div>
+
+      <p>Deux règles à retenir de ce patron&nbsp;: on <strong>ne décide jamais sur le dernier morceau</strong> tant que l'EOF n'est pas atteint, et on <strong>vide tout à l'EOF</strong>. La plupart des échecs de <code>filter</code> viennent d'un de ces deux oublis.</p>
+
+      <h3 id="varargs">Les fonctions variadiques (<code>va_list</code>)</h3>
+      <p>Réservé à <code>ft_scanf</code>, mais indispensable là-bas. Une fonction variadique reçoit ses arguments supplémentaires via un curseur que tu déplaces toi-même&nbsp;: <code>va_arg</code> ne devine rien, il lit le type que <em>tu</em> lui donnes.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">le trio va_start / va_arg / va_end</span></div>
+<pre>#include &lt;stdarg.h&gt;
+
+<span class="kw">int</span>	ft_scanf(<span class="kw">const</span> <span class="kw">char</span> *format, ...)
+{
+	<span class="kw">va_list</span>	ap;
+	<span class="kw">int</span>		ret;
+
+	va_start(ap, format);   <span class="cm">// le curseur demarre APRES le dernier param nomme</span>
+	ret = ft_vfscanf(stdin, format, ap);
+	va_end(ap);             <span class="cm">// obligatoire, meme si ca ne &quot;fait rien&quot; chez toi</span>
+	<span class="kw">return</span> (ret);
+}
+
+<span class="kw">int</span>	scan_int(<span class="kw">FILE</span> *f, <span class="kw">va_list</span> ap)
+{
+	<span class="kw">int</span>	*dst;
+
+	dst = va_arg(ap, <span class="kw">int</span> *);  <span class="cm">// scanf recoit des POINTEURS : int *, char *</span>
+	*dst = lire_un_entier(f);
+	<span class="kw">return</span> (<span class="nm">1</span>);
+}</pre>
+</div>
+
+      <div class="box tip">
+        <span class="tag">Bon à savoir</span>
+        <p>Sur les plateformes 64 bits, <code>va_list</code> est un type tableau&nbsp;: le passer à une fonction transmet en réalité une <em>référence</em>, donc les <code>va_arg</code> faits dans <code>scan_int</code> font bien avancer le curseur vu par l'appelant. C'est exactement ce que suppose le squelette fourni par le sujet — ne cherche pas à «&nbsp;corriger&nbsp;» ça avec des <code>va_copy</code> partout.</p>
+      </div>
+
+      <h3 id="mem">Mémoire propre</h3>
+      <p>Seul <code>broken_gnl</code> est passé à <code>valgrind</code>, mais un <code>free</code> manquant ou un <code>free</code> de trop se paie cash partout ailleurs (segfault = zéro). Trois réflexes&nbsp;:</p>
+      <ul>
+        <li><strong>Un <code>malloc</code>, un propriétaire.</strong> Décide qui libère avant d'écrire la ligne. Dans <code>get_next_line</code>, l'appelant libère la ligne rendue&nbsp;; tout le reste est à toi.</li>
+        <li><strong>Sur un chemin d'erreur, libère puis renvoie.</strong> <code>return (free(ret), NULL);</code> est parfaitement légal en C et tient sur une ligne.</li>
+        <li><strong>Évite <code>malloc</code> quand tu peux.</strong> <code>rip</code> n'y a pas droit&nbsp;; <code>n_queens</code>, <code>permutations</code> et <code>tsp</code> tiennent très bien avec des tableaux de taille fixe sur la pile (n ≤ 11 pour <code>tsp</code>, et l'argument est borné ailleurs).</li>
+      </ul>
+    </section>
+    <!-- =================== 02 =================== -->
+    <section id="lvl1">
+      <h2><span class="num">02</span> Niveau 1 — réparer, filtrer, parser</h2>
+      <p class="lead">Trois sujets, aucun point commun&nbsp;: c'est une loterie à trois faces qu'il faut préparer séparément. La bonne nouvelle, c'est qu'aucun des trois ne demande d'inventer un algorithme — ils demandent de la <strong>lecture attentive</strong> et de la rigueur sur les cas limites.</p>
+
+      <h3 id="e-broken_gnl">broken_gnl — réparer un get_next_line cassé</h3>
+      <p>Le sujet te donne un <code>get_next_line</code> qui <em>compile</em> mais qui est truffé de bugs. Tu rends <code>get_next_line.c</code> et <code>get_next_line.h</code>&nbsp;; le fichier <code>broken_gnl.c</code>, lui, reste un simple document de référence (la moulinette l'exclut de la compilation). Autrement dit&nbsp;: <strong>tu recopies le code cassé dans <code>get_next_line.c</code> et tu le répares là</strong>.</p>
+      <p>Le testeur vérifie la lecture d'un fichier à 3 lignes, d'un fichier à 1 ligne, d'un fichier avec ligne vide, d'un fichier <em>sans <code>\n</code> final</em>, d'un fichier vide, puis recommence avec <code>BUFFER_SIZE=1</code>, et finit par <code>valgrind</code>. Chaque test tape sur un bug précis du code fourni.</p>
+
+      <h4>Les six bugs à trouver</h4>
+      <ul>
+        <li><strong><code>ft_strchr</code> ne s'arrête jamais.</strong> <code>while (s[i] != c) i++;</code> déborde du tampon si le caractère cherché est absent. Il faut s'arrêter sur <code>'\0'</code> et renvoyer <code>NULL</code>.</li>
+        <li><strong><code>ft_memcpy</code> est faux <em>et</em> dangereux.</strong> <code>while (--n > 0)</code> ne copie pas le dernier octet, et surtout&nbsp;: appelé avec <code>n == 0</code>, <code>--n</code> fait déborder un <code>size_t</code> vers <code>SIZE_MAX</code>. Réécris-le avec une boucle <code>i &lt; n</code> classique.</li>
+        <li><strong><code>ft_strlen</code> ne gère pas <code>NULL</code>.</strong> Au tout premier appel, <code>str_append_mem</code> fait <code>ft_strlen(*s1)</code> alors que <code>*s1</code> vaut <code>NULL</code> → segfault immédiat.</li>
+        <li><strong><code>ft_memmove</code> s'appelle elle-même.</strong> <code>if (dest > src) return ft_memmove(dest, src, n);</code> est une récursion infinie (l'auteur voulait <code>ft_memcpy</code>), et la boucle <code>size_t i; while (i >= 0)</code> en dessous est infinie elle aussi, puisqu'un <code>size_t</code> n'est jamais négatif.</li>
+        <li><strong>La boucle de <code>get_next_line</code> ne recalcule pas <code>tmp</code>.</strong> <code>tmp</code> est calculé <em>une seule fois avant</em> le <code>while (!tmp)</code>&nbsp;: s'il n'y a pas de <code>\n</code> dans le tampon statique, la condition ne changera jamais → boucle infinie.</li>
+        <li><strong>L'EOF et le reste du tampon sont ignorés.</strong> <code>read_ret == 0</code> n'est pas traité (boucle infinie en fin de fichier), <code>b[read_ret] = 0</code> écrit en <code>b[-1]</code> quand <code>read</code> échoue, et rien ne consomme ce qui suit le <code>\n</code> dans <code>b</code> — donc la même ligne serait renvoyée indéfiniment.</li>
+      </ul>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">le cœur réparé — la boucle qui marche</span></div>
+<pre><span class="kw">char</span>	*get_next_line(<span class="kw">int</span> fd)
+{
+	<span class="kw">static</span> <span class="kw">char</span>	b[BUFFER_SIZE + <span class="nm">1</span>] = <span class="st">&quot;&quot;</span>;
+	<span class="kw">char</span>		*ret = <span class="kw">NULL</span>;
+	<span class="kw">char</span>		*tmp;
+	<span class="kw">int</span>			read_ret;
+
+	<span class="kw">while</span> (<span class="nm">1</span>)
+	{
+		tmp = ft_strchr(b, <span class="st">&#x27;\n&#x27;</span>);       <span class="cm">// RECALCULE a chaque tour</span>
+		<span class="kw">if</span> (tmp)
+		{
+			<span class="kw">if</span> (!str_append_mem(&amp;ret, b, tmp - b + <span class="nm">1</span>))
+				<span class="kw">return</span> (free(ret), <span class="kw">NULL</span>);
+			<span class="cm">// on consomme ce qui a ete rendu : le reste glisse au debut</span>
+			ft_memmove(b, tmp + <span class="nm">1</span>, ft_strlen(tmp + <span class="nm">1</span>) + <span class="nm">1</span>);
+			<span class="kw">return</span> (ret);
+		}
+		<span class="kw">if</span> (!str_append_str(&amp;ret, b))    <span class="cm">// pas de \n : tout le tampon part</span>
+			<span class="kw">return</span> (free(ret), <span class="kw">NULL</span>);
+		read_ret = read(fd, b, BUFFER_SIZE);
+		<span class="kw">if</span> (read_ret &lt;= <span class="nm">0</span>)               <span class="cm">// EOF (0) ou erreur (-1)</span>
+		{
+			b[<span class="nm">0</span>] = <span class="st">&#x27;\0&#x27;</span>;
+			<span class="kw">if</span> (ret &amp;&amp; *ret)
+				<span class="kw">return</span> (ret);            <span class="cm">// derniere ligne sans \n final</span>
+			<span class="kw">return</span> (free(ret), <span class="kw">NULL</span>);
+		}
+		b[read_ret] = <span class="st">&#x27;\0&#x27;</span>;
+	}
+}</pre>
+</div>
+
+      <div class="box warn">
+        <span class="tag">Piège</span>
+        <p>Ne <strong>redéfinis pas</strong> <code>BUFFER_SIZE</code> dans ton <code>.h</code> sans garde&nbsp;: la moulinette compile avec <code>-D BUFFER_SIZE=42</code> puis avec <code>-D BUFFER_SIZE=1</code>. Le header fourni utilise déjà un <code>#ifndef BUFFER_SIZE</code> — garde-le tel quel, et n'oublie pas que <code>get_next_line.h</code> fait partie des fichiers à rendre.</p>
+      </div>
+<div class="check">
+  <span class="qlabel">Vérifie ta compréhension</span>
+  <p>Pourquoi le test « fichier sans <code>\n</code> final » est-il celui qui détecte la boucle infinie&nbsp;?</p>
+  <details><summary>Voir la réponse</summary><div class="ans"><p>Parce que c'est le seul où <code>read</code> finit par renvoyer <code>0</code> alors qu'il reste du texte à rendre. Le code cassé ne traite que <code>read_ret == -1</code>&nbsp;: à l'EOF il boucle en concaténant indéfiniment un tampon vide. Le testeur lance d'ailleurs ce test-là sous <code>timeout 2</code> et affiche explicitement «&nbsp;Infinite loop detected&nbsp;».</p></div></details>
+</div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>broken_gnl</code> — le squelette ci-dessous est <em>déjà</em> le code cassé du sujet. Répare-le sur place, puis <code>Ctrl+Entrée</code>.</strong></p>
+<div class="live" data-exo="broken_gnl" id="live-broken_gnl">
+  <div class="live-head"><span class="badge">a reparer</span><span class="ttl">broken_gnl</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+
+      <h3 id="e-filter">filter — remplacer un motif dans un flux</h3>
+      <p>Programme qui prend <strong>un et un seul</strong> argument <code>s</code>, lit <code>stdin</code> et recopie tout sur <code>stdout</code>, en remplaçant chaque occurrence de <code>s</code> par autant d'étoiles que <code>s</code> a de caractères. L'équivalent exact de <code>sed 's/abc/***/g'</code>.</p>
+      <p>La difficulté n'est pas le remplacement, c'est que <strong>le motif peut chevaucher deux lectures</strong>. Le sujet le dit en toutes lettres&nbsp;: le testeur utilise un <code>read</code> maison qui rend un nombre d'octets différent à chaque appel. La seule stratégie fiable est donc celle de la section&nbsp;01&nbsp;: tout accumuler dans un tampon qui grandit, remplacer ce qu'on peut, et ne vider que la partie dont on est sûr.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">filter.c — l&#x27;ossature</span></div>
+<pre>#define _GNU_SOURCE
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt;
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">char</span>	*buf = <span class="kw">NULL</span>;
+	<span class="kw">size_t</span>	len = <span class="nm">0</span>;
+	<span class="kw">size_t</span>	slen;
+	<span class="kw">char</span>	tmp[<span class="nm">1024</span>];
+	<span class="kw">ssize_t</span>	r;
+	<span class="kw">char</span>	*hit;
+
+	<span class="kw">if</span> (argc != <span class="nm">2</span> || !argv[<span class="nm">1</span>][<span class="nm">0</span>])   <span class="cm">// 0, 2+ args, ou argument vide -&gt; 1</span>
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	slen = strlen(argv[<span class="nm">1</span>]);
+	<span class="kw">while</span> ((r = read(<span class="nm">0</span>, tmp, <span class="kw">sizeof</span>(tmp))) &gt; <span class="nm">0</span>)
+	{
+		<span class="kw">char</span> *n = realloc(buf, len + r + <span class="nm">1</span>);
+		<span class="kw">if</span> (!n)
+			<span class="kw">return</span> (free(buf), perror(<span class="st">&quot;Error&quot;</span>), <span class="nm">1</span>);
+		buf = n;
+		memmove(buf + len, tmp, r);   <span class="cm">// memcpy n&#x27;est PAS autorise ici</span>
+		len += r;
+		buf[len] = <span class="st">&#x27;\0&#x27;</span>;
+		<span class="kw">while</span> ((hit = memmem(buf, len, argv[<span class="nm">1</span>], slen)))
+		{
+			<span class="kw">size_t</span> k = <span class="nm">0</span>;             <span class="cm">// memset non plus : boucle a la main</span>
+			<span class="kw">while</span> (k &lt; slen)
+				hit[k++] = <span class="st">&#x27;*&#x27;</span>;
+		}
+		<span class="cm">// on n&#x27;ecrit que ce qui ne peut plus faire partie d&#x27;un motif</span>
+		<span class="kw">if</span> (len &gt; slen - <span class="nm">1</span>)
+		{
+			write(<span class="nm">1</span>, buf, len - (slen - <span class="nm">1</span>));
+			memmove(buf, buf + len - (slen - <span class="nm">1</span>), slen - <span class="nm">1</span>);
+			len = slen - <span class="nm">1</span>;
+		}
+	}
+	<span class="kw">if</span> (r &lt; <span class="nm">0</span>)
+		<span class="kw">return</span> (free(buf), perror(<span class="st">&quot;Error&quot;</span>), <span class="nm">1</span>);
+	write(<span class="nm">1</span>, buf, len);            <span class="cm">// EOF : on vide le reste</span>
+	free(buf);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre>
+</div>
+
+      <div class="box warn">
+        <span class="tag">Piège du testeur</span>
+        <p><code>./filter</code> sans argument et <code>./filter a b</code> doivent tous les deux <strong>renvoyer un code ≠ 0</strong>. Le testeur ne regarde même pas la sortie sur ces deux cas&nbsp;: il ne teste que <code>$?</code>. Attention aussi à la liste autorisée&nbsp;: elle contient <code>memmove</code> et <code>memmem</code>, mais <strong>ni <code>memcpy</code> ni <code>memset</code></strong>.</p>
+      </div>
+<div class="check">
+  <span class="qlabel">Vérifie ta compréhension</span>
+  <p>Pourquoi garder <code>slen - 1</code> octets en réserve, et pas <code>slen</code> ou <code>0</code>&nbsp;?</p>
+  <details><summary>Voir la réponse</summary><div class="ans"><p>Parce qu'un motif de <code>slen</code> caractères déjà présent en entier dans le tampon a forcément été trouvé par <code>memmem</code>&nbsp;: il est déjà remplacé. En revanche, les <code>slen - 1</code> derniers octets peuvent être le <em>début</em> d'un motif dont la fin arrivera à la lecture suivante. Garder moins, c'est écrire un préfixe qu'on aurait dû étoiler&nbsp;; garder plus, c'est simplement inutile (mais pas faux).</p></div></details>
+</div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>filter</code> — attention au chevauchement entre deux lectures, et aux codes de retour.</strong></p>
+<div class="live" data-exo="filter" id="live-filter">
+  <div class="live-head"><span class="badge">a coder</span><span class="ttl">filter</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+
+      <h3 id="e-scanf">ft_scanf — un scanf réduit à %s, %d, %c</h3>
+      <p>Le sujet fournit l'essentiel&nbsp;: <code>match_conv</code> et <code>ft_vfscanf</code> sont écrits pour toi. Il te reste <strong>cinq fonctions</strong> à remplir, toutes minuscules, plus le <code>va_start</code>/<code>va_end</code> de <code>ft_scanf</code>. Le squelette de l'éditeur ci-dessous est déjà celui du sujet&nbsp;: tu n'as qu'à compléter les trous.</p>
+      <p>Chaque fonction a un contrat précis, dicté par la façon dont <code>ft_vfscanf</code> l'utilise&nbsp;:</p>
+      <ul>
+        <li><code>match_space(f)</code> — avale tous les blancs, rend <code>-1</code> si on atteint l'EOF, <code>0</code> sinon. Ne consomme <em>pas</em> le caractère non-blanc&nbsp;: <code>ungetc</code>.</li>
+        <li><code>match_char(f, c)</code> — rend <code>1</code> si le prochain caractère est bien <code>c</code> (consommé), <code>0</code> sinon (remis en place).</li>
+        <li><code>scan_char</code>, <code>scan_int</code>, <code>scan_string</code> — rendent <code>1</code> en cas de conversion réussie, autre chose sinon&nbsp;; c'est ce <code>1</code> qui incrémente le compteur de conversions.</li>
+      </ul>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">les trois conversions</span></div>
+<pre><span class="kw">int</span>	match_space(<span class="kw">FILE</span> *f)
+{
+	<span class="kw">int</span>	c;
+
+	<span class="kw">while</span> ((c = fgetc(f)) != <span class="kw">EOF</span> &amp;&amp; isspace(c))
+		;
+	<span class="kw">if</span> (c == <span class="kw">EOF</span>)
+		<span class="kw">return</span> (-<span class="nm">1</span>);
+	ungetc(c, f);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}
+
+<span class="kw">int</span>	scan_char(<span class="kw">FILE</span> *f, <span class="kw">va_list</span> ap)
+{
+	<span class="kw">int</span>	c;
+
+	c = fgetc(f);
+	<span class="kw">if</span> (c == <span class="kw">EOF</span>)
+		<span class="kw">return</span> (-<span class="nm">1</span>);
+	*va_arg(ap, <span class="kw">char</span> *) = (<span class="kw">char</span>)c;
+	<span class="kw">return</span> (<span class="nm">1</span>);
+}
+
+<span class="kw">int</span>	scan_int(<span class="kw">FILE</span> *f, <span class="kw">va_list</span> ap)
+{
+	<span class="kw">int</span>	c;
+	<span class="kw">int</span>	sign = <span class="nm">1</span>;
+	<span class="kw">int</span>	n = <span class="nm">0</span>;
+	<span class="kw">int</span>	got = <span class="nm">0</span>;
+
+	c = fgetc(f);
+	<span class="kw">if</span> (c == <span class="st">&#x27;-&#x27;</span> || c == <span class="st">&#x27;+&#x27;</span>)
+	{
+		<span class="kw">if</span> (c == <span class="st">&#x27;-&#x27;</span>)
+			sign = -<span class="nm">1</span>;
+		c = fgetc(f);
+	}
+	<span class="kw">while</span> (c != <span class="kw">EOF</span> &amp;&amp; isdigit(c))
+	{
+		n = n * <span class="nm">10</span> + (c - <span class="st">&#x27;0&#x27;</span>);
+		got = <span class="nm">1</span>;
+		c = fgetc(f);
+	}
+	<span class="kw">if</span> (c != <span class="kw">EOF</span>)
+		ungetc(c, f);
+	<span class="kw">if</span> (!got)
+		<span class="kw">return</span> (<span class="nm">0</span>);          <span class="cm">// rien de numerique : conversion echouee</span>
+	*va_arg(ap, <span class="kw">int</span> *) = n * sign;
+	<span class="kw">return</span> (<span class="nm">1</span>);
+}</pre>
+</div>
+
+      <div class="box warn">
+        <span class="tag">Piège du testeur</span>
+        <p>Deux tests vérifient que ton <code>ft_scanf</code> <strong>échoue proprement</strong>&nbsp;: <code>"abc hello world"</code> avec le format <code>"%d %s %c"</code> ne doit <em>pas</em> rendre 3 (le <code>%d</code> doit échouer sur <code>a</code>), et une entrée vide ne doit pas rendre 3 non plus. Si <code>scan_int</code> renvoie <code>1</code> même sans avoir lu un seul chiffre, ces deux tests tombent.</p>
+      </div>
+<div class="check">
+  <span class="qlabel">Vérifie ta compréhension</span>
+  <p>Dans le format <code>"%c%c%c"</code> avec l'entrée <code>abc</code>, pourquoi ne faut-il surtout pas appeler <code>match_space</code> avant <code>scan_char</code>&nbsp;?</p>
+  <details><summary>Voir la réponse</summary><div class="ans"><p>Parce que <code>%c</code> lit <strong>le</strong> caractère suivant, blanc compris — contrairement à <code>%d</code> et <code>%s</code> qui sautent les blancs d'abord. Le <code>switch</code> de <code>match_conv</code> fourni par le sujet fait déjà exactement cette distinction&nbsp;: <code>case 'c'</code> appelle <code>scan_char</code> directement, alors que <code>'d'</code> et <code>'s'</code> passent par <code>match_space</code>. N'ajoute rien dans <code>scan_char</code>.</p></div></details>
+</div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>ft_scanf</code> — le squelette du sujet est pré-rempli. Complète les cinq fonctions et <code>ft_scanf</code> lui-même.</strong></p>
+<div class="live" data-exo="scanf" id="live-scanf">
+  <div class="live-head"><span class="badge">a completer</span><span class="ttl">ft_scanf</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+    </section>
+    <!-- =================== 03 =================== -->
+    <section id="lvl2">
+      <h2><span class="num">03</span> Niveau 2 — la famille backtracking</h2>
+      <p class="lead">Cinq sujets, un seul algorithme. Si tu ne retiens qu'une chose de ce cours&nbsp;: le niveau&nbsp;2 du Rank&nbsp;03 se prépare en apprenant <strong>un</strong> squelette et cinq variantes de remplissage. Voici la table de correspondance, puis chaque sujet en détail.</p>
+
+      <div class="rgroup">
+        <div class="rhead">Le même moule, cinq habillages</div>
+        <div class="rex"><div class="rn">permutations</div><div class="rd">Position = case du mot. Choix = une lettre <b>non encore utilisée</b>. Au bout&nbsp;: afficher. Tri préalable pour l'ordre alphabétique.</div></div>
+        <div class="rex"><div class="rn">n_queens</div><div class="rd">Position = colonne. Choix = une ligne, si elle n'est <b>ni prise ni en diagonale</b>. Au bout&nbsp;: afficher.</div></div>
+        <div class="rex"><div class="rn">powerset</div><div class="rd">Position = élément de l'ensemble. Choix = <b>prendre / ne pas prendre</b> (deux appels). Au bout&nbsp;: afficher si la somme vaut la cible.</div></div>
+        <div class="rex"><div class="rn">rip</div><div class="rd">Position = caractère. Choix = <b>garder / remplacer par un espace</b>. Au bout&nbsp;: afficher si équilibré et si on a retiré le minimum.</div></div>
+        <div class="rex"><div class="rn">tsp</div><div class="rd">Position = étape du trajet. Choix = une ville <b>non visitée</b>. Au bout&nbsp;: comparer la longueur au minimum courant.</div></div>
+      </div>
+
+      <h3 id="e-permutations">permutations — toutes les permutations, en ordre alphabétique</h3>
+      <p>Le cas d'école. Une chaîne sans doublons en argument, toutes ses permutations, <strong>dans l'ordre alphabétique</strong>. L'ordre ne s'obtient pas en triant la sortie (tu ne peux pas la stocker) mais en <strong>triant la chaîne d'entrée au départ</strong>&nbsp;: si tu explores toujours les lettres restantes de gauche à droite dans un alphabet trié, tu produis naturellement les permutations dans l'ordre.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">permutations.c — le squelette complet</span></div>
+<pre>#include &lt;unistd.h&gt;
+
+<span class="kw">static</span> <span class="kw">char</span>	g_str[<span class="nm">64</span>];
+<span class="kw">static</span> <span class="kw">char</span>	g_out[<span class="nm">64</span>];
+<span class="kw">static</span> <span class="kw">int</span>	g_used[<span class="nm">64</span>];
+<span class="kw">static</span> <span class="kw">int</span>	g_len;
+
+<span class="kw">static</span> <span class="kw">void</span>	sort_str(<span class="kw">char</span> *s, <span class="kw">int</span> n)
+{
+	<span class="kw">int</span>		i = <span class="nm">0</span>;
+	<span class="kw">int</span>		j;
+	<span class="kw">char</span>	t;
+
+	<span class="kw">while</span> (i &lt; n)          <span class="cm">// tri a bulles : largement suffisant ici</span>
+	{
+		j = i + <span class="nm">1</span>;
+		<span class="kw">while</span> (j &lt; n)
+		{
+			<span class="kw">if</span> (s[j] &lt; s[i])
+			{
+				t = s[i];
+				s[i] = s[j];
+				s[j] = t;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+<span class="kw">static</span> <span class="kw">void</span>	solve(<span class="kw">int</span> pos)
+{
+	<span class="kw">int</span>	i;
+
+	<span class="kw">if</span> (pos == g_len)
+	{
+		g_out[g_len] = <span class="st">&#x27;\n&#x27;</span>;
+		write(<span class="nm">1</span>, g_out, g_len + <span class="nm">1</span>);
+		<span class="kw">return</span> ;
+	}
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; g_len)
+	{
+		<span class="kw">if</span> (!g_used[i])
+		{
+			g_used[i] = <span class="nm">1</span>;            <span class="cm">// CHOISIR</span>
+			g_out[pos] = g_str[i];
+			solve(pos + <span class="nm">1</span>);           <span class="cm">// EXPLORER</span>
+			g_used[i] = <span class="nm">0</span>;            <span class="cm">// DEFAIRE</span>
+		}
+		i++;
+	}
+}</pre>
+</div>
+
+      <div class="box warn">
+        <span class="tag">Piège du testeur</span>
+        <p><code>./permutations</code> (aucun argument) et <code>./permutations abc def</code> (deux arguments) doivent <strong>renvoyer un code ≠ 0</strong>. Et la chaîne vide ne doit produire <em>au plus</em> qu'une ligne. Gère ces trois cas dans le <code>main</code> avant même de trier.</p>
+      </div>
+<div class="check">
+  <span class="qlabel">Vérifie ta compréhension</span>
+  <p>Pourquoi trier la chaîne d'entrée suffit-il à garantir l'ordre alphabétique de la sortie&nbsp;?</p>
+  <details><summary>Voir la réponse</summary><div class="ans"><p>Parce que la récursion choisit la première lettre par indice croissant. Si <code>g_str</code> est trié, les branches sont explorées de la plus petite première lettre à la plus grande&nbsp;; à l'intérieur de chaque branche, le même raisonnement s'applique récursivement à la deuxième lettre, et ainsi de suite. L'ordre de parcours de l'arbre <em>est</em> l'ordre lexicographique. C'est d'ailleurs pour ça que le testeur passe <code>bac</code> en entrée et attend quand même <code>abc</code> en première ligne.</p></div></details>
+</div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>permutations</code> — trie d'abord, explore ensuite. N'oublie pas les codes de retour.</strong></p>
+<div class="live" data-exo="permutations" id="live-permutations">
+  <div class="live-head"><span class="badge">a coder</span><span class="ttl">permutations</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+
+      <h3 id="e-n_queens">n_queens — les n reines</h3>
+      <p>Même moule, contrainte différente. Une reine par colonne&nbsp;; pour la colonne <code>col</code>, on essaie chaque ligne <code>row</code> et on vérifie qu'aucune reine déjà posée ne la menace. Deux reines se menacent si elles partagent une ligne (<code>pos[i] == row</code>) ou une diagonale — et la diagonale se teste en une ligne&nbsp;: <strong>l'écart de lignes est égal à l'écart de colonnes</strong>.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">n_queens.c — la contrainte, puis le moule</span></div>
+<pre><span class="kw">int</span>	is_safe(<span class="kw">int</span> *pos, <span class="kw">int</span> col, <span class="kw">int</span> row)
+{
+	<span class="kw">int</span>	i = <span class="nm">0</span>;
+
+	<span class="kw">while</span> (i &lt; col)
+	{
+		<span class="kw">if</span> (pos[i] == row)                    <span class="cm">// meme ligne</span>
+			<span class="kw">return</span> (<span class="nm">0</span>);
+		<span class="kw">if</span> (ft_abs(pos[i] - row) == col - i)  <span class="cm">// meme diagonale</span>
+			<span class="kw">return</span> (<span class="nm">0</span>);
+		i++;
+	}
+	<span class="kw">return</span> (<span class="nm">1</span>);
+}
+
+<span class="kw">void</span>	solve(<span class="kw">int</span> *pos, <span class="kw">int</span> n, <span class="kw">int</span> col)
+{
+	<span class="kw">int</span>	row = <span class="nm">0</span>;
+
+	<span class="kw">if</span> (col == n)
+	{
+		print_solution(pos, n);   <span class="cm">// &quot;1 3 0 2\n&quot; : espaces ENTRE, pas apres</span>
+		<span class="kw">return</span> ;
+	}
+	<span class="kw">while</span> (row &lt; n)
+	{
+		<span class="kw">if</span> (is_safe(pos, col, row))
+		{
+			pos[col] = row;       <span class="cm">// CHOISIR (pas besoin de DEFAIRE :</span>
+			solve(pos, n, col + <span class="nm">1</span>); <span class="cm">// la case sera reecrite au prochain essai)</span>
+		}
+		row++;
+	}
+}</pre>
+</div>
+
+      <p>Le format de sortie est celui qui fait tomber le plus de monde&nbsp;: <code>1 3 0 2$</code> — un espace <em>entre</em> les nombres, aucun espace avant le <code>\n</code>. Écris donc l'espace <strong>avant</strong> chaque nombre sauf le premier, ou après chaque nombre sauf le dernier, mais choisis explicitement.</p>
+      <div class="box warn">
+        <span class="tag">Piège du testeur</span>
+        <p>Le testeur exige <strong>exactement 0 ligne</strong> pour <code>n = 2</code> et <code>n = 3</code> (il n'existe pas de solution), 2 lignes pour <code>n = 4</code> avec les valeurs exactes, et <strong>92 lignes pour <code>n = 8</code></strong>. Si ton programme affiche quoi que ce soit en plus — un message, une ligne vide — le compte tombe à côté. Et <code>printf</code> n'est pas autorisé&nbsp;: c'est <code>write</code> (ou <code>fprintf</code>).</p>
+      </div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>n_queens</code> — pense à <code>ft_putnbr</code> avec <code>write</code>, et au format exact des espaces.</strong></p>
+<div class="live" data-exo="n_queens" id="live-n_queens">
+  <div class="live-head"><span class="badge">a coder</span><span class="ttl">n_queens</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+
+      <h3 id="e-powerset">powerset — les sous-ensembles de somme n</h3>
+      <p>Ici la position est un élément de l'ensemble, et il n'y a que deux choix&nbsp;: le prendre ou non. Donc pas de boucle, <strong>deux appels récursifs</strong>. Quand on arrive au bout, on affiche si la somme accumulée vaut la cible — en respectant l'ordre d'origine des éléments, ce qui est gratuit puisqu'on parcourt l'ensemble de gauche à droite.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">powerset.c — prendre / ne pas prendre</span></div>
+<pre><span class="kw">void</span>	rec(<span class="kw">int</span> i, <span class="kw">int</span> sum)
+{
+	<span class="kw">if</span> (i == g_n)
+	{
+		<span class="kw">if</span> (sum == g_target)
+			print_subset();   <span class="cm">// affiche les elements marques, puis &#x27;\n&#x27;</span>
+		<span class="kw">return</span> ;
+	}
+	g_in[i] = <span class="nm">1</span>;              <span class="cm">// BRANCHE 1 : on prend g_set[i]</span>
+	rec(i + <span class="nm">1</span>, sum + g_set[i]);
+	g_in[i] = <span class="nm">0</span>;              <span class="cm">// BRANCHE 2 : on ne le prend pas</span>
+	rec(i + <span class="nm">1</span>, sum);
+}</pre>
+</div>
+
+      <div class="box warn">
+        <span class="tag">Trois pièges du testeur</span>
+        <p><strong>1.</strong> <code>./powerset 5</code> (cible sans ensemble) doit renvoyer un code ≠ 0 — donc <code>argc &lt; 3</code> → <code>return (1)</code>, pas <code>argc &lt; 2</code>.<br>
+        <strong>2.</strong> <code>./powerset 100 1 2 3</code> ne doit produire <strong>aucune ligne</strong>&nbsp;: n'affiche jamais «&nbsp;par défaut&nbsp;», seulement quand la somme correspond.<br>
+        <strong>3.</strong> <code>./powerset 0 1 2 3</code> doit contenir une <strong>ligne vide</strong> — c'est l'ensemble vide, dont la somme vaut 0. Ta condition <code>sum == target</code> le produit toute seule&nbsp;; ne le filtre surtout pas.</p>
+      </div>
+<div class="check">
+  <span class="qlabel">Vérifie ta compréhension</span>
+  <p>L'exercice parle d'entiers négatifs (<code>./powerset 0 1 -1</code>). Est-ce que ça change l'algorithme&nbsp;?</p>
+  <details><summary>Voir la réponse</summary><div class="ans"><p>Non, pas du tout — et c'est justement le point. Comme on explore <em>toutes</em> les combinaisons et qu'on ne teste la somme qu'au bout, les valeurs négatives passent sans traitement particulier. En revanche, ça t'interdit toute optimisation du type «&nbsp;arrêter la branche dès que <code>sum &gt; target</code>&nbsp;»&nbsp;: avec des négatifs à venir, une somme trop grande peut encore redescendre.</p></div></details>
+</div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>powerset</code> — <code>argc &lt; 3</code> → 1, ligne vide pour l'ensemble vide, rien si aucune solution.</strong></p>
+<div class="live" data-exo="powerset" id="live-powerset">
+  <div class="live-head"><span class="badge">a coder</span><span class="ttl">powerset</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+
+      <h3 id="e-rip">rip — rééquilibrer des parenthèses</h3>
+      <p>Une chaîne de parenthèses&nbsp;; si elle est déséquilibrée, remplace le <strong>nombre minimum</strong> de parenthèses par des espaces pour la rééquilibrer, et affiche <strong>toutes</strong> les solutions. Deux sous-problèmes&nbsp;: savoir combien il faut en retirer, puis énumérer les façons de le faire.</p>
+      <p>Le compte minimum se calcule en un seul passage&nbsp;: on parcourt la chaîne avec un compteur, chaque <code>)</code> qui ferait passer le compteur sous zéro est une fermante à supprimer&nbsp;; ce qui reste dans le compteur à la fin, ce sont les ouvrantes à supprimer.</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">rip.c — compter d&#x27;abord, énumérer ensuite</span></div>
+<pre><span class="kw">int</span>	min_removals(<span class="kw">char</span> *s, <span class="kw">int</span> *open_bad, <span class="kw">int</span> *close_bad)
+{
+	<span class="kw">int</span>	i = <span class="nm">0</span>;
+	<span class="kw">int</span>	bal = <span class="nm">0</span>;
+
+	*close_bad = <span class="nm">0</span>;
+	<span class="kw">while</span> (s[i])
+	{
+		<span class="kw">if</span> (s[i] == <span class="st">&#x27;(&#x27;</span>)
+			bal++;
+		<span class="kw">else</span> <span class="kw">if</span> (--bal &lt; <span class="nm">0</span>)
+		{
+			(*close_bad)++;
+			bal = <span class="nm">0</span>;
+		}
+		i++;
+	}
+	*open_bad = bal;
+	<span class="kw">return</span> (*open_bad + *close_bad);
+}
+
+<span class="cm">// puis : pour chaque caractere, garder ou blanchir, en s&#x27;arretant des</span>
+<span class="cm">// qu&#x27;on a blanchi plus que le minimum autorise.</span>
+<span class="kw">void</span>	rec(<span class="kw">char</span> *s, <span class="kw">int</span> i, <span class="kw">int</span> removed, <span class="kw">int</span> bal)
+{
+	<span class="kw">if</span> (bal &lt; <span class="nm">0</span> || removed &gt; g_max)   <span class="cm">// elagage : branche morte</span>
+		<span class="kw">return</span> ;
+	<span class="kw">if</span> (!s[i])
+	{
+		<span class="kw">if</span> (bal == <span class="nm">0</span> &amp;&amp; removed == g_max)
+			puts(s);                  <span class="cm">// puts ajoute deja le \n</span>
+		<span class="kw">return</span> ;
+	}
+	<span class="kw">if</span> (s[i] == <span class="st">&#x27;(&#x27;</span> || s[i] == <span class="st">&#x27;)&#x27;</span>)
+	{
+		<span class="kw">char</span> c = s[i];
+		s[i] = <span class="st">&#x27; &#x27;</span>;                   <span class="cm">// BLANCHIR</span>
+		rec(s, i + <span class="nm">1</span>, removed + <span class="nm">1</span>, bal);
+		s[i] = c;                     <span class="cm">// DEFAIRE</span>
+		rec(s, i + <span class="nm">1</span>, removed, bal + (c == <span class="st">&#x27;(&#x27;</span> ? <span class="nm">1</span> : -<span class="nm">1</span>)); <span class="cm">// GARDER</span>
+	}
+	<span class="kw">else</span>
+		rec(s, i + <span class="nm">1</span>, removed, bal);
+}</pre>
+</div>
+
+      <div class="box warn">
+        <span class="tag">Piège du testeur</span>
+        <p><code>rip</code> n'a droit qu'à <code>puts</code> et <code>write</code> — <strong>pas de <code>malloc</code></strong>. Travaille directement sur <code>argv[1]</code> (tu as le droit de le modifier, puisque tu remets tout en place en remontant) ou dans un tableau de pile. Le testeur vérifie aussi que chaque solution a <strong>exactement la même longueur</strong> que l'entrée&nbsp;: on remplace par des espaces, on ne supprime jamais.</p>
+      </div>
+<div class="check">
+  <span class="qlabel">Vérifie ta compréhension</span>
+  <p>Sur <code>'(()'</code> l'attendu est exactement deux lignes, <code>' ()'</code> et <code>'( )'</code>. Pourquoi pas trois&nbsp;?</p>
+  <details><summary>Voir la réponse</summary><div class="ans"><p>Le minimum à retirer vaut 1 (une ouvrante en trop). Il y a donc trois positions candidates, mais seules deux donnent une chaîne équilibrée&nbsp;: blanchir l'une ou l'autre des deux ouvrantes marche, blanchir la fermante donne <code>'((&nbsp;'</code>, toujours déséquilibré. Le garde <code>removed == g_max</code> est ce qui t'évite l'erreur symétrique&nbsp;: sans lui, tu afficherais aussi les solutions à 2 ou 3 suppressions, qui sont équilibrées mais pas minimales.</p></div></details>
+</div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>rip</code> — sans <code>malloc</code>. Compte le minimum, élague, et n'oublie pas que <code>puts</code> ajoute le <code>\n</code>.</strong></p>
+<div class="live" data-exo="rip" id="live-rip">
+  <div class="live-head"><span class="badge">a coder</span><span class="ttl">rip</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+
+      <h3 id="e-tsp">tsp — le voyageur de commerce</h3>
+      <p>Le sujet fournit <code>tsp.c</code> avec le <code>main</code> complet&nbsp;: lecture des villes au format <code>%f, %f</code>, gestion du cas «&nbsp;moins de 2 villes&nbsp;», initialisation du chemin, affichage final en <code>%.2f</code>. Il te reste <strong>trois fonctions</strong>, et c'est tout&nbsp;:</p>
+<div class="code">
+  <div class="bar"><span class="dot"></span><span class="fname">les trois fonctions à écrire</span></div>
+<pre><span class="kw">float</span>	distance(<span class="kw">t_city</span> a, <span class="kw">t_city</span> b)
+{
+	<span class="kw">float</span>	dx = a.x - b.x;
+	<span class="kw">float</span>	dy = a.y - b.y;
+
+	<span class="kw">return</span> (sqrtf(dx * dx + dy * dy));
+}
+
+<span class="kw">float</span>	total_distance(<span class="kw">t_city</span> *cities, <span class="kw">int</span> *path, <span class="kw">int</span> n)
+{
+	<span class="kw">float</span>	sum = <span class="nm">0</span>;
+	<span class="kw">int</span>		i = <span class="nm">0</span>;
+
+	<span class="kw">while</span> (i &lt; n - <span class="nm">1</span>)
+	{
+		sum += distance(cities[path[i]], cities[path[i + <span class="nm">1</span>]]);
+		i++;
+	}
+	<span class="kw">return</span> (sum + distance(cities[path[n - <span class="nm">1</span>]], cities[path[<span class="nm">0</span>]]));  <span class="cm">// boucle fermee</span>
+}
+
+<span class="kw">void</span>	solve(<span class="kw">t_city</span> *cities, <span class="kw">int</span> *path, <span class="kw">int</span> n, <span class="kw">int</span> pos, <span class="kw">float</span> *min)
+{
+	<span class="kw">int</span>		i;
+	<span class="kw">int</span>		t;
+	<span class="kw">float</span>	d;
+
+	<span class="kw">if</span> (pos == n)
+	{
+		d = total_distance(cities, path, n);
+		<span class="kw">if</span> (d &lt; *min)
+			*min = d;
+		<span class="kw">return</span> ;
+	}
+	i = pos;
+	<span class="kw">while</span> (i &lt; n)
+	{
+		t = path[pos]; path[pos] = path[i]; path[i] = t;  <span class="cm">// CHOISIR (echange)</span>
+		solve(cities, path, n, pos + <span class="nm">1</span>, min);             <span class="cm">// EXPLORER</span>
+		t = path[pos]; path[pos] = path[i]; path[i] = t;  <span class="cm">// DEFAIRE</span>
+		i++;
+	}
+}</pre>
+</div>
+
+      <p>Deux détails valent leur pesant d'or&nbsp;: le trajet est une <strong>boucle fermée</strong> (il faut rajouter le retour à la ville de départ), et le <code>main</code> fourni appelle <code>solve(..., pos = 1, ...)</code> — la première ville est volontairement fixée, ce qui divise le travail par <code>n</code> sans changer le résultat, puisqu'un cycle peut être parcouru à partir de n'importe lequel de ses points.</p>
+      <div class="box tip">
+        <span class="tag">Bon à savoir</span>
+        <p><code>sqrtf</code> exige <code>-lm</code> à l'édition de liens&nbsp;: le testeur le met déjà, mais si tu compiles à la main dans ton coin, <code>gcc -Wall -Wextra -Werror tsp.c -lm</code>. Et n'oublie pas&nbsp;: 11 villes maximum, donc <code>10!</code> chemins au pire — la force brute passe largement.</p>
+      </div>
+<p class="lead" style="margin:16px 0 6px;">🖥️ <strong><code>tsp</code> — le <code>main</code> du sujet est déjà là. Écris <code>distance</code>, <code>total_distance</code> et <code>solve</code>.</strong></p>
+<div class="live" data-exo="tsp" id="live-tsp">
+  <div class="live-head"><span class="badge">a completer</span><span class="ttl">tsp</span><span class="file"></span><span class="allow"></span></div>
+  <details class="live-subj"><summary>Voir le sujet complet</summary><pre>Chargement…</pre></details>
+  <div class="live-ed"><div class="live-gutter">1</div><textarea spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>
+  <div class="live-bar"><button class="live-run">▶ Tester</button><button class="live-reset">reset</button><span class="live-pill idle">EN ATTENTE</span></div>
+  <div class="live-offline">Ouvre cette page via l'app locale <b>http://127.0.0.1:4242</b> pour compiler.</div>
+  <div class="live-out"></div>
+</div>
+
+    </section>
+    <!-- =================== 04 =================== -->
+    <section id="pieges">
+      <h2><span class="num">04</span> Pièges &amp; checklist</h2>
+      <p class="lead">Ces pièges-là ne viennent pas de l'algorithme mais des testeurs eux-mêmes. Ils sont vérifiables&nbsp;: chacun correspond à un test précis qui fait tomber un sujet entier alors que «&nbsp;ça marchait&nbsp;».</p>
+
+      <h3>Les codes de retour</h3>
+      <p>Quatre sujets testent explicitement <code>$?</code> sur un mauvais nombre d'arguments. C'est trois lignes de code, et c'est la cause d'échec la plus bête du rank&nbsp;:</p>
+      <div class="cats">
+        <div class="cat"><h4>filter</h4><p>0 argument, 2 arguments, ou argument vide → code ≠ 0.</p><span class="ex">argc != 2 || !argv[1][0]</span></div>
+        <div class="cat"><h4>permutations</h4><p>0 argument ou 2 arguments → code ≠ 0.</p><span class="ex">argc != 2</span></div>
+        <div class="cat"><h4>powerset</h4><p>0 argument <b>et</b> cible seule → code ≠ 0.</p><span class="ex">argc &lt; 3</span></div>
+        <div class="cat"><h4>n_queens</h4><p>Pas de sortie du tout pour n = 2 et n = 3.</p><span class="ex">0 ligne, pas une ligne vide</span></div>
+      </div>
+
+      <h3>Les fonctions autorisées, sujet par sujet</h3>
+      <p>Elles changent radicalement d'un sujet à l'autre. Les trois surprises les plus fréquentes&nbsp;:</p>
+      <ul>
+        <li><strong><code>rip</code> n'a pas <code>malloc</code>.</strong> Tableaux de pile ou travail en place sur <code>argv[1]</code>, point.</li>
+        <li><strong><code>n_queens</code> et <code>permutations</code> n'ont pas <code>printf</code>.</strong> <code>write</code>, <code>puts</code>, ou <code>fprintf(stdout, ...)</code> pour <code>n_queens</code>.</li>
+        <li><strong><code>filter</code> n'a ni <code>memcpy</code> ni <code>memset</code></strong>, mais a <code>memmove</code> et <code>memmem</code>. Et <code>memmem</code> exige <code>#define _GNU_SOURCE</code> <em>avant</em> <code>#include &lt;string.h&gt;</code>.</li>
+      </ul>
+
+      <h3>Les pièges d'affichage</h3>
+      <ul>
+        <li><strong><code>puts</code> ajoute le <code>\n</code>, <code>write</code> non.</strong> Mélanger les deux produit des lignes vides invisibles à l'œil nu.</li>
+        <li><strong>Pas d'espace en fin de ligne.</strong> <code>n_queens</code> attend <code>1 3 0 2$</code> et pas <code>1 3 0 2 $</code>.</li>
+        <li><strong><code>tsp</code> affiche <code>%.2f</code></strong> — deux décimales, toujours. Le testeur vérifie le format avec une expression régulière avant même de comparer la valeur.</li>
+        <li><strong>Relis ta sortie avec <code>cat -e</code></strong> avant de rendre. Le <code>$</code> te montre tout ce que le terminal te cache.</li>
+      </ul>
+
+      <h3>Les pièges de compilation</h3>
+      <ul>
+        <li><strong><code>*.c *.h</code> veut dire «&nbsp;tous&nbsp;».</strong> Les testeurs du niveau&nbsp;2 font <code>find rendu/&lt;exo&gt; -name "*.c"</code> et compilent tout ce qu'ils trouvent. Un vieux fichier oublié dans le dossier de rendu casse la compilation de l'ensemble.</li>
+        <li><strong>Les variables inutilisées sont des erreurs</strong> (<code>-Werror</code>). Dans un squelette fourni que tu n'as pas fini de remplir, c'est la première chose qui explose&nbsp;: mets un <code>(void)param;</code> temporaire.</li>
+        <li><strong><code>sqrtf</code> exige <code>-lm</code></strong>, et <code>BUFFER_SIZE</code> arrive par <code>-D</code>&nbsp;: ne le redéfinis pas sans <code>#ifndef</code>.</li>
+      </ul>
+
+      <div class="box pass">
+        <span class="tag">Checklist avant de rendre</span>
+        <p>① Le bon nombre de fichiers, aux bons noms. ② Aucune fonction hors liste autorisée. ③ <code>-Wall -Wextra -Werror</code> silencieux. ④ Les codes de retour sur mauvais arguments. ⑤ La sortie relue avec <code>cat -e</code>. ⑥ Pas de fuite (surtout <code>broken_gnl</code>). ⑦ Les cas limites&nbsp;: chaîne vide, n = 0, ensemble vide, entrée vide.</p>
+      </div>
+    </section>
+    <!-- =================== 05 =================== -->
+    <section id="entrainement">
+      <h2><span class="num">05</span> Entraînement — 19 exercices inédits</h2>
+      <p class="lead">Les 8 sujets du rank sont dans l'onglet <b>⌨️ Entraînement</b> et dans ce cours. Ici, ce sont des exercices <strong>inédits</strong>, taillés sur les mêmes réflexes&nbsp;: afficher sans <code>printf</code>, lire un flux par blocs, écrire une variadique, dérouler un backtracking, ne pas fuir une seule allocation. Écris ta solution d'abord, compile-la avec <code>-Wall -Wextra -Werror</code>, relis ta sortie avec <code>cat -e</code>, <em>puis</em> déplie la correction. Tous les corrigés ci-dessous compilent sans warning et passent <code>valgrind</code>.</p>
+
+      <div class="box pass">
+        <span class="tag">Comment t'en servir</span>
+        <p>Chronomètre-toi&nbsp;: <b>10 min</b> pour un exercice du socle, <b>25 min</b> pour un exercice de flux ou de variadique, <b>40 min</b> pour un backtracking. C'est le rythme réel de l'examen. Si tu dépasses, arrête-toi, lis le corrigé, <em>puis recode-le de mémoire le lendemain</em> — c'est ce deuxième passage qui installe le réflexe.</p>
+      </div>
+
+
+      <h3 id="tr-socle">Socle — afficher et parser à la main</h3>
+      <p>Cinq briques qui reviennent dans presque tous les sujets du rank. Elles sont courtes&nbsp;: l'enjeu n'est pas de réfléchir, c'est de les écrire <strong>sans hésiter</strong>, parce qu'elles ne sont jamais le cœur du sujet et qu'elles ne doivent pas te coûter dix minutes le jour J.</p>
+
+      <details class="exo">
+        <summary><span class="lvl">socle</span> put_nbr_base — un entier dans n'importe quelle base</summary>
+        <div class="body">
+          <p><code>void put_nbr_base(int nbr, char *base);</code> affiche <code>nbr</code> dans la base donnée par la chaîne <code>base</code> (ses caractères sont les chiffres, de la valeur 0 à la valeur <code>len-1</code>). Si la base fait moins de 2 caractères, n'affiche rien. <strong>Seul <code>write</code> est autorisé</strong>, et <code>INT_MIN</code> doit sortir juste.</p>
+<div class="code"><div class="bar"><span class="fname">appel</span></div><pre>put_nbr_base(255, "0123456789abcdef");   ->  ff
+put_nbr_base(-42, "0123456789");         ->  -42
+put_nbr_base(7,   "01");                 ->  111</pre></div>
+          <div class="box warn"><span class="tag">Le piège</span><p>Le vrai piège n'est pas la récursion, c'est <code>INT_MIN</code>&nbsp;: <code>-INT_MIN</code> ne tient pas dans un <code>int</code>. On recopie donc la valeur dans un <code>unsigned int</code> <em>avant</em> de la rendre positive. C'est exactement le même piège que dans un <code>ft_putnbr</code> classique, et c'est le test que tous les correcteurs lancent en premier.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">put_nbr_base.c</span></div>
+<pre>#include &lt;unistd.h&gt;
+
+<span class="kw">void</span>	put_nbr_base(<span class="kw">int</span> nbr, <span class="kw">char</span> *base)
+{
+	<span class="kw">unsigned</span> <span class="kw">int</span>	n;
+	<span class="kw">unsigned</span> <span class="kw">int</span>	b;
+	<span class="kw">char</span>			c;
+
+	b = <span class="nm">0</span>;
+	<span class="kw">while</span> (base[b])
+		b++;
+	<span class="kw">if</span> (b &lt; <span class="nm">2</span>)
+		<span class="kw">return</span> ;
+	n = nbr;
+	<span class="kw">if</span> (nbr &lt; <span class="nm">0</span>)
+	{
+		write(<span class="nm">1</span>, <span class="st">"-"</span>, <span class="nm">1</span>);
+		n = -(<span class="kw">unsigned</span> <span class="kw">int</span>)nbr;
+	}
+	<span class="kw">if</span> (n &gt;= b)
+		put_nbr_base(n / b, base);
+	c = base[n % b];
+	write(<span class="nm">1</span>, &amp;c, <span class="nm">1</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">socle</span> put_float2 — deux décimales sans printf</summary>
+        <div class="body">
+          <p><code>void put_float2(double f);</code> affiche <code>f</code> arrondi à deux décimales, exactement comme <code>%.2f</code>, mais avec <code>write</code> seul. Le signe, la partie entière, le point, puis <strong>toujours deux chiffres</strong> — <code>1.5</code> donne <code>1.50</code>, pas <code>1.5</code>.</p>
+<div class="code"><div class="bar"><span class="fname">appel</span></div><pre>put_float2(3.14159);  ->  3.14
+put_float2(-2.5);     ->  -2.50
+put_float2(0);        ->  0.00</pre></div>
+          <p>L'astuce tient en une ligne&nbsp;: on ramène le problème aux entiers en travaillant en <strong>centièmes</strong>. <code>(long)(f * 100.0 + 0.5)</code> arrondit et se réaffiche ensuite avec un <code>put_nbr</code> ordinaire, en n'oubliant pas le zéro des dizaines.</p>
+          <div class="box warn"><span class="tag">Attention à l'arrondi</span><p>Cette méthode n'est pas <em>strictement</em> équivalente à <code>printf("%.2f")</code>. <code>printf</code> arrondit la valeur binaire réellement stockée&nbsp;: <code>2.005</code> vaut en machine <code>2.00499…</code> et sort donc <code>2.00</code>, alors que le <code>+ 0.5</code> donne <code>2.01</code>. Sur <code>tsp</code>, <code>printf</code> est autorisé&nbsp;: utilise-le. Garde cette version pour les sujets où il ne l'est pas — et sache pourquoi les deux peuvent diverger d'un centième.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">put_float2.c</span></div>
+<pre>#include &lt;unistd.h&gt;
+
+<span class="kw">static</span> <span class="kw">void</span>	put_nbr(<span class="kw">long</span> n)
+{
+	<span class="kw">char</span>	c;
+
+	<span class="kw">if</span> (n &gt;= <span class="nm">10</span>)
+		put_nbr(n / <span class="nm">10</span>);
+	c = n % <span class="nm">10</span> + <span class="st">'0'</span>;
+	write(<span class="nm">1</span>, &amp;c, <span class="nm">1</span>);
+}
+
+<span class="kw">void</span>	put_float2(<span class="kw">double</span> f)
+{
+	<span class="kw">long</span>	cents;
+
+	<span class="kw">if</span> (f &lt; <span class="nm">0</span>)
+	{
+		write(<span class="nm">1</span>, <span class="st">"-"</span>, <span class="nm">1</span>);
+		f = -f;
+	}
+	cents = (<span class="kw">long</span>)(f * <span class="nm">100</span>.<span class="nm">0</span> + <span class="nm">0</span>.<span class="nm">5</span>);
+	put_nbr(cents / <span class="nm">100</span>);
+	write(<span class="nm">1</span>, <span class="st">"."</span>, <span class="nm">1</span>);
+	put_nbr((cents % <span class="nm">100</span>) / <span class="nm">10</span>);
+	put_nbr(cents % <span class="nm">10</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">socle</span> put_tab — un tableau d'entiers, un seul write</summary>
+        <div class="body">
+          <p><code>void put_tab(int *tab, int n);</code> affiche les <code>n</code> entiers positifs de <code>tab</code> séparés par un espace, suivis d'un <code>\n</code>. <strong>Aucun espace en fin de ligne</strong>, et <strong>un seul appel à <code>write</code></strong> pour toute la ligne.</p>
+<div class="code"><div class="bar"><span class="fname">appel (sortie passee dans cat -e)</span></div><pre>int tab[] = {1, 3, 0, 2};
+put_tab(tab, 4);   ->  1 3 0 2$</pre></div>
+          <p>C'est la ligne de sortie de <code>n_queens</code>. Les deux contraintes sont volontaires&nbsp;: l'espace en trop est <em>la</em> raison pour laquelle un <code>n_queens</code> correct échoue, et passer par un tampon t'évite un <code>write</code> par caractère (le testeur de <code>n_queens</code> tourne sous <code>timeout</code>).</p>
+          <div class="box warn"><span class="tag">Le détail qui tue</span><p>On écrit le séparateur <strong>avant</strong> chaque nombre sauf le premier (<code>if (i) buf[len++] = ' ';</code>), jamais après. Écrire « nombre puis espace » et retirer le dernier ensuite marche aussi, mais laisse un <code>len - 1</code> qu'on oublie quand <code>n == 0</code>.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">put_tab.c</span></div>
+<pre>#include &lt;unistd.h&gt;
+
+<span class="kw">void</span>	put_tab(<span class="kw">int</span> *tab, <span class="kw">int</span> n)
+{
+	<span class="kw">char</span>	buf[<span class="nm">512</span>];
+	<span class="kw">int</span>		len;
+	<span class="kw">int</span>		i;
+	<span class="kw">int</span>		v;
+	<span class="kw">char</span>	tmp[<span class="nm">12</span>];
+	<span class="kw">int</span>		t;
+
+	len = <span class="nm">0</span>;
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; n)
+	{
+		<span class="kw">if</span> (i)
+			buf[len++] = <span class="st">' '</span>;
+		v = tab[i++];
+		t = <span class="nm">0</span>;
+		<span class="kw">if</span> (v == <span class="nm">0</span>)
+			tmp[t++] = <span class="st">'0'</span>;
+		<span class="kw">while</span> (v &gt; <span class="nm">0</span>)
+		{
+			tmp[t++] = v % <span class="nm">10</span> + <span class="st">'0'</span>;
+			v /= <span class="nm">10</span>;
+		}
+		<span class="kw">while</span> (t &gt; <span class="nm">0</span>)
+			buf[len++] = tmp[--t];
+	}
+	buf[len++] = <span class="st">'\n'</span>;
+	write(<span class="nm">1</span>, buf, len);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">socle</span> put_grid — l'échiquier des n reines</summary>
+        <div class="body">
+          <p><code>void put_grid(int *pos, int n);</code> affiche la grille <code>n×n</code> d'une solution de <code>n_queens</code>, où <code>pos[col]</code> est la ligne de la reine de la colonne <code>col</code>&nbsp;: <code>Q</code> sur une case occupée, <code>.</code> sinon, un <code>\n</code> par ligne, puis une <strong>ligne vide</strong> pour séparer deux solutions. Toujours un seul <code>write</code>.</p>
+<div class="code"><div class="bar"><span class="fname">appel (sortie passee dans cat -e)</span></div><pre>int pos[] = {1, 3, 0, 2};
+put_grid(pos, 4);
+
+..Q.$
+Q...$
+...Q$
+.Q..$
+$</pre></div>
+          <p>Le retournement mental à faire&nbsp;: le tableau est indexé <strong>par colonne</strong>, l'affichage se fait <strong>par ligne</strong>. La boucle externe parcourt donc les lignes et la boucle interne les colonnes, en testant <code>pos[col] == row</code>.</p>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">put_grid.c</span></div>
+<pre>#include &lt;unistd.h&gt;
+
+<span class="kw">void</span>	put_grid(<span class="kw">int</span> *pos, <span class="kw">int</span> n)
+{
+	<span class="kw">char</span>	buf[<span class="nm">1024</span>];
+	<span class="kw">int</span>		len;
+	<span class="kw">int</span>		row;
+	<span class="kw">int</span>		col;
+
+	len = <span class="nm">0</span>;
+	row = <span class="nm">0</span>;
+	<span class="kw">while</span> (row &lt; n)
+	{
+		col = <span class="nm">0</span>;
+		<span class="kw">while</span> (col &lt; n)
+		{
+			<span class="kw">if</span> (pos[col] == row)
+				buf[len++] = <span class="st">'Q'</span>;
+			<span class="kw">else</span>
+				buf[len++] = <span class="st">'.'</span>;
+			col++;
+		}
+		buf[len++] = <span class="st">'\n'</span>;
+		row++;
+	}
+	buf[len++] = <span class="st">'\n'</span>;
+	write(<span class="nm">1</span>, buf, len);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">socle</span> ft_atoi_strict — refuser ce qui n'est pas un entier</summary>
+        <div class="body">
+          <p><code>int ft_atoi_strict(char *s, int *out);</code> renvoie <code>1</code> et remplit <code>*out</code> si <code>s</code> est un entier valide, <code>0</code> sinon (sans toucher à <code>*out</code>). Sont refusés&nbsp;: la chaîne vide, un signe seul, un espace, un caractère non numérique, et tout ce qui déborde d'un <code>int</code>.</p>
+<div class="code"><div class="bar"><span class="fname">appel</span></div><pre>"42"           ->  1, *out = 42
+"-2147483648"  ->  1, *out = -2147483648
+"+7"           ->  1, *out = 7
+"12a"  " 3"  ""  "-"  "2147483648"  ->  0</pre></div>
+          <p>Le <code>atoi</code> de la libc ne sait pas dire non&nbsp;: <code>atoi("abc")</code> vaut <code>0</code>, exactement comme <code>atoi("0")</code>. Dès qu'un sujet doit <strong>renvoyer un code d'erreur sur un argument invalide</strong> — et il y en a quatre dans ce rank — il te faut cette version-là.</p>
+          <div class="box warn"><span class="tag">Le débordement</span><p>On accumule dans un <code>long</code> et on compare à <code>2147483647</code> / <code>-2147483648L</code> <em>à chaque chiffre</em>, pas à la fin&nbsp;: une chaîne de vingt chiffres ferait déborder le <code>long</code> aussi.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">ft_atoi_strict.c</span></div>
+<pre><span class="kw">int</span>	ft_atoi_strict(<span class="kw">char</span> *s, <span class="kw">int</span> *out)
+{
+	<span class="kw">long</span>	n;
+	<span class="kw">int</span>		sign;
+	<span class="kw">int</span>		i;
+
+	n = <span class="nm">0</span>;
+	sign = <span class="nm">1</span>;
+	i = <span class="nm">0</span>;
+	<span class="kw">if</span> (s[i] == <span class="st">'-'</span> || s[i] == <span class="st">'+'</span>)
+		<span class="kw">if</span> (s[i++] == <span class="st">'-'</span>)
+			sign = -<span class="nm">1</span>;
+	<span class="kw">if</span> (!s[i])
+		<span class="kw">return</span> (<span class="nm">0</span>);
+	<span class="kw">while</span> (s[i])
+	{
+		<span class="kw">if</span> (s[i] &lt; <span class="st">'0'</span> || s[i] &gt; <span class="st">'9'</span>)
+			<span class="kw">return</span> (<span class="nm">0</span>);
+		n = n * <span class="nm">10</span> + (s[i++] - <span class="st">'0'</span>);
+		<span class="kw">if</span> (n * sign &gt; <span class="nm">2147483647</span> || n * sign &lt; -2147483648L)
+			<span class="kw">return</span> (<span class="nm">0</span>);
+	}
+	*out = (<span class="kw">int</span>)(n * sign);
+	<span class="kw">return</span> (<span class="nm">1</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+
+      <h3 id="tr-flux">Flux — lire stdin sans rien perdre</h3>
+      <p>Le cœur du niveau 1. Un flux n'arrive pas d'un bloc&nbsp;: <code>read</code> te rend ce qu'il a sous la main, et le motif que tu cherches peut être <strong>coupé en deux entre deux appels</strong>. Les quatre exercices qui suivent attaquent ce problème sous quatre angles.</p>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> read_all — tout stdin dans un tampon qui grandit</summary>
+        <div class="body">
+          <p><code>char *read_all(int fd, int *total);</code> lit <code>fd</code> jusqu'à l'EOF, renvoie un tampon alloué contenant tout ce qui a été lu (terminé par <code>\0</code>, mais capable de contenir des <code>\0</code>), et écrit la taille réelle dans <code>*total</code>. Renvoie <code>NULL</code> si rien n'a été lu ou si une allocation échoue — <strong>sans fuir</strong>.</p>
+          <p>La boucle est toujours la même&nbsp;: lire un bloc, allouer <code>ancien + nouveau</code>, recopier les deux, libérer l'ancien. C'est un <code>realloc</code> déroulé à la main, et c'est la brique de base de <code>filter</code> comme de <code>get_next_line</code>.</p>
+          <div class="box warn"><span class="tag">Les deux fuites classiques</span><p>Si <code>malloc</code> échoue au milieu, il faut libérer l'accumulateur avant de renvoyer <code>NULL</code> (d'où le <code>return (free(acc), NULL);</code>). Et il faut <code>free(acc)</code> <em>après</em> la recopie, jamais avant&nbsp;: sinon tu recopies depuis une zone libérée, et <code>valgrind</code> le voit même quand le programme « marche ».</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">read_all.c</span></div>
+<pre>#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+
+<span class="kw">char</span>	*read_all(<span class="kw">int</span> fd, <span class="kw">int</span> *total)
+{
+	<span class="kw">char</span>	buf[<span class="nm">4096</span>];
+	<span class="kw">char</span>	*acc;
+	<span class="kw">char</span>	*tmp;
+	<span class="kw">int</span>		len;
+	<span class="kw">int</span>		r;
+	<span class="kw">int</span>		i;
+
+	acc = NULL;
+	len = <span class="nm">0</span>;
+	r = read(fd, buf, <span class="nm">4096</span>);
+	<span class="kw">while</span> (r &gt; <span class="nm">0</span>)
+	{
+		tmp = malloc(len + r + <span class="nm">1</span>);
+		<span class="kw">if</span> (!tmp)
+			<span class="kw">return</span> (free(acc), NULL);
+		i = <span class="nm">0</span>;
+		<span class="kw">while</span> (i &lt; len)
+		{
+			tmp[i] = acc[i];
+			i++;
+		}
+		i = <span class="nm">0</span>;
+		<span class="kw">while</span> (i &lt; r)
+		{
+			tmp[len + i] = buf[i];
+			i++;
+		}
+		len += r;
+		tmp[len] = <span class="st">'\0'</span>;
+		free(acc);
+		acc = tmp;
+		r = read(fd, buf, <span class="nm">4096</span>);
+	}
+	*total = len;
+	<span class="kw">return</span> (acc);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> my_gnl — un get_next_line complet, de zéro</summary>
+        <div class="body">
+          <p><code>char *my_gnl(int fd);</code> renvoie la prochaine ligne de <code>fd</code>, <strong><code>\n</code> inclus</strong> s'il y en a un, ou <code>NULL</code> à la fin du fichier. Chaque ligne renvoyée est allouée et c'est à l'appelant de la libérer. <code>BUFFER_SIZE</code> arrive par <code>-D</code> et doit fonctionner pour <code>1</code> comme pour <code>10000</code>.</p>
+<div class="code shell"><div class="bar"><span class="fname">printf 'a\nbb\nccc' | ./my_gnl   # affiche [ligne] pour chaque ligne</span></div><pre>[a
+]
+[bb
+]
+[ccc]</pre></div>
+          <p>C'est l'exercice le plus rentable du rank&nbsp;: <code>broken_gnl</code> te demande de <em>réparer</em> ce code&nbsp;; savoir l'écrire de mémoire te fait repérer les six bugs en trois minutes au lieu de trente. La pièce centrale est le <strong>stash statique</strong>&nbsp;: ce qui a été lu au-delà du <code>\n</code> doit survivre jusqu'au prochain appel.</p>
+          <div class="box warn"><span class="tag">Les cas que teste la moulinette</span><p>Fichier vide (→ <code>NULL</code> tout de suite), fichier <strong>sans <code>\n</code> final</strong> (→ dernière ligne renvoyée, puis <code>NULL</code>, sans boucle infinie&nbsp;: <code>read</code> renvoie <code>0</code>, pas <code>-1</code>), fichier de <code>\n</code> seuls (→ des lignes valant <code>"\n"</code>), et <code>valgrind</code> à zéro fuite <em>y compris sur le stash</em> quand on s'arrête avant la fin.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">my_gnl.c</span></div>
+<pre>#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE <span class="nm">32</span>
+#endif
+
+<span class="kw">static</span> <span class="kw">int</span>	ft_len(<span class="kw">char</span> *s)
+{
+	<span class="kw">int</span>	i;
+
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (s &amp;&amp; s[i])
+		i++;
+	<span class="kw">return</span> (i);
+}
+
+<span class="kw">static</span> <span class="kw">char</span>	*join_free(<span class="kw">char</span> *a, <span class="kw">char</span> *b, <span class="kw">int</span> nb)
+{
+	<span class="kw">char</span>	*res;
+	<span class="kw">int</span>		na;
+	<span class="kw">int</span>		i;
+
+	na = ft_len(a);
+	res = malloc(na + nb + <span class="nm">1</span>);
+	<span class="kw">if</span> (!res)
+		<span class="kw">return</span> (free(a), NULL);
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; na)
+	{
+		res[i] = a[i];
+		i++;
+	}
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; nb)
+	{
+		res[na + i] = b[i];
+		i++;
+	}
+	res[na + nb] = <span class="st">'\0'</span>;
+	free(a);
+	<span class="kw">return</span> (res);
+}
+
+<span class="kw">static</span> <span class="kw">char</span>	*cut(<span class="kw">char</span> **stash)
+{
+	<span class="kw">char</span>	*line;
+	<span class="kw">char</span>	*rest;
+	<span class="kw">int</span>		i;
+
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> ((*stash)[i] &amp;&amp; (*stash)[i] != <span class="st">'\n'</span>)
+		i++;
+	<span class="kw">if</span> ((*stash)[i] == <span class="st">'\n'</span>)
+		i++;
+	line = join_free(NULL, *stash, i);
+	rest = join_free(NULL, *stash + i, ft_len(*stash) - i);
+	free(*stash);
+	*stash = rest;
+	<span class="kw">if</span> (rest &amp;&amp; !rest[<span class="nm">0</span>])
+	{
+		free(rest);
+		*stash = NULL;
+	}
+	<span class="kw">return</span> (line);
+}
+
+<span class="kw">char</span>	*my_gnl(<span class="kw">int</span> fd)
+{
+	<span class="kw">static</span> <span class="kw">char</span>	*stash = NULL;
+	<span class="kw">char</span>		buf[BUFFER_SIZE];
+	<span class="kw">int</span>			r;
+	<span class="kw">int</span>			i;
+
+	r = <span class="nm">1</span>;
+	<span class="kw">while</span> (r &gt; <span class="nm">0</span>)
+	{
+		i = <span class="nm">0</span>;
+		<span class="kw">while</span> (stash &amp;&amp; stash[i] &amp;&amp; stash[i] != <span class="st">'\n'</span>)
+			i++;
+		<span class="kw">if</span> (stash &amp;&amp; stash[i] == <span class="st">'\n'</span>)
+			<span class="kw">break</span> ;
+		r = read(fd, buf, BUFFER_SIZE);
+		<span class="kw">if</span> (r &gt; <span class="nm">0</span>)
+			stash = join_free(stash, buf, r);
+	}
+	<span class="kw">if</span> (!stash || !stash[<span class="nm">0</span>])
+		<span class="kw">return</span> (free(stash), stash = NULL, NULL);
+	<span class="kw">return</span> (cut(&amp;stash));
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> count_pattern — compter un motif dans un flux</summary>
+        <div class="body">
+          <p>Programme qui lit <code>stdin</code> et affiche le nombre d'occurrences <strong>non chevauchantes</strong> de <code>argv[1]</code>, suivi d'un <code>\n</code>. Si le nombre d'arguments n'est pas 1 ou si le motif est vide, renvoie un code ≠ 0 sans rien afficher.</p>
+<div class="code shell"><div class="bar"><span class="fname">printf 'abcabcab' | ./count_pattern abc</span></div><pre>2</pre></div>
+          <p>L'astuce est celle de <code>filter</code>, en plus simple à vérifier&nbsp;: on ne peut pas décider d'un octet tant qu'il reste moins de <code>len(motif)</code> octets derrière lui. On garde donc en réserve les <code>len - 1</code> derniers octets du tampon avant de relire. Mais il y a une subtilité de plus ici.</p>
+          <div class="box warn"><span class="tag">La subtilité du comptage</span><p>Si une occurrence se termine <em>pile</em> à la fin du tampon, ses <code>len - 1</code> derniers octets iraient dans la réserve et pourraient reformer une occurrence chevauchante déjà comptée (<code>"aaa"</code> avec le motif <code>"aa"</code> compterait 2 au lieu de 1). La correction garde donc aussi la position de fin de la dernière occurrence consommée, et ne met en réserve que ce qui se trouve <strong>après</strong> elle. Compile avec <code>-DCHUNK=2</code> pour t'auto-tester&nbsp;: un code faux tombe immédiatement.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">count_pattern.c</span></div>
+<pre>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+
+#ifndef CHUNK
+# define CHUNK <span class="nm">4096</span>
+#endif
+
+<span class="kw">static</span> <span class="kw">int</span>	scan(<span class="kw">char</span> *buf, <span class="kw">int</span> len, <span class="kw">char</span> *pat, <span class="kw">int</span> plen, <span class="kw">int</span> *done)
+{
+	<span class="kw">int</span>	i;
+	<span class="kw">int</span>	n;
+
+	i = <span class="nm">0</span>;
+	n = <span class="nm">0</span>;
+	*done = <span class="nm">0</span>;
+	<span class="kw">while</span> (i + plen &lt;= len)
+	{
+		<span class="kw">if</span> (!strncmp(buf + i, pat, plen))
+		{
+			n++;
+			i += plen;
+			*done = i;
+		}
+		<span class="kw">else</span>
+			i++;
+	}
+	<span class="kw">return</span> (n);
+}
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">char</span>	buf[CHUNK];
+	<span class="kw">int</span>		plen;
+	<span class="kw">int</span>		len;
+	<span class="kw">int</span>		keep;
+	<span class="kw">int</span>		done;
+	<span class="kw">int</span>		r;
+	<span class="kw">int</span>		n;
+
+	<span class="kw">if</span> (argc != <span class="nm">2</span> || !argv[<span class="nm">1</span>][<span class="nm">0</span>])
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	plen = strlen(argv[<span class="nm">1</span>]);
+	<span class="kw">if</span> (plen &gt; CHUNK)
+		<span class="kw">return</span> (write(<span class="nm">1</span>, <span class="st">"0\n"</span>, <span class="nm">2</span>), <span class="nm">0</span>);
+	len = <span class="nm">0</span>;
+	n = <span class="nm">0</span>;
+	r = read(<span class="nm">0</span>, buf + len, CHUNK - len);
+	<span class="kw">while</span> (r &gt; <span class="nm">0</span>)
+	{
+		len += r;
+		n += scan(buf, len, argv[<span class="nm">1</span>], plen, &amp;done);
+		keep = len - done;
+		<span class="kw">if</span> (keep &gt; plen - <span class="nm">1</span>)
+			keep = plen - <span class="nm">1</span>;
+		memmove(buf, buf + len - keep, keep);
+		len = keep;
+		r = read(<span class="nm">0</span>, buf + len, CHUNK - len);
+	}
+	printf(<span class="st">"%d\n"</span>, n);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> swap_stream — remplacer un motif par un autre</summary>
+        <div class="body">
+          <p>Programme à 2 arguments qui recopie <code>stdin</code> sur <code>stdout</code> en remplaçant chaque occurrence de <code>argv[1]</code> par <code>argv[2]</code>. Le remplacement peut être <strong>plus court ou plus long</strong> que le motif, et même vide. Nombre d'arguments incorrect ou motif vide → code ≠ 0.</p>
+<div class="code shell"><div class="bar"><span class="fname">printf 'zzabzzab' | ./swap_stream ab XY</span></div><pre>zzXYzzXY</pre></div>
+          <p>C'est <code>filter</code> débarrassé de sa contrainte « même longueur ». Ce qui change&nbsp;: on ne peut plus écrire en place, il faut émettre au fil de l'eau. La fonction <code>flush</code> renvoie donc <strong>jusqu'où elle a consommé</strong>, et tout ce qui reste derrière repart dans le tampon pour le tour suivant.</p>
+          <div class="box warn"><span class="tag">N'oublie pas la fin</span><p>Quand <code>read</code> renvoie 0, il reste jusqu'à <code>len - 1</code> octets en réserve qui ne formeront jamais une occurrence&nbsp;: il faut les écrire tels quels avant de sortir. C'est la ligne qu'on oublie, et elle coûte les derniers caractères du fichier.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">swap_stream.c</span></div>
+<pre>#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+
+#ifndef CHUNK
+# define CHUNK <span class="nm">4096</span>
+#endif
+
+<span class="kw">static</span> <span class="kw">int</span>	flush(<span class="kw">char</span> *buf, <span class="kw">int</span> len, <span class="kw">char</span> *pat, <span class="kw">int</span> plen, <span class="kw">char</span> *rep)
+{
+	<span class="kw">int</span>	i;
+
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i + plen &lt;= len)
+	{
+		<span class="kw">if</span> (!strncmp(buf + i, pat, plen))
+		{
+			write(<span class="nm">1</span>, rep, strlen(rep));
+			i += plen;
+		}
+		<span class="kw">else</span>
+			write(<span class="nm">1</span>, buf + i++, <span class="nm">1</span>);
+	}
+	<span class="kw">return</span> (i);
+}
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">char</span>	buf[CHUNK];
+	<span class="kw">int</span>		plen;
+	<span class="kw">int</span>		len;
+	<span class="kw">int</span>		keep;
+	<span class="kw">int</span>		r;
+
+	<span class="kw">if</span> (argc != <span class="nm">3</span> || !argv[<span class="nm">1</span>][<span class="nm">0</span>])
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	plen = strlen(argv[<span class="nm">1</span>]);
+	<span class="kw">if</span> (plen &gt; CHUNK)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	len = <span class="nm">0</span>;
+	r = read(<span class="nm">0</span>, buf, CHUNK);
+	<span class="kw">while</span> (r &gt; <span class="nm">0</span>)
+	{
+		len += r;
+		keep = len - flush(buf, len, argv[<span class="nm">1</span>], plen, argv[<span class="nm">2</span>]);
+		memmove(buf, buf + len - keep, keep);
+		len = keep;
+		r = read(<span class="nm">0</span>, buf + len, CHUNK - len);
+	}
+	<span class="kw">if</span> (len &gt; <span class="nm">0</span>)
+		write(<span class="nm">1</span>, buf, len);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+
+      <h3 id="tr-varargs">Variadiques — <code>ft_scanf</code> sans le stress</h3>
+      <p>Un seul sujet du rank en a besoin, mais il tombe une fois sur trois au niveau 1, et une variadique ne s'improvise pas. Trois exercices, du plus court au plus proche du sujet.</p>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> ft_max_n — le plus grand de n entiers</summary>
+        <div class="body">
+          <p><code>int ft_max_n(int n, ...);</code> renvoie le plus grand des <code>n</code> entiers qui suivent. Renvoie <code>0</code> si <code>n &lt;= 0</code>.</p>
+<div class="code"><div class="bar"><span class="fname">appel</span></div><pre>ft_max_n(4, 3, 9, -1, 2)  ->  9
+ft_max_n(1, 7)            ->  7
+ft_max_n(0)               ->  0</pre></div>
+          <p>Le squelette minimal&nbsp;: <code>va_list ap;</code>, <code>va_start(ap, n)</code> sur le <strong>dernier paramètre nommé</strong>, autant de <code>va_arg(ap, int)</code> que nécessaire, <code>va_end(ap)</code>. Si tu sais écrire ces quatre lignes sans réfléchir, <code>ft_scanf</code> perd la moitié de sa difficulté.</p>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">ft_max_n.c</span></div>
+<pre>#include &lt;stdarg.h&gt;
+
+<span class="kw">int</span>	ft_max_n(<span class="kw">int</span> n, ...)
+{
+	<span class="kw">va_list</span>	ap;
+	<span class="kw">int</span>		max;
+	<span class="kw">int</span>		cur;
+	<span class="kw">int</span>		i;
+
+	<span class="kw">if</span> (n &lt;= <span class="nm">0</span>)
+		<span class="kw">return</span> (<span class="nm">0</span>);
+	va_start(ap, n);
+	max = va_arg(ap, <span class="kw">int</span>);
+	i = <span class="nm">1</span>;
+	<span class="kw">while</span> (i &lt; n)
+	{
+		cur = va_arg(ap, <span class="kw">int</span>);
+		<span class="kw">if</span> (cur &gt; max)
+			max = cur;
+		i++;
+	}
+	va_end(ap);
+	<span class="kw">return</span> (max);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> sum_until — une variadique terminée par une sentinelle</summary>
+        <div class="body">
+          <p><code>int sum_until(int first, ...);</code> additionne ses arguments et s'arrête au premier <code>0</code> rencontré (qui n'est pas compté). <code>sum_until(0)</code> vaut <code>0</code>.</p>
+<div class="code"><div class="bar"><span class="fname">appel</span></div><pre>sum_until(1, 2, 3, 0)   ->  6
+sum_until(5, -5, 7, 0)  ->  7
+sum_until(0)            ->  0</pre></div>
+          <p>La différence avec l'exercice précédent est fondamentale&nbsp;: <strong>une variadique ne sait pas combien d'arguments elle a reçus</strong>. Soit un paramètre le dit (<code>ft_max_n</code>), soit une valeur sentinelle marque la fin (ici), soit le format le décrit (<code>printf</code>, <code>scanf</code>). Lire un <code>va_arg</code> de trop est un comportement indéfini qui ne plante pas toujours&nbsp;: c'est le bug le plus difficile à voir de tout le rank.</p>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">sum_until.c</span></div>
+<pre>#include &lt;stdarg.h&gt;
+
+<span class="kw">int</span>	sum_until(<span class="kw">int</span> first, ...)
+{
+	<span class="kw">va_list</span>	ap;
+	<span class="kw">int</span>		sum;
+	<span class="kw">int</span>		cur;
+
+	sum = <span class="nm">0</span>;
+	cur = first;
+	va_start(ap, first);
+	<span class="kw">while</span> (cur != <span class="nm">0</span>)
+	{
+		sum += cur;
+		cur = va_arg(ap, <span class="kw">int</span>);
+	}
+	va_end(ap);
+	<span class="kw">return</span> (sum);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> mini_printf — %s, %d, %c avec write seul</summary>
+        <div class="body">
+          <p><code>int mini_printf(const char *fmt, ...);</code> gère <code>%s</code>, <code>%d</code>, <code>%c</code> et <code>%%</code>, écrit sur la sortie standard avec <code>write</code> uniquement, et renvoie le <strong>nombre de caractères écrits</strong>. Un <code>%</code> suivi d'autre chose affiche ce caractère tel quel, <code>%s</code> avec un <code>NULL</code> affiche <code>(null)</code>.</p>
+<div class="code"><div class="bar"><span class="fname">appel</span></div><pre>mini_printf("s=%s d=%d c=%c pct=%%\n", "ok", -42, 'Z');
+
+s=ok d=-42 c=Z pct=%      (et renvoie 22)</pre></div>
+          <p>C'est le jumeau symétrique de <code>ft_scanf</code>&nbsp;: même parcours du format, même <code>va_list</code>, mais en écriture. Deux détails comptent autant que le reste&nbsp;: le <strong>retour</strong> (on additionne ce que renvoie chaque <code>write</code>, y compris dans la récursion de <code>put_nbr</code>) et <code>%c</code>, qui se récupère avec <code>va_arg(ap, int)</code> et non <code>char</code>.</p>
+          <div class="box warn"><span class="tag">Pourquoi <code>va_arg(ap, int)</code> pour un char</span><p>Les arguments variadiques subissent les <em>promotions par défaut</em>&nbsp;: un <code>char</code> ou un <code>short</code> est promu en <code>int</code>, un <code>float</code> en <code>double</code>. Demander <code>va_arg(ap, char)</code> ne compile même pas sur la plupart des compilateurs, et <code>va_arg(ap, float)</code> compile mais lit n'importe quoi.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">mini_printf.c</span></div>
+<pre>#include &lt;stdarg.h&gt;
+#include &lt;unistd.h&gt;
+
+<span class="kw">static</span> <span class="kw">int</span>	put_str(<span class="kw">char</span> *s)
+{
+	<span class="kw">int</span>	len;
+
+	<span class="kw">if</span> (!s)
+		s = <span class="st">"(null)"</span>;
+	len = <span class="nm">0</span>;
+	<span class="kw">while</span> (s[len])
+		len++;
+	<span class="kw">return</span> (write(<span class="nm">1</span>, s, len));
+}
+
+<span class="kw">static</span> <span class="kw">int</span>	put_nbr(<span class="kw">int</span> n)
+{
+	<span class="kw">char</span>			buf[<span class="nm">12</span>];
+	<span class="kw">unsigned</span> <span class="kw">int</span>	u;
+	<span class="kw">int</span>				len;
+
+	len = <span class="nm">0</span>;
+	<span class="kw">if</span> (n &lt; <span class="nm">0</span>)
+	{
+		write(<span class="nm">1</span>, <span class="st">"-"</span>, <span class="nm">1</span>);
+		len = <span class="nm">1</span>;
+	}
+	u = n;
+	<span class="kw">if</span> (n &lt; <span class="nm">0</span>)
+		u = -(<span class="kw">unsigned</span> <span class="kw">int</span>)n;
+	<span class="kw">if</span> (u &gt;= <span class="nm">10</span>)
+		len += put_nbr(u / <span class="nm">10</span>);
+	buf[<span class="nm">0</span>] = u % <span class="nm">10</span> + <span class="st">'0'</span>;
+	<span class="kw">return</span> (len + write(<span class="nm">1</span>, buf, <span class="nm">1</span>));
+}
+
+<span class="kw">int</span>	mini_printf(<span class="kw">const</span> <span class="kw">char</span> *fmt, ...)
+{
+	<span class="kw">va_list</span>	ap;
+	<span class="kw">char</span>	c;
+	<span class="kw">int</span>		n;
+	<span class="kw">int</span>		i;
+
+	va_start(ap, fmt);
+	n = <span class="nm">0</span>;
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (fmt[i])
+	{
+		<span class="kw">if</span> (fmt[i] == <span class="st">'%'</span> &amp;&amp; fmt[i + <span class="nm">1</span>])
+		{
+			i++;
+			<span class="kw">if</span> (fmt[i] == <span class="st">'s'</span>)
+				n += put_str(va_arg(ap, <span class="kw">char</span> *));
+			<span class="kw">else</span> <span class="kw">if</span> (fmt[i] == <span class="st">'d'</span>)
+				n += put_nbr(va_arg(ap, <span class="kw">int</span>));
+			<span class="kw">else</span> <span class="kw">if</span> (fmt[i] == <span class="st">'c'</span>)
+			{
+				c = va_arg(ap, <span class="kw">int</span>);
+				n += write(<span class="nm">1</span>, &amp;c, <span class="nm">1</span>);
+			}
+			<span class="kw">else</span>
+				n += write(<span class="nm">1</span>, fmt + i, <span class="nm">1</span>);
+		}
+		<span class="kw">else</span>
+			n += write(<span class="nm">1</span>, fmt + i, <span class="nm">1</span>);
+		i++;
+	}
+	va_end(ap);
+	<span class="kw">return</span> (n);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+
+      <h3 id="tr-bt">Backtracking — cinq variantes de plus</h3>
+      <p>Le niveau 2 tient dans un seul squelette&nbsp;: <em>choisir / explorer / défaire</em>. Le seul entraînement qui compte est de <strong>remplir ce moule avec une contrainte nouvelle</strong>, jusqu'à ce que la traduction « sujet → position, choix, condition d'arrêt » devienne automatique. Voici cinq sujets qui ne sont pas dans l'exam, exprès.</p>
+
+      <div class="rgroup">
+        <div class="rhead">Traduis avant de coder</div>
+        <div class="rex"><div class="rn">combinations</div><div class="rd">Position = rang dans la combinaison. Choix = un nombre <b>strictement supérieur au précédent</b>. Arrêt&nbsp;: <code>k</code> nombres posés.</div></div>
+        <div class="rex"><div class="rn">subsets</div><div class="rd">Position = une lettre. Choix = <b>prendre / ne pas prendre</b>. Arrêt&nbsp;: toutes les lettres examinées.</div></div>
+        <div class="rex"><div class="rn">parens</div><div class="rd">Position = un caractère. Choix = <b><code>(</code> si on n'a pas tout ouvert, <code>)</code> si on a de quoi fermer</b>. Arrêt&nbsp;: <code>2n</code> caractères.</div></div>
+        <div class="rex"><div class="rn">partitions</div><div class="rd">Position = un terme de la somme. Choix = une valeur <b>≤ à la précédente</b>. Arrêt&nbsp;: reste nul.</div></div>
+        <div class="rex"><div class="rn">maze</div><div class="rd">Position = une case. Choix = <b>une des 4 directions libres</b>. Arrêt&nbsp;: case d'arrivée — on garde le <b>minimum</b>.</div></div>
+      </div>
+
+      <details class="exo">
+        <summary><span class="lvl">N2</span> combinations — k nombres parmi n, en ordre croissant</summary>
+        <div class="body">
+          <p>Programme <code>./combinations n k</code> qui affiche toutes les façons de choisir <code>k</code> nombres <strong>distincts</strong> parmi <code>1..n</code>, chaque combinaison sur une ligne, les nombres séparés par un espace et <strong>triés en ordre croissant</strong>, les lignes en ordre lexicographique. Arguments invalides (<code>k &gt; n</code>, valeurs ≤ 0, <code>n &gt; 64</code>) → code ≠ 0.</p>
+<div class="code shell"><div class="bar"><span class="fname">./combinations 4 2 | cat -e</span></div><pre>1 2$
+1 3$
+1 4$
+2 3$
+2 4$
+3 4$</pre></div>
+          <p>Le passage obligé&nbsp;: le paramètre <code>start</code>. En n'essayant que des valeurs <code>&gt; </code> la dernière posée, on obtient <strong>gratuitement</strong> l'unicité (pas de <code>1 2</code> <em>et</em> <code>2 1</code>), le tri interne, et l'ordre lexicographique des lignes. Aucun tableau <code>used</code> n'est nécessaire — c'est la différence avec <code>permutations</code>.</p>
+          <div class="box warn"><span class="tag">L'élagage qui divise le temps par dix</span><p>La boucle s'arrête à <code>n - (k - pos) + 1</code>&nbsp;: au-delà, il ne reste plus assez de nombres pour compléter la combinaison. Sans ce test le résultat est le même, mais on explore des branches qui ne peuvent rien produire. C'est exactement l'esprit de l'élagage de <code>tsp</code>.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">combinations.c</span></div>
+<pre>#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+
+<span class="kw">static</span> <span class="kw">int</span>	g_n;
+<span class="kw">static</span> <span class="kw">int</span>	g_k;
+<span class="kw">static</span> <span class="kw">int</span>	g_out[<span class="nm">64</span>];
+
+<span class="kw">static</span> <span class="kw">void</span>	show(<span class="kw">void</span>)
+{
+	<span class="kw">char</span>	buf[<span class="nm">256</span>];
+	<span class="kw">int</span>		len;
+	<span class="kw">int</span>		i;
+	<span class="kw">int</span>		v;
+	<span class="kw">int</span>		t;
+	<span class="kw">char</span>	tmp[<span class="nm">12</span>];
+
+	len = <span class="nm">0</span>;
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; g_k)
+	{
+		<span class="kw">if</span> (i)
+			buf[len++] = <span class="st">' '</span>;
+		v = g_out[i++];
+		t = <span class="nm">0</span>;
+		<span class="kw">while</span> (v &gt; <span class="nm">0</span>)
+		{
+			tmp[t++] = v % <span class="nm">10</span> + <span class="st">'0'</span>;
+			v /= <span class="nm">10</span>;
+		}
+		<span class="kw">while</span> (t &gt; <span class="nm">0</span>)
+			buf[len++] = tmp[--t];
+	}
+	buf[len++] = <span class="st">'\n'</span>;
+	write(<span class="nm">1</span>, buf, len);
+}
+
+<span class="kw">static</span> <span class="kw">void</span>	solve(<span class="kw">int</span> pos, <span class="kw">int</span> start)
+{
+	<span class="kw">int</span>	v;
+
+	<span class="kw">if</span> (pos == g_k)
+		<span class="kw">return</span> (show());
+	v = start;
+	<span class="kw">while</span> (v &lt;= g_n - (g_k - pos) + <span class="nm">1</span>)
+	{
+		g_out[pos] = v;
+		solve(pos + <span class="nm">1</span>, v + <span class="nm">1</span>);
+		v++;
+	}
+}
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">if</span> (argc != <span class="nm">3</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	g_n = atoi(argv[<span class="nm">1</span>]);
+	g_k = atoi(argv[<span class="nm">2</span>]);
+	<span class="kw">if</span> (g_n &lt; <span class="nm">1</span> || g_k &lt; <span class="nm">1</span> || g_k &gt; g_n || g_n &gt; <span class="nm">64</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	solve(<span class="nm">0</span>, <span class="nm">1</span>);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N2</span> subsets — tous les sous-ensembles d'une chaîne</summary>
+        <div class="body">
+          <p>Programme <code>./subsets abc</code> qui affiche tous les sous-ensembles des lettres de <code>argv[1]</code>, un par ligne, en conservant l'ordre des lettres. Le sous-ensemble vide compte&nbsp;: il s'affiche comme une <strong>ligne vide</strong>. Nombre d'arguments ≠ 1 → code ≠ 0.</p>
+<div class="code shell"><div class="bar"><span class="fname">./subsets abc | cat -e</span></div><pre>abc$
+ab$
+ac$
+a$
+bc$
+b$
+c$
+$</pre></div>
+          <p>C'est <code>powerset</code> sans l'arithmétique&nbsp;: deux appels récursifs par position, « je prends » puis « je ne prends pas ». L'ordre des deux appels détermine l'ordre de sortie&nbsp;; ici « je prends » d'abord donne la sortie ci-dessus.</p>
+          <div class="box pass"><span class="tag">Le déclic pour powerset</span><p>Remarque la ligne vide à la fin. C'est <em>exactement</em> la raison pour laquelle <code>./powerset 0 1 2 3</code> doit afficher une ligne vide&nbsp;: l'ensemble vide est une solution valide dès que la cible vaut 0. Ce n'est pas un cas particulier à traiter, c'est le cas général qui s'applique.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">subsets.c</span></div>
+<pre>#include &lt;unistd.h&gt;
+
+<span class="kw">static</span> <span class="kw">char</span>	*g_s;
+<span class="kw">static</span> <span class="kw">char</span>	g_out[<span class="nm">64</span>];
+<span class="kw">static</span> <span class="kw">int</span>	g_len;
+
+<span class="kw">static</span> <span class="kw">void</span>	solve(<span class="kw">int</span> pos, <span class="kw">int</span> used)
+{
+	<span class="kw">if</span> (pos == g_len)
+	{
+		g_out[used] = <span class="st">'\n'</span>;
+		write(<span class="nm">1</span>, g_out, used + <span class="nm">1</span>);
+		<span class="kw">return</span> ;
+	}
+	g_out[used] = g_s[pos];
+	solve(pos + <span class="nm">1</span>, used + <span class="nm">1</span>);
+	solve(pos + <span class="nm">1</span>, used);
+}
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">if</span> (argc != <span class="nm">2</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	g_s = argv[<span class="nm">1</span>];
+	g_len = <span class="nm">0</span>;
+	<span class="kw">while</span> (g_s[g_len])
+		g_len++;
+	<span class="kw">if</span> (g_len &gt; <span class="nm">63</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	solve(<span class="nm">0</span>, <span class="nm">0</span>);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N2</span> parens — les parenthésages bien formés</summary>
+        <div class="body">
+          <p>Programme <code>./parens n</code> qui affiche toutes les suites de <code>n</code> paires de parenthèses <strong>bien formées</strong>, une par ligne, en ordre lexicographique (<code>(</code> avant <code>)</code>). <code>n</code> hors de <code>1..16</code> → code ≠ 0.</p>
+<div class="code shell"><div class="bar"><span class="fname">./parens 3 | cat -e</span></div><pre>((()))$
+(()())$
+(())()$
+()(())$
+()()()$</pre></div>
+          <p>L'exercice où le <strong>choix légal</strong> est tout le sujet. À chaque position, deux possibilités seulement&nbsp;: ouvrir, si on n'a pas déjà placé <code>n</code> ouvrantes&nbsp;; fermer, si on a plus d'ouvrantes que de fermantes. Ces deux conditions suffisent à ne jamais produire une suite invalide — on n'a <em>rien</em> à valider à l'arrivée.</p>
+          <div class="box pass"><span class="tag">Vérifie ton résultat</span><p>Le nombre de lignes est le <em>n</em>-ième nombre de Catalan&nbsp;: 1, 2, 5, 14, 42, 132… Si <code>./parens 4 | wc -l</code> ne donne pas 14, ton test de légalité est faux. C'est le genre d'auto-vérification à connaître&nbsp;: elle t'évite de relire 40 lignes de code.</p></div>
+          <div class="box warn"><span class="tag">Le lien avec <code>rip</code></span><p><code>rip</code> repose sur la même invariante — à tout moment, <em>fermantes ≤ ouvrantes</em>, et à la fin <em>fermantes == ouvrantes</em>. Savoir l'écrire ici en deux <code>if</code> te donne la fonction de validation de <code>rip</code> sans effort.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">parens.c</span></div>
+<pre>#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+
+<span class="kw">static</span> <span class="kw">int</span>	g_n;
+<span class="kw">static</span> <span class="kw">char</span>	g_out[<span class="nm">64</span>];
+
+<span class="kw">static</span> <span class="kw">void</span>	solve(<span class="kw">int</span> pos, <span class="kw">int</span> open, <span class="kw">int</span> close)
+{
+	<span class="kw">if</span> (pos == g_n * <span class="nm">2</span>)
+	{
+		g_out[pos] = <span class="st">'\n'</span>;
+		write(<span class="nm">1</span>, g_out, pos + <span class="nm">1</span>);
+		<span class="kw">return</span> ;
+	}
+	<span class="kw">if</span> (open &lt; g_n)
+	{
+		g_out[pos] = <span class="st">'('</span>;
+		solve(pos + <span class="nm">1</span>, open + <span class="nm">1</span>, close);
+	}
+	<span class="kw">if</span> (close &lt; open)
+	{
+		g_out[pos] = <span class="st">')'</span>;
+		solve(pos + <span class="nm">1</span>, open, close + <span class="nm">1</span>);
+	}
+}
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">if</span> (argc != <span class="nm">2</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	g_n = atoi(argv[<span class="nm">1</span>]);
+	<span class="kw">if</span> (g_n &lt; <span class="nm">1</span> || g_n &gt; <span class="nm">16</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	solve(<span class="nm">0</span>, <span class="nm">0</span>, <span class="nm">0</span>);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N2</span> partitions — décomposer un entier en somme</summary>
+        <div class="body">
+          <p>Programme <code>./partitions n</code> qui affiche toutes les façons d'écrire <code>n</code> comme une somme d'entiers ≥ 1, chaque somme sur une ligne, ses termes séparés par un espace et <strong>en ordre décroissant</strong>. <code>n</code> hors de <code>1..60</code> → code ≠ 0. (<code>printf</code> autorisé ici.)</p>
+<div class="code shell"><div class="bar"><span class="fname">./partitions 4 | cat -e</span></div><pre>4$
+3 1$
+2 2$
+2 1 1$
+1 1 1 1$</pre></div>
+          <p>Le motif « <code>start</code> » de <code>combinations</code>, retourné&nbsp;: on passe un <code>max</code> décroissant au lieu d'un minimum croissant. Contrainte « chaque terme ≤ au précédent » = pas de doublon à filtrer. Et la condition d'arrêt porte sur le <strong>reste</strong>, pas sur une position&nbsp;: la profondeur de récursion n'est pas connue d'avance.</p>
+          <div class="box pass"><span class="tag">Vérifie ton résultat</span><p><code>./partitions 10 | wc -l</code> doit donner <b>42</b> (la fonction de partition <em>p(10)</em>). <code>p(5) = 7</code>, <code>p(6) = 11</code>, <code>p(7) = 15</code>.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">partitions.c</span></div>
+<pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+<span class="kw">static</span> <span class="kw">int</span>	g_out[<span class="nm">64</span>];
+
+<span class="kw">static</span> <span class="kw">void</span>	show(<span class="kw">int</span> len)
+{
+	<span class="kw">int</span>	i;
+
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; len)
+	{
+		<span class="kw">if</span> (i)
+			printf(<span class="st">" "</span>);
+		printf(<span class="st">"%d"</span>, g_out[i++]);
+	}
+	printf(<span class="st">"\n"</span>);
+}
+
+<span class="kw">static</span> <span class="kw">void</span>	solve(<span class="kw">int</span> rest, <span class="kw">int</span> max, <span class="kw">int</span> len)
+{
+	<span class="kw">int</span>	v;
+
+	<span class="kw">if</span> (rest == <span class="nm">0</span>)
+		<span class="kw">return</span> (show(len));
+	v = max;
+	<span class="kw">if</span> (v &gt; rest)
+		v = rest;
+	<span class="kw">while</span> (v &gt;= <span class="nm">1</span>)
+	{
+		g_out[len] = v;
+		solve(rest - v, v, len + <span class="nm">1</span>);
+		v--;
+	}
+}
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">int</span>	n;
+
+	<span class="kw">if</span> (argc != <span class="nm">2</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	n = atoi(argv[<span class="nm">1</span>]);
+	<span class="kw">if</span> (n &lt; <span class="nm">1</span> || n &gt; <span class="nm">60</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	solve(n, n, <span class="nm">0</span>);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N2</span> maze — le plus court chemin, comme tsp</summary>
+        <div class="body">
+          <p>Programme <code>./maze "...." ".##." "...."</code> — chaque argument est une ligne de la grille, <code>.</code> = libre, <code>#</code> = mur. Affiche le <strong>nombre minimum de déplacements</strong> (haut/bas/gauche/droite) pour aller du coin haut-gauche au coin bas-droit. S'il n'existe aucun chemin, affiche <code>no path</code> et renvoie un code ≠ 0. Lignes de longueurs différentes ou grille &gt; 32×32 → code ≠ 0.</p>
+<div class="code shell"><div class="bar"><span class="fname">./maze "...." ".##." "...."</span></div><pre>5</pre></div>
+          <p>Le seul exercice de la série qui <strong>minimise</strong> au lieu d'énumérer&nbsp;: c'est le moule de <code>tsp</code>. Trois pièces&nbsp;: un <code>g_best</code> initialisé à l'infini, une mise à jour quand on atteint l'arrivée, et surtout l'élagage <code>if (steps &gt;= g_best) return ;</code> qui coupe toute branche déjà trop longue.</p>
+          <div class="box warn"><span class="tag">Le <code>unchoose</code> est obligatoire ici</span><p>Le <code>g_seen[r][c] = 0</code> de la fin est ce qui distingue une <em>recherche de chemin</em> d'un simple parcours&nbsp;: sans lui, une case visitée dans une branche reste bloquée pour toutes les autres, et tu rates le chemin optimal — ou tu ne trouves aucun chemin du tout. C'est le bug n°1 du backtracking, et il se manifeste exactement de la même façon dans <code>n_queens</code> et <code>tsp</code>.</p></div>
+          <div class="box pass"><span class="tag">Pousse plus loin</span><p>Variante à 15 min&nbsp;: affiche le chemin lui-même (<code>D</code>, <code>R</code>, <code>U</code>, <code>L</code>) et non sa longueur. Il te faut alors un tableau <code>g_path</code> rempli à la descente, et une copie sauvegardée à chaque nouveau minimum — exactement ce que fait <code>tsp</code> quand il garde le meilleur trajet.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">maze.c</span></div>
+<pre>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+<span class="kw">static</span> <span class="kw">char</span>	**g_map;
+<span class="kw">static</span> <span class="kw">int</span>	g_rows;
+<span class="kw">static</span> <span class="kw">int</span>	g_cols;
+<span class="kw">static</span> <span class="kw">int</span>	g_seen[<span class="nm">32</span>][<span class="nm">32</span>];
+<span class="kw">static</span> <span class="kw">int</span>	g_best;
+
+<span class="kw">static</span> <span class="kw">void</span>	solve(<span class="kw">int</span> r, <span class="kw">int</span> c, <span class="kw">int</span> steps)
+{
+	<span class="kw">if</span> (r &lt; <span class="nm">0</span> || c &lt; <span class="nm">0</span> || r &gt;= g_rows || c &gt;= g_cols)
+		<span class="kw">return</span> ;
+	<span class="kw">if</span> (g_map[r][c] == <span class="st">'#'</span> || g_seen[r][c])
+		<span class="kw">return</span> ;
+	<span class="kw">if</span> (steps &gt;= g_best)
+		<span class="kw">return</span> ;
+	<span class="kw">if</span> (r == g_rows - <span class="nm">1</span> &amp;&amp; c == g_cols - <span class="nm">1</span>)
+	{
+		g_best = steps;
+		<span class="kw">return</span> ;
+	}
+	g_seen[r][c] = <span class="nm">1</span>;
+	solve(r - <span class="nm">1</span>, c, steps + <span class="nm">1</span>);
+	solve(r + <span class="nm">1</span>, c, steps + <span class="nm">1</span>);
+	solve(r, c - <span class="nm">1</span>, steps + <span class="nm">1</span>);
+	solve(r, c + <span class="nm">1</span>, steps + <span class="nm">1</span>);
+	g_seen[r][c] = <span class="nm">0</span>;
+}
+
+<span class="kw">int</span>	main(<span class="kw">int</span> argc, <span class="kw">char</span> **argv)
+{
+	<span class="kw">int</span>	i;
+
+	<span class="kw">if</span> (argc &lt; <span class="nm">2</span> || argc &gt; <span class="nm">33</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	g_map = argv + <span class="nm">1</span>;
+	g_rows = argc - <span class="nm">1</span>;
+	g_cols = strlen(g_map[<span class="nm">0</span>]);
+	<span class="kw">if</span> (g_cols &lt; <span class="nm">1</span> || g_cols &gt; <span class="nm">32</span>)
+		<span class="kw">return</span> (<span class="nm">1</span>);
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; g_rows)
+		<span class="kw">if</span> ((<span class="kw">int</span>)strlen(g_map[i++]) != g_cols)
+			<span class="kw">return</span> (<span class="nm">1</span>);
+	g_best = <span class="nm">2147483647</span>;
+	solve(<span class="nm">0</span>, <span class="nm">0</span>, <span class="nm">0</span>);
+	<span class="kw">if</span> (g_best == <span class="nm">2147483647</span>)
+		<span class="kw">return</span> (printf(<span class="st">"no path\n"</span>), <span class="nm">1</span>);
+	printf(<span class="st">"%d\n"</span>, g_best);
+	<span class="kw">return</span> (<span class="nm">0</span>);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+
+      <h3 id="tr-mem">Mémoire — sortir propre de <code>valgrind</code></h3>
+      <p><code>broken_gnl</code> est corrigé à <code>valgrind</code>&nbsp;: une seule fuite et le sujet tombe, même si toutes les lignes sortent juste. Ces deux exercices isolent les deux situations qui fuient vraiment.</p>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> ft_split + free_tab — allouer un tableau et le rendre</summary>
+        <div class="body">
+          <p><code>char **ft_split(char *s, char sep);</code> découpe <code>s</code> sur le séparateur <code>sep</code> et renvoie un tableau de chaînes allouées, <strong>terminé par <code>NULL</code></strong>. <code>void free_tab(char **tab);</code> libère tout, et accepte <code>NULL</code> sans broncher. Si une allocation échoue en cours de route, <code>ft_split</code> libère ce qu'il a déjà alloué et renvoie <code>NULL</code>.</p>
+<div class="code"><div class="bar"><span class="fname">appel</span></div><pre>ft_split("  a bb   ccc ", ' ')  ->  ["a"] ["bb"] ["ccc"] NULL
+ft_split("", ' ')              ->  NULL  (tableau d'un seul element)
+ft_split("   ", ' ')           ->  NULL  (idem)</pre></div>
+          <p>Les séparateurs multiples, en tête comme en queue, ne produisent <strong>pas</strong> de mot vide. Le comptage préalable et le découpage doivent suivre exactement la même règle, sinon le tableau déborde d'une case — une erreur que <code>valgrind</code> signale en <em>invalid write</em>, pas en fuite.</p>
+          <div class="box warn"><span class="tag">L'échec d'allocation au milieu</span><p>C'est le cas que personne ne teste et que <code>valgrind</code> attrape. Avant d'appeler <code>free_tab</code> sur un tableau incomplet, il faut poser le <code>NULL</code> terminal (<code>tab[w] = NULL</code>)&nbsp;: sinon <code>free_tab</code> parcourt de la mémoire non initialisée et libère n'importe quoi.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">split_free.c</span></div>
+<pre>#include &lt;stdlib.h&gt;
+
+<span class="kw">static</span> <span class="kw">int</span>	count_words(<span class="kw">char</span> *s, <span class="kw">char</span> sep)
+{
+	<span class="kw">int</span>	n;
+	<span class="kw">int</span>	i;
+
+	n = <span class="nm">0</span>;
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (s[i])
+	{
+		<span class="kw">while</span> (s[i] == sep)
+			i++;
+		<span class="kw">if</span> (s[i])
+			n++;
+		<span class="kw">while</span> (s[i] &amp;&amp; s[i] != sep)
+			i++;
+	}
+	<span class="kw">return</span> (n);
+}
+
+<span class="kw">void</span>	free_tab(<span class="kw">char</span> **tab)
+{
+	<span class="kw">int</span>	i;
+
+	<span class="kw">if</span> (!tab)
+		<span class="kw">return</span> ;
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (tab[i])
+		free(tab[i++]);
+	free(tab);
+}
+
+<span class="kw">char</span>	**ft_split(<span class="kw">char</span> *s, <span class="kw">char</span> sep)
+{
+	<span class="kw">char</span>	**tab;
+	<span class="kw">int</span>		w;
+	<span class="kw">int</span>		i;
+	<span class="kw">int</span>		j;
+	<span class="kw">int</span>		k;
+
+	tab = malloc(<span class="kw">sizeof</span>(<span class="kw">char</span> *) * (count_words(s, sep) + <span class="nm">1</span>));
+	<span class="kw">if</span> (!tab)
+		<span class="kw">return</span> (NULL);
+	w = <span class="nm">0</span>;
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (s[i])
+	{
+		<span class="kw">while</span> (s[i] == sep)
+			i++;
+		j = i;
+		<span class="kw">while</span> (s[i] &amp;&amp; s[i] != sep)
+			i++;
+		<span class="kw">if</span> (i == j)
+			<span class="kw">continue</span> ;
+		tab[w] = malloc(i - j + <span class="nm">1</span>);
+		<span class="kw">if</span> (!tab[w])
+			<span class="kw">return</span> (tab[w] = NULL, free_tab(tab), NULL);
+		k = <span class="nm">0</span>;
+		<span class="kw">while</span> (j + k &lt; i)
+		{
+			tab[w][k] = s[j + k];
+			k++;
+		}
+		tab[w++][k] = <span class="st">'\0'</span>;
+	}
+	tab[w] = NULL;
+	<span class="kw">return</span> (tab);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+      <details class="exo">
+        <summary><span class="lvl">N1</span> ft_realloc — agrandir un tableau sans fuir</summary>
+        <div class="body">
+          <p><code>void *ft_realloc(void *ptr, size_t old_size, size_t new_size);</code> alloue <code>new_size</code> octets, y recopie les <code>min(old, new)</code> premiers octets de <code>ptr</code>, libère <code>ptr</code> et renvoie le nouveau bloc. <code>new_size == 0</code> ou échec d'allocation → libère <code>ptr</code> et renvoie <code>NULL</code>. Puis <code>int *push(int *tab, size_t *len, size_t *cap, int value);</code> qui empile un entier en <strong>doublant</strong> la capacité quand elle est pleine.</p>
+          <p><code>realloc</code> est rarement dans la liste autorisée&nbsp;: c'est donc cette fonction-là que tu écris, à chaque fois que tu dois accumuler une quantité inconnue de données — le stash de <code>get_next_line</code>, le tampon de <code>filter</code>, un tableau de résultats.</p>
+          <div class="box warn"><span class="tag">Le doublement n'est pas une coquetterie</span><p>Agrandir d'une case à chaque ajout, c'est une recopie complète à chaque ajout&nbsp;: <em>O(n²)</em>. Sur un fichier un peu gros, le testeur tombe en <code>timeout</code> alors que ton code est juste. Doubler ramène le coût total à <em>O(n)</em> — pour trois lignes de plus.</p></div>
+          <div class="box pass"><span class="tag">Le piège du pointeur invalide</span><p>Après <code>ft_realloc</code>, <strong>l'ancien pointeur ne vaut plus rien</strong>. Tout autre pointeur qui visait l'ancien bloc (une variable <code>tmp</code>, un index gardé sous forme d'adresse) est mort. C'est précisément un des six bugs de <code>broken_gnl</code>&nbsp;: un <code>tmp</code> non recalculé après le réagrandissement du tampon.</p></div>
+          <details class="sol"><summary>Voir la correction</summary>
+          <div class="code"><div class="bar"><span class="dot"></span><span class="fname">ft_realloc.c</span></div>
+<pre>#include &lt;stdlib.h&gt;
+
+<span class="kw">void</span>	*ft_realloc(<span class="kw">void</span> *ptr, <span class="kw">size_t</span> old_size, <span class="kw">size_t</span> new_size)
+{
+	<span class="kw">unsigned</span> <span class="kw">char</span>	*dst;
+	<span class="kw">unsigned</span> <span class="kw">char</span>	*src;
+	<span class="kw">size_t</span>			i;
+
+	<span class="kw">if</span> (new_size == <span class="nm">0</span>)
+		<span class="kw">return</span> (free(ptr), NULL);
+	dst = malloc(new_size);
+	<span class="kw">if</span> (!dst)
+		<span class="kw">return</span> (free(ptr), NULL);
+	src = ptr;
+	i = <span class="nm">0</span>;
+	<span class="kw">while</span> (i &lt; old_size &amp;&amp; i &lt; new_size)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	free(ptr);
+	<span class="kw">return</span> (dst);
+}
+
+<span class="kw">int</span>	*push(<span class="kw">int</span> *tab, <span class="kw">size_t</span> *len, <span class="kw">size_t</span> *cap, <span class="kw">int</span> value)
+{
+	<span class="kw">if</span> (*len == *cap)
+	{
+		<span class="kw">if</span> (*cap == <span class="nm">0</span>)
+			*cap = <span class="nm">4</span>;
+		<span class="kw">else</span>
+			*cap *= <span class="nm">2</span>;
+		tab = ft_realloc(tab, *len * <span class="kw">sizeof</span>(<span class="kw">int</span>), *cap * <span class="kw">sizeof</span>(<span class="kw">int</span>));
+		<span class="kw">if</span> (!tab)
+			<span class="kw">return</span> (NULL);
+	}
+	tab[(*len)++] = value;
+	<span class="kw">return</span> (tab);
+}</pre></div>
+          </details>
+        </div>
+      </details>
+
+
+      <div class="box pass">
+        <span class="tag">Si tu as fait les 19</span>
+        <p>Tu as écrit, sans t'en rendre compte&nbsp;: un <code>get_next_line</code> complet (<code>broken_gnl</code>), un filtre de flux à réserve (<code>filter</code>), une variadique pilotée par un format (<code>ft_scanf</code>), cinq backtrackings dont un avec minimisation et élagage (<code>permutations</code>, <code>n_queens</code>, <code>powerset</code>, <code>rip</code>, <code>tsp</code>) et deux gestions d'allocation propres. C'est <strong>tout le rank</strong>. Passe maintenant à l'onglet <b>⏱ Examen</b> et lance un vrai chrono.</p>
+      </div>
+    </section>
+    <!-- =================== 06 =================== -->
+    <section id="bilan">
+      <h2><span class="num">06</span> Auto-évaluation</h2>
+      <p class="lead">Coche ce que tu sais faire <strong>sans relire le cours</strong>. Ta progression est sauvegardée dans ce navigateur.</p>
+
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
+        <span class="progress-count"><b id="pcount">0</b> / <span id="ptotal">0</span></span>
+      </div>
+
+      <h3 id="bilan-checklist">Es-tu prêt&nbsp;?</h3>
+      <div class="eval-group">
+        <h4>Le socle</h4>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">J'écris le squelette backtracking <em>choisir / explorer / défaire</em> de mémoire, sans hésiter.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais afficher un entier et une chaîne avec <code>write</code> seul.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais pourquoi <code>puts</code> ne doit jamais être suivi d'un <code>\n</code> écrit à la main.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais accumuler un flux <code>stdin</code> dans un tampon qui grandit et ne vider que ce qui est sûr.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais écrire une fonction variadique avec <code>va_start</code> / <code>va_arg</code> / <code>va_end</code>.</span></label>
+
+      </div>
+      <div class="eval-group">
+        <h4>Niveau 1</h4>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je peux citer trois des bugs de <code>broken_gnl</code> sans regarder le code.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais pourquoi <code>get_next_line</code> doit conserver le reste du tampon entre deux appels.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais pourquoi <code>filter</code> doit garder <code>len(s) - 1</code> octets en réserve.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je connais le contrat exact des cinq fonctions à remplir dans <code>ft_scanf</code>.</span></label>
+
+      </div>
+      <div class="eval-group">
+        <h4>Niveau 2</h4>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Pour chacun des 5 sujets, je sais dire ce qu'est «&nbsp;une position&nbsp;» et «&nbsp;un choix&nbsp;».</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais obtenir l'ordre alphabétique dans <code>permutations</code> sans trier la sortie.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais tester la diagonale de <code>n_queens</code> en une ligne.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais pourquoi <code>powerset 0 1 2 3</code> doit afficher une ligne vide.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais calculer le nombre minimum de parenthèses à retirer dans <code>rip</code> en un seul passage.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais que le trajet de <code>tsp</code> est une boucle fermée.</span></label>
+
+      </div>
+      <div class="eval-group">
+        <h4>Les 19 exercices d'entraînement</h4>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">J'affiche un entier dans une base quelconque, <code>INT_MIN</code> compris, avec <code>write</code> seul.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">J'affiche deux décimales sans <code>printf</code>, et je sais pourquoi ça peut diverger d'un centième.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">J'écris une ligne de nombres séparés par des espaces en <strong>un seul</strong> <code>write</code>, sans espace final.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais accumuler tout un flux dans un tampon agrandi à la main, sans fuite ni recopie depuis une zone libérée.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">J'écris un <code>get_next_line</code> complet de mémoire, stash statique compris.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais garder <code>len - 1</code> octets en réserve entre deux <code>read</code>, et pourquoi ça ne suffit pas quand on compte.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">J'écris une variadique à sentinelle et une variadique pilotée par un format.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais que <code>%c</code> se lit avec <code>va_arg(ap, int)</code>, à cause des promotions par défaut.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je traduis un énoncé en «&nbsp;position / choix / condition d'arrêt&nbsp;» avant d'écrire une ligne.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je sais élaguer une branche condamnée (<code>steps &gt;= best</code>, plus assez de nombres restants).</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je connais une vérification chiffrée de mon résultat (Catalan, <em>p(n)</em>) pour ne pas relire 40 lignes.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">J'écris un <code>realloc</code> maison qui double la capacité, et je sais que l'ancien pointeur est mort après.</span></label>
+
+      </div>
+      <div class="eval-group">
+        <h4>La moulinette</h4>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je vérifie mes codes de retour sur un mauvais nombre d'arguments.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je relis la ligne <em>Allowed functions</em> avant d'écrire la première ligne de code.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je passe ma sortie dans <code>cat -e</code> avant de rendre.</span></label>
+<label class="chk"><input type="checkbox"><span class="mark"></span><span class="lbl">Je nettoie mon dossier de rendu&nbsp;: aucun <code>.c</code> parasite.</span></label>
+
+      </div>
+      <div class="eval-done" id="evalDone">✅ Tout est coché — tu es prêt à lancer un vrai examen chronométré depuis l'onglet <b>⏱ Examen</b>.</div>
+
+      <h3 id="bilan-quiz">Quiz éclair</h3>
+      <div class="quiz">
+<details class="qz"><summary><span class="qn">Q1</span><span>Combien de niveaux compte l'Exam Rank 03, et combien de sujets possibles par niveau&nbsp;?</span></summary><div class="qa">Deux niveaux. Le niveau 1 tire parmi 3 sujets (<code>broken_gnl</code>, <code>filter</code>, <code>ft_scanf</code>), le niveau 2 parmi 5 (<code>permutations</code>, <code>n_queens</code>, <code>powerset</code>, <code>rip</code>, <code>tsp</code>).</div></details>
+<details class="qz"><summary><span class="qn">Q2</span><span>Dans <code>broken_gnl</code>, quel bug le test « fichier sans <code>\n</code> final » révèle-t-il&nbsp;?</span></summary><div class="qa">La boucle infinie&nbsp;: <code>read</code> renvoie <code>0</code> à l'EOF, cas que le code cassé ne traite pas (il ne teste que <code>-1</code>). Le testeur lance ce cas sous <code>timeout 2</code>.</div></details>
+<details class="qz"><summary><span class="qn">Q3</span><span>Pourquoi <code>./powerset 100 1 2 3</code> ne doit-il rien afficher, alors que <code>./powerset 0 1 2 3</code> doit afficher une ligne vide&nbsp;?</span></summary><div class="qa">Dans le premier cas aucun sous-ensemble n'atteint 100, donc aucune ligne. Dans le second, l'ensemble vide a pour somme 0 = la cible&nbsp;: il est une solution valide, et il s'affiche comme une ligne vide. La même condition <code>sum == target</code> produit les deux comportements.</div></details>
+<details class="qz"><summary><span class="qn">Q4</span><span>Quelle fonction interdite oublie-t-on le plus souvent dans <code>rip</code>&nbsp;?</span></summary><div class="qa"><code>malloc</code>. La liste autorisée se limite à <code>puts</code> et <code>write</code>&nbsp;: tout doit tenir sur la pile ou se faire en place dans <code>argv[1]</code>.</div></details>
+<details class="qz"><summary><span class="qn">Q5</span><span>Dans <code>tsp</code>, pourquoi le <code>main</code> fourni démarre-t-il la récursion à <code>pos = 1</code> et non <code>0</code>&nbsp;?</span></summary><div class="qa">Parce que le trajet est un cycle&nbsp;: sa longueur ne dépend pas du point de départ. Fixer la première ville élimine les <code>n</code> rotations équivalentes de chaque solution et divise le travail par <code>n</code>, sans rien changer au minimum trouvé.</div></details>
+<details class="qz"><summary><span class="qn">Q6</span><span>Que se passe-t-il si tu oublies le <code>unchoose</code> dans un backtracking&nbsp;?</span></summary><div class="qa">L'état reste pollué par la branche précédente&nbsp;: les branches sœurs voient des choix déjà «&nbsp;pris&nbsp;» qui ne le sont plus. En pratique tu obtiens une seule solution (ou aucune) au lieu de l'ensemble complet.</div></details>
+<details class="qz"><summary><span class="qn">Q7</span><span>Pourquoi copie-t-on un <code>int</code> négatif dans un <code>unsigned int</code> avant de l'afficher&nbsp;?</span></summary><div class="qa">Parce que <code>-INT_MIN</code> n'est pas représentable en <code>int</code>&nbsp;: la négation déborde et reste négative. En passant par <code>-(unsigned int)nbr</code>, la valeur <code>2147483648</code> tient et s'affiche correctement. C'est le premier test de tout correcteur d'un <code>ft_putnbr</code>.</div></details>
+<details class="qz"><summary><span class="qn">Q8</span><span>Dans un filtre de flux, pourquoi garder <code>len(motif) - 1</code> octets en réserve — et pourquoi ce n'est pas suffisant quand on <em>compte</em>&nbsp;?</span></summary><div class="qa">On ne peut pas décider d'un octet tant qu'il reste moins de <code>len</code> octets derrière lui&nbsp;: le motif peut être coupé entre deux <code>read</code>. Pour un comptage non chevauchant, il faut en plus mémoriser où s'est terminée la dernière occurrence consommée, sinon la réserve reforme une occurrence déjà comptée (<code>"aaa"</code> avec le motif <code>"aa"</code> donnerait 2).</div></details>
+<details class="qz"><summary><span class="qn">Q9</span><span>Quelle est la différence de structure entre <code>permutations</code> et <code>combinations</code>&nbsp;?</span></summary><div class="qa"><code>permutations</code> a besoin d'un tableau <code>used</code>&nbsp;: tout élément non encore pris est un choix légal, à n'importe quelle position. <code>combinations</code> n'en a pas besoin&nbsp;: en n'essayant que des valeurs strictement supérieures à la dernière posée, l'unicité, le tri et l'ordre lexicographique viennent gratuitement. Reconnaître lequel des deux s'applique est la moitié du travail.</div></details>
+<details class="qz"><summary><span class="qn">Q10</span><span>Pourquoi doubler la capacité d'un tableau plutôt que l'agrandir d'une case&nbsp;?</span></summary><div class="qa">Agrandir d'une case impose une recopie complète à chaque ajout&nbsp;: <em>O(n²)</em>, et le testeur tombe en <code>timeout</code> sur une entrée un peu grosse alors que le code est juste. Doubler ramène le coût total amorti à <em>O(n)</em>.</div></details>
+<details class="qz"><summary><span class="qn">Q11</span><span>Qu'est-ce qui distingue une recherche de chemin d'un simple parcours&nbsp;?</span></summary><div class="qa">Le <code>unchoose</code>&nbsp;: remettre la case à «&nbsp;non visitée&nbsp;» en remontant. Sans lui, une case explorée dans une branche reste bloquée pour toutes les branches sœurs — on rate le chemin optimal, voire tout chemin. C'est le même bug que d'oublier <code>g_used[i] = 0</code> dans <code>permutations</code>.</div></details>
+
+
+      </div>
+    </section>
+    <!-- =================== 07 =================== -->
+    <section id="recap">
+      <h2><span class="num">07</span> Les 8 exercices, sujet par sujet</h2>
+      <p class="lead">L'index complet. Chaque nom pointe vers sa section détaillée&nbsp;; l'éditeur intégré correspondant s'y trouve aussi.</p>
+
+      <div class="rgroup">
+        <div class="rhead">Niveau 1<span class="rc">3 sujets</span></div>
+        <div class="rex"><div class="rn"><a href="#e-broken_gnl">broken_gnl</a></div><div class="rd"><b>Réparer</b> un <code>get_next_line</code> cassé. Six bugs&nbsp;: <code>strchr</code> sans garde, <code>memcpy</code> qui déborde, <code>strlen(NULL)</code>, <code>memmove</code> récursive, <code>tmp</code> non recalculé, EOF ignoré. Testé à <code>valgrind</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#e-filter">filter</a></div><div class="rd"><b>Flux</b>. Remplacer chaque occurrence de <code>argv[1]</code> par des <code>*</code>, avec des lectures de taille aléatoire — donc motif à cheval sur deux <code>read</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#e-scanf">ft_scanf</a></div><div class="rd"><b>Parseur variadique</b>. Cinq fonctions à compléter dans le squelette fourni&nbsp;: <code>%s</code>, <code>%d</code>, <code>%c</code> seulement.</div></div>
+      </div>
+
+      <div class="rgroup">
+        <div class="rhead">Niveau 2<span class="rc">5 sujets — tous du backtracking</span></div>
+        <div class="rex"><div class="rn"><a href="#e-permutations">permutations</a></div><div class="rd">Position = case du mot, choix = lettre libre. <b>Trie l'entrée</b> pour obtenir l'ordre alphabétique gratuitement.</div></div>
+        <div class="rex"><div class="rn"><a href="#e-n_queens">n_queens</a></div><div class="rd">Position = colonne, choix = ligne sûre. Diagonale&nbsp;: <code>abs(pos[i] - row) == col - i</code>. Exactement 92 solutions pour n = 8.</div></div>
+        <div class="rex"><div class="rn"><a href="#e-powerset">powerset</a></div><div class="rd">Position = élément, choix = <b>prendre / ne pas prendre</b>. Deux appels récursifs, pas de boucle.</div></div>
+        <div class="rex"><div class="rn"><a href="#e-rip">rip</a></div><div class="rd">Position = caractère, choix = <b>garder / blanchir</b>. Compte d'abord le minimum, puis élague sur <code>removed &gt; min</code>. Sans <code>malloc</code>.</div></div>
+        <div class="rex"><div class="rn"><a href="#e-tsp">tsp</a></div><div class="rd">Position = étape, choix = ville non visitée par <b>échange</b>. Boucle fermée, <code>%.2f</code>, <code>-lm</code>.</div></div>
+      </div>
+
+      <p class="foot">8 sujets, 2 niveaux, 1 squelette. Reconnais la famille, pose le moule, vérifie les codes de retour, relis avec <code>cat -e</code>.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+  (function () {
+    // Meme cle que le cours Rank 02 : le theme suit l'utilisateur d'une page a l'autre.
+    var KEY = 'exam02_theme';
+    var root = document.documentElement;
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+
+    var toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+    function effective() {
+      if (root.dataset.theme === 'light' || root.dataset.theme === 'dark') return root.dataset.theme;
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    toggle.addEventListener('click', function () {
+      var next = effective() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var btn = document.getElementById('menubtn');
+    var side = document.getElementById('sidebar');
+    var scrim = document.getElementById('scrim');
+    function close() { side.classList.remove('open'); scrim.classList.remove('open'); }
+    if (btn) btn.addEventListener('click', function () {
+      side.classList.toggle('open'); scrim.classList.toggle('open');
+    });
+    if (scrim) scrim.addEventListener('click', close);
+
+    var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+    links.forEach(function (a) {
+      a.addEventListener('click', function () { if (window.innerWidth <= 880) close(); });
+    });
+
+    var map = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (el) map[id] = a;
+    });
+    var targets = Object.keys(map).map(function (id) { return document.getElementById(id); });
+
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('active'); });
+          var a = map[e.target.id];
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+    targets.forEach(function (t) { obs.observe(t); });
+
+    // ----- Auto-evaluation : progression + sauvegarde locale -----
+    var KEY = 'exam03_selfcheck_v1';
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.eval-group input[type=checkbox]'));
+    if (boxes.length) {
+      var total = boxes.length;
+      var fill = document.getElementById('pfill');
+      var count = document.getElementById('pcount');
+      var done = document.getElementById('evalDone');
+      var ptotal = document.getElementById('ptotal');
+      if (ptotal) ptotal.textContent = total;
+
+      var saved = {};
+      try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+
+      function refresh() {
+        var n = 0;
+        boxes.forEach(function (b) { if (b.checked) n++; });
+        if (count) count.textContent = n;
+        if (fill) fill.style.width = (total ? (n / total * 100) : 0) + '%';
+        if (done) done.classList.toggle('show', n === total);
+      }
+
+      boxes.forEach(function (b, i) {
+        if (saved[i]) b.checked = true;
+        b.addEventListener('change', function () {
+          saved[i] = b.checked;
+          try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+          refresh();
+        });
+      });
+      refresh();
+    }
+  })();
+</script>
+
+<script>
+/* ---- Editeurs integres : corriges par la vraie moulinette via /api/test ---- */
+(function () {
+  var RANK = "rank03";
+  var LS_CODE = function (n) { return RANK + "_code_" + n; };
+  var esc = function (s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); };
+
+  var widgets = Array.prototype.slice.call(document.querySelectorAll(".live[data-exo]"));
+  if (!widgets.length) return;
+
+  var META = {};
+  var LS_STATUS = RANK + "_status";
+  var statuses = {};
+  try { statuses = JSON.parse(localStorage.getItem(LS_STATUS) || "{}"); } catch (e) { statuses = {}; }
+  var realFill = document.getElementById("realFill");
+  var realCount = document.getElementById("realCount");
+  var badgeEls = {};
+
+  function refreshRealProgress() {
+    var n = 0;
+    widgets.forEach(function (w) { if (statuses[w.dataset.exo] === "passed") n++; });
+    if (realCount) realCount.textContent = n;
+    if (realFill) realFill.style.width = (widgets.length ? (n / widgets.length * 100) : 0) + "%";
+  }
+  function refreshBadge(name) {
+    var el = badgeEls[name];
+    if (!el) return;
+    var st = statuses[name];
+    el.className = "live-status" + (st === "passed" ? " ok" : (st ? " bad" : ""));
+    el.textContent = st === "passed" ? "\u2713" : (st ? "\u2717" : "");
+  }
+  window.addEventListener("storage", function (e) {
+    if (e.key && e.key !== LS_STATUS) return;
+    try { statuses = JSON.parse(localStorage.getItem(LS_STATUS) || "{}"); } catch (err) { statuses = {}; }
+    Object.keys(badgeEls).forEach(refreshBadge);
+    refreshRealProgress();
+  });
+
+  fetch("/api/exercises?rank=" + encodeURIComponent(RANK))
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      data.forEach(function (g) {
+        g.exercises.forEach(function (e) { META[e.name] = e; });
+      });
+      widgets.forEach(function (w) { setup(w); });
+      refreshRealProgress();
+    })
+    .catch(function () {
+      // Serveur indisponible (page ouverte hors app locale) : editeurs en lecture seule
+      widgets.forEach(function (w) {
+        setup(w, true);
+        w.querySelector(".live-offline").classList.add("show");
+      });
+      refreshRealProgress();
+    });
+
+  function setup(w, offline) {
+    var name = w.dataset.exo;
+    var meta = META[name] || {};
+    var ta = w.querySelector("textarea");
+    var gutter = w.querySelector(".live-gutter");
+    var runBtn = w.querySelector(".live-run");
+    var pill = w.querySelector(".live-pill");
+    var out = w.querySelector(".live-out");
+    var subjPre = w.querySelector(".live-subj pre");
+    var allow = w.querySelector(".allow");
+    var file = w.querySelector(".file");
+    var ttl = w.querySelector(".ttl");
+
+    var statusEl = document.createElement("span");
+    statusEl.className = "live-status";
+    if (ttl && ttl.parentNode) ttl.parentNode.insertBefore(statusEl, file);
+    badgeEls[name] = statusEl;
+    refreshBadge(name);
+
+    if (meta.expected_file && file) file.textContent = meta.expected_file;
+    if (meta.allowed && allow) allow.innerHTML = "autoris\u00e9 : <b>" + esc(meta.allowed) + "</b>";
+    if (meta.subject && subjPre) subjPre.textContent = meta.subject;
+
+    var saved = null;
+    try { saved = localStorage.getItem(LS_CODE(name)); } catch (e) {}
+    ta.value = (saved !== null && saved !== undefined && saved !== "") ? saved
+             : (meta.starter || "/* " + name + " */\n\n");
+    syncGutter();
+
+    function syncGutter() {
+      var n = ta.value.split("\n").length, s = "";
+      for (var i = 1; i <= n; i++) s += i + (i < n ? "\n" : "");
+      gutter.textContent = s;
+      gutter.scrollTop = ta.scrollTop;
+    }
+    ta.addEventListener("scroll", function () { gutter.scrollTop = ta.scrollTop; });
+    ta.addEventListener("input", function () {
+      syncGutter();
+      try { localStorage.setItem(LS_CODE(name), ta.value); } catch (e) {}
+    });
+    ta.addEventListener("keydown", function (e) {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        var a = ta.selectionStart, b = ta.selectionEnd;
+        ta.value = ta.value.slice(0, a) + "\t" + ta.value.slice(b);
+        ta.selectionStart = ta.selectionEnd = a + 1;
+        syncGutter();
+      } else if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault(); run();
+      }
+    });
+
+    var resetBtn = w.querySelector(".live-reset");
+    if (resetBtn) resetBtn.addEventListener("click", function () {
+      ta.value = meta.starter || "/* " + name + " */\n\n";
+      try { localStorage.removeItem(LS_CODE(name)); } catch (e) {}
+      syncGutter(); ta.focus();
+    });
+
+    if (offline) { runBtn.disabled = true; return; }
+
+    var busy = false;
+    function setPill(cls, txt) { pill.className = "live-pill " + cls; pill.textContent = txt; }
+    function run() {
+      if (busy) return;
+      busy = true; runBtn.disabled = true;
+      setPill("running", "COMPILATION\u2026");
+      out.classList.remove("show");
+      fetch("/api/test", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rank: RANK, name: name, code: ta.value })
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        var labels = {
+          passed: ["passed", "PASSED \ud83c\udf89"], fail: ["fail", "FAIL"],
+          compile_error: ["compile_error", "NE COMPILE PAS"],
+          timeout: ["fail", "TIMEOUT"], unknown: ["unknown", "?"],
+          error: ["unknown", "ERREUR"]
+        };
+        var m = labels[res.status] || labels.unknown;
+        setPill(m[0], m[1]);
+        if (res.status !== "error") {
+          statuses[name] = res.status;
+          try { localStorage.setItem(LS_STATUS, JSON.stringify(statuses)); } catch (e) {}
+          refreshBadge(name);
+          refreshRealProgress();
+        }
+        if (res.status === "passed") {
+          out.innerHTML = '<pre class="log">' + esc(res.raw || "PASSED") + "</pre>";
+        } else if (res.status === "fail" && (res.expected !== undefined || res.your !== undefined)) {
+          out.innerHTML =
+            '<div class="diffrow"><div class="l e">Attendu</div><div class="v">' + esc(res.expected || "") + "</div></div>" +
+            '<div class="diffrow"><div class="l g">Ton code</div><div class="v">' + esc(res.your || "") + "</div></div>";
+        } else {
+          out.innerHTML = '<pre class="log">' + esc(res.raw || res.message || "(aucune sortie)") + "</pre>";
+        }
+        out.classList.add("show");
+      }).catch(function () {
+        setPill("unknown", "ERREUR");
+        out.innerHTML = '<pre class="log">Le serveur local ne r\u00e9pond pas.</pre>';
+        out.classList.add("show");
+      }).finally(function () { busy = false; runBtn.disabled = false; });
+    }
+    runBtn.addEventListener("click", run);
+  }
+})();
+</script>
+
+</body>
+</html>

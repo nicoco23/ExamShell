@@ -10,14 +10,8 @@ void	ft_putchar(char c)
 
 void	ft_putnbr(int nb)
 {
-	long	n = nb;
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		n = -n;
-	}
-	if (n >= 10)
-		ft_putnbr(n / 10);
+	if (nb >= 10)
+		ft_putnbr(nb / 10);
 	ft_putchar(nb % 10 + '0');
 }
 
@@ -36,7 +30,7 @@ int	main(int argc, char **argv)
 			write(1, "buzz", 4);
 		else
 			ft_putnbr(i);
-		write(1, "\n", 1);
+		ft_putchar('\n');
 		i++;
 	}
 	return (0);

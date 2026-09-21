@@ -1,7 +1,7 @@
 
 #include <unistd.h>
 
-int		skip_whitespace(char *str, int i)
+int		skip_space(char *str, int i)
 {
 	while (str[i] == ' ' || str[i] == '\t')
 		++i;
@@ -12,17 +12,16 @@ int		ft_wordlen(char *str)
 {
 	int i = 0;
 
-	while (str[i] != '\0' && str[i] != ' ' && str[i] != '\t')
+	while (str[i] && str[i] != ' ' && str[i] != '\t')
 		++i;
 	return (i);
 }
 
 int		print_word(char *str, int i, int *is_first)
 {
-	int word_len;
-
-	i = skip_whitespace(str, i);
-	word_len = ft_wordlen(str + i);
+	
+	i = skip_space(str, i);
+	int word_len = ft_wordlen(str + i);
 	if (*is_first == 0)
 		write(1, " ", 1);
 	write(1, str + i, word_len);
@@ -35,11 +34,11 @@ int		epur_str(char *str)
 	int i = 0;
 	int is_first = 1;
 
-	i = skip_whitespace(str, i);
+	i = skip_space(str, i);
 	while (str[i] != '\0')
 	{
 		i = print_word(str, i, &is_first);
-		i = skip_whitespace(str, i);
+		i = skip_space(str, i);
 	}
 	return (is_first);
 }
@@ -52,7 +51,7 @@ int		main(int argc, char **argv)
 		int i = 0;
 		int is_first;
 
-		i = skip_whitespace(str, i);
+		i = skip_space(str, i);
 		i = i + ft_wordlen(str + i);
 		is_first = epur_str(str + i);
 		print_word(str, 0, &is_first);

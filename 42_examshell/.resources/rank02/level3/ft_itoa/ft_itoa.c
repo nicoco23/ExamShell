@@ -1,7 +1,7 @@
 
 #include <stdlib.h>
 
-int		absolute_value(int nbr)
+int		abs_value(int nbr)
 {
 	if (nbr < 0)
 		return (-nbr);
@@ -38,7 +38,7 @@ char	*ft_itoa(int nbr)
 	while (nbr != 0)
 	{
 		--len;
-		result[len] = absolute_value(nbr % 10) + '0';
+		result[len] = abs_value(nbr % 10) + '0';
 		nbr = nbr / 10;
 	}
 	return (result);

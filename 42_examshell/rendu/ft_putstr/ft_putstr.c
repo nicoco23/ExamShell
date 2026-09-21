@@ -3,16 +3,9 @@
 
 #include <unistd.h>
 
-int	ft_strlen(char *str)
+void	ft_putstr(char *str)
 {
 	int	i = 0;
 	while (str[i])
-		i++;
-	return (i);
-}
-
-void	ft_putstr(char *str)
-{
-	int	i = ft_strlen(str);
-	write(1, str, i);
+		write(1, &str[i++], 1);
 }

@@ -9,7 +9,7 @@ int	ft_wordlen(char *str)
 	return (i);
 }
 
-char	*word_dupe(char *str)
+char	*word_dup(char *str)
 {
 	int i = 0;
 	int len = ft_wordlen(str);
@@ -26,14 +26,14 @@ char	*word_dupe(char *str)
 
 void	fill_words(char **array, char *str)
 {
-	int word_index = 0;
+	int word = 0;
 	
 	while (*str == ' ' || *str == '\t' || *str == '\n')
 		++str;
 	while (*str != '\0')
 	{
-		array[word_index] = word_dupe(str);
-		++word_index;
+		array[word] = word_dup(str);
+		++word;
 		while (*str != '\0' && *str != ' ' && *str != '\t' && *str != '\n')
 			++str;
 		while (*str == ' ' || *str == '\t' || *str == '\n')
@@ -43,30 +43,27 @@ void	fill_words(char **array, char *str)
 
 int		count_words(char *str)
 {
-	int num_words = 0;
+	int words = 0;
 	
 	while (*str == ' ' || *str == '\t' || *str == '\n')
 		++str;
 	while (*str != '\0')
 	{
-		++num_words;
+		++words;
 		while (*str != '\0' && *str != ' ' && *str != '\t' && *str != '\n')
 			++str;
 		while (*str == ' ' || *str == '\t' || *str == '\n')
 			++str;
 	}
-	return (num_words);
+	return (words);
 }
 
 char	**ft_split(char *str)
 {
-	int		num_words;
-	char	**array;
+	int		words = count_words(str);;
+	char	**array = malloc(sizeof(char *) * (words + 1));
 	
-	num_words = count_words(str);
-	array = malloc(sizeof(char *) * (num_words + 1));
-	
-	array[num_words] = 0;
+	array[words] = 0;
 	fill_words(array, str);
 	return (array);
 }

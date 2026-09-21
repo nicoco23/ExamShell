@@ -12,12 +12,13 @@ int	main(int ac, char **av)
 
 	while (av[1][i])
 	{
-		c = av[1][i++];
+		c = av[1][i];
 		if (c >= 'a' && c <= 'z')
 			c = 'z' - (c - 'a');
 		else if (c >= 'A' && c <= 'Z')
 			c = 'Z' - (c - 'A');
 		write(1, &c, 1);
+		i++;
 	}
 	return (write(1, "\n", 1), 0);
 }

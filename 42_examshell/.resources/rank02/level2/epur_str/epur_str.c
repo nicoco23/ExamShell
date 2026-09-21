@@ -2,7 +2,7 @@
 
 #include <unistd.h>
 
-int		skip_whitespace(char *str, int i)
+int		skip_space(char *str, int i)
 {
 	while (str[i] == ' ' || str[i] == '\t')
 		++i;
@@ -24,7 +24,7 @@ void	epur_str(char *str)
 	int first_word = 1;
 	int word_len;
 
-	i = skip_whitespace(str, i);
+	i = skip_space(str, i);
 	while (str[i] != '\0')
 	{
 		if (first_word == 0)
@@ -33,7 +33,7 @@ void	epur_str(char *str)
 		write(1, str + i, word_len);
 		i = i + word_len;
 		first_word = 0;
-		i = skip_whitespace(str, i);
+		i = skip_space(str, i);
 	}
 }
 

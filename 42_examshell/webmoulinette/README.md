@@ -1,7 +1,13 @@
-# Moulinette web — Exam Rank 02
+# Moulinette web — Exams 42
 
 Un éditeur de code dans le navigateur qui lance la **vraie moulinette** du repo
-(`.resources/rank02/*/*/tester.sh`) sur ton code, avec correction quasi temps réel.
+(`.resources/rankXX/*/*/tester.sh`) sur ton code, avec correction quasi temps réel.
+
+Les ranks disponibles (Rank 02, Rank 03, ...) sont **détectés automatiquement**
+sous `.resources/` et se choisissent avec le sélecteur en haut à gauche.
+Chaque rank a sa propre liste d'exercices, ses propres niveaux (le nombre de
+niveaux et l'examen s'adaptent), sa propre progression et son propre mode
+examen — indépendants les uns des autres (stockage local préfixé par rank).
 
 ## Lancer
 
@@ -20,8 +26,22 @@ Puis ouvre **http://127.0.0.1:4242** dans ton navigateur.
 
 En haut de la page :
 
-- **📖 Cours** — le cours complet (les 8 familles, checkpoints, auto-évaluation,
-  quiz) directement intégré, sans quitter l'app.
+- **📖 Cours** — le cours complet du rank sélectionné, directement intégré,
+  sans quitter l'app. Deux cours existent aujourd'hui :
+  - **Rank 02** (`cours.html`) : les 9 notions, checkpoints, auto-évaluation,
+    quiz, et les 55 exercices codables dans la page.
+  - **Rank 03** (`cours_rank03.html`) : la boîte à outils (backtracking,
+    affichage sans `printf`, lecture de flux, variadiques, mémoire), les
+    3 sujets du niveau 1 et les 5 sujets du niveau 2 décortiqués, les pièges
+    des testeurs, une section **« 05 — Entraînement » de 19 exercices inédits
+    avec corrigé** (socle d'affichage/parsing, flux, variadiques, 5 backtrackings
+    supplémentaires, mémoire propre — tous compilés en `-Wall -Wextra -Werror`
+    et vérifiés à `valgrind`), une auto-évaluation (31 points + 11 questions de
+    quiz) et les 8 exercices codables dans la page.
+
+  Pour les ranks sans cours (04, 05…), l'onglet est automatiquement désactivé.
+  Ajouter un cours = déposer un fichier HTML et l'enregistrer dans
+  `COURSE_FILES` (server.py).
 - **⌨️ Entraînement** — l'éditeur + la moulinette (voir ci-dessous).
 - **⏱ Examen** — le mode chronométré avec tirage aléatoire.
 
@@ -38,19 +58,26 @@ le cours**, chacun rangé dans sa famille, compilés/testés par la vraie
 moulinette (*Tester* ou `Ctrl+Entrée`). Le code est partagé avec l'onglet
 Entraînement (même stockage local).
 
-Le cours est organisé en titres **« Notion : … »** (transformer argv[1],
-découper en mots, ensembles, maths, bits, allocation, listes, tri/récursion,
-reproductions libc &amp; divers) et se termine par un index
-« 06 — Les 55 exercices, notion par notion ».
+Le cours Rank 02 est organisé en titres **« Notion : … »** (transformer
+argv[1], découper en mots, ensembles, maths, bits, allocation, listes,
+tri/récursion, reproductions libc &amp; divers) et se termine par un index
+« 06 — Les 55 exercices, notion par notion ». Le cours Rank 03 suit la même
+structure autour des 8 sujets du rank.
 
 Les **sujets sont affichés en français** : les traductions vivent dans
-`webmoulinette/sujets_fr.py` et sont servies à la place de l'anglais. Les
-fichiers d'origine (`.resources/**/sub.txt`) ne sont pas modifiés, et la
-correction reste 100 % identique (métadonnées lues sur le sujet d'origine).
+`webmoulinette/sujets_fr.py` (Rank 02) et `webmoulinette/sujets_fr_rank03.py`
+(Rank 03), et sont servies à la place de l'anglais. Les fichiers d'origine
+(`.resources/**/sub.txt`) ne sont pas modifiés, et la correction reste 100 %
+identique (métadonnées lues sur le sujet d'origine).
+
+Certains sujets du Rank 03 fournissent du code de départ : `broken_gnl`
+pré-remplit le `get_next_line` cassé à réparer, `ft_scanf` le squelette du
+sujet, `tsp` le `main` fourni avec des stubs à compléter.
 
 ## Utilisation
 
-1. Choisis un exercice dans la colonne de gauche (les 55 exos des niveaux 0 à 3).
+1. Choisis un exercice dans la colonne de gauche (55 exos en Rank 02,
+   8 en Rank 03).
 2. Le sujet s'affiche en haut, un squelette de départ est pré-rempli.
 3. Écris ton code. Avec **« correction auto »** activée, la moulinette se
    relance ~1 s après que tu arrêtes de taper. Sinon, clique **▶ Tester**
@@ -64,11 +91,13 @@ correction reste 100 % identique (métadonnées lues sur le sujet d'origine).
 
 ## Mode examen (chrono + tirage aléatoire)
 
-Bascule sur **Examen** en haut à gauche, choisis une durée (1 h / 2 h / 3 h)
-et lance :
+Bascule sur **Examen** en haut à gauche, choisis une durée et lance :
 
-- Un sujet est **tiré au hasard** dans le niveau courant (0 → 3).
-- Réussir le sujet **fait passer au niveau suivant** ; les 4 niveaux validés = examen réussi.
+- Les durées proposées dépendent du rank (1 h / 2 h / 3 h en Rank 02,
+  2 h / 3 h / 4 h en Rank 03).
+- Un sujet est **tiré au hasard** dans le niveau courant (0 → 3 en Rank 02,
+  1 → 2 en Rank 03 : les niveaux affichés sont ceux du rank).
+- Réussir le sujet **fait passer au niveau suivant** ; tous les niveaux validés = examen réussi.
 - **↻ Passer** tire un autre sujet du même niveau (sans avancer).
 - Un **chronomètre global** décompte (orange à 5 min, rouge clignotant à 1 min).
   À zéro, l'examen s'arrête et un récapitulatif s'affiche.

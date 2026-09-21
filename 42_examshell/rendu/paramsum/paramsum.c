@@ -10,19 +10,14 @@ void	ft_putchar(char c)
 
 void	ft_putnbr(int nb)
 {
-	long	n = nb;
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		n = -n;
-	}
-	if (n >= 10)
-		ft_putnbr(n / 10);
-	ft_putchar(n % 10 + '0');
+	if (nb >= 10)
+		ft_putnbr(nb / 10);
+	ft_putchar(nb % 10 + '0');
 }
-int	main(int ac, char **av)
+
+int	main(int ac, char **argv)
 {
-	(void)av;
+	(void)argv;
 	if (ac < 2)
 		return (write(1, "0\n", 2), 0);
 	ft_putnbr(ac - 1);
